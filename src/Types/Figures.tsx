@@ -1,14 +1,12 @@
 // Types of objects to be passed into the canvas component.
 
-enum CanvasShapes {
+export enum SelectedShape {
     Circle,
     Rectangle, 
     Triangle,
 };
 
-type CanvasSettings = {
-    selectedFigure: CanvasShapes, 
+export type CanvasSettings = {
+    selectedFigure: SelectedShape, 
     reset: Boolean,
 };
-
-export { CanvasShapes };
