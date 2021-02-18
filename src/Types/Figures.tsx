@@ -6,7 +6,14 @@ export enum SelectedShape {
     Triangle,
 };
 
+export enum SelectedAnimation {
+    RadialForce,
+    DownwardGravity,
+    None,
+}
+
 export type CanvasSettings = {
-    selectedFigure: SelectedShape, 
+    selectedFigure: SelectedShape,
+    selectedAnimation: SelectedAnimation, 
     reset: Boolean,
 };

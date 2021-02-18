@@ -3,8 +3,9 @@ import "./Canvas.css";
 import P5 from 'p5';
 import p5 from 'p5';
 import 'p5';
-import { SelectedShape, CanvasSettings } from '../../Types/Figures';
-import { AnimatedFigure, CircleFigure, SquareFigure } from '../../Types/ProcessingFigures';
+import '../../Types/Figures';
+import { AnimatedFigure, CircleFigure, SquareFigure, TriangleFigure } from '../../Types/ProcessingFigures';
+import { CanvasSettings, SelectedShape, SelectedAnimation } from '../../Types/Figures';
 
 export default function Canvas(/* { settings: CanvasSetting}*/) {
     let myP5: P5;
@@ -15,17 +16,13 @@ export default function Canvas(/* { settings: CanvasSetting}*/) {
      * Mock data 
      */
     let settings: CanvasSettings = {
-        selectedFigure: SelectedShape.Circle,
+        selectedFigure: SelectedShape.Triangle,
+        selectedAnimation: SelectedAnimation.None,
         reset: false
     };
 
     let Sketch = (p : P5) => {
-        // let figures: AnimatedFigure[];
-        // let circ: CircleFigure;
-        // let circs: CircleFigure[] = [];
         let figs: AnimatedFigure[] = [];
-        let COUNTER = 0;
-
 
         p.setup = function () {
             p.createCanvas(640, 360);
@@ -35,33 +32,28 @@ export default function Canvas(/* { settings: CanvasSetting}*/) {
         p.draw = function () {
             p.background(204);
 
-            for (let i = 0; i < figs.length; i++) {
-                figs[i].update();
-                figs[i].display();
-            }
+            figs.forEach(fig => {
+                fig.update(3);
+                fig.display();
+            });
         }
 
         p.mousePressed = function () {
-            // switch(settings.selectedFigure) {
-            //     case SelectedShape.Circle:
-            //         let newCirc = new CircleFigure(p.mouseX, p.mouseY, -0.02, 90, p);
-            //         figs.push(newCirc);
-            //     case SelectedShape.Rectangle:
-            //         let newSquare = new SquareFigure(p.mouseX, p.mouseY, -0.02, 90, p);
-            //         figs.push(newSquare);
-            //     case SelectedShape.Triangle: 
-            // }
+            switch(settings.selectedFigure) {
+                case SelectedShape.Circle:
+                    let newCirc = new CircleFigure(p.mouseX, p.mouseY, -0.02, 90, p);
+                    figs.push(newCirc);
+                    break;
+                case SelectedShape.Rectangle:
+                    let newSquare = new SquareFigure(p.mouseX, p.mouseY, -0.02, 90, p);
+                    figs.push(newSquare);
+                    break;
+                case SelectedShape.Triangle: 
+                    let newTriangle = new TriangleFigure(p.mouseX, p.mouseY, -0.02, 90, p);
+                    figs.push(newTriangle);
+                    break;
+            }  
 
-            if (COUNTER % 2 == 0) {
-                let newCirc = new CircleFigure(p.mouseX, p.mouseY, -0.02, 90, p);
-                figs.push(newCirc);
-                COUNTER++;
-            } else {
-                let newSquare = new SquareFigure(p.mouseX, p.mouseY, -0.02, 90, p);
-                figs.push(newSquare);
-                COUNTER++;
-
-            }
             // prevent default
             return false;
         }
