@@ -1,39 +1,6 @@
 import 'p5';
 import P5 from 'p5';
 
-
-// export function applyForces() {
-
-//   // apply force towards centre
-//   nodes.forEach(node => {
-//     gravity = node.pos.copy().mult(-1).mult(gravityConstant)
-//     node.force = gravity
-//   })
-
-//   // apply repulsive force between nodes
-//   for (let i = 0; i < nodes.length; i++) {
-//     for (let j = i + 1; j < nodes.length; j++) {
-//       pos = nodes[i].pos
-//       dir = nodes[j].pos.copy().sub(pos)
-//       force = dir.div(dir.mag() * dir.mag())
-//       force.mult(forceConstant)
-//       nodes[i].force.add(force.copy().mult(-1))
-//       nodes[j].force.add(force)
-//     }
-//   }
-
-//   // apply forces applied by connections
-//   nodeCon.forEach(con => {
-//     let node1 = nodes[con[0]]
-//     let node2 = nodes[con[1]]
-//     let maxDis = con[2]
-//     let dis = node1.pos.copy().sub(node2.pos)
-//     diff = dis.mag() - maxDis
-//     node1.force.sub(dis)
-//     node2.force.add(dis)
-//   })
-// }
-
 export class AnimatedFigure {
   x: number
   y: number
