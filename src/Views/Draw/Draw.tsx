@@ -12,18 +12,18 @@ export default function Draw(){
         else setShapeSelection(selection);
     }
 
-    // let settings: CanvasSettings = {
-    //   selectedFigure: shapeSelection,
-    //   selectedAnimation: SelectedAnimation.None,
-    //   reset: false
-    // };
-
+    let canvasSettings: CanvasSettings = {
+      selectedFigure: shapeSelection,
+      selectedAnimation: SelectedAnimation.None,
+      reset: false
+    };
+    
     return (
       <div>
         <h1> Drawing Container </h1>
         <ShapesToolbar  shapeSelection={shapeSelection}
                         selectionHandler={shapeSelectionHandler} />
-        <Canvas selectedFigure={shapeSelection}/>
+        <Canvas canvasSettings={canvasSettings}/>
      </div>
     );  
     // Render Toolbar and canvas component
