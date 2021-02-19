@@ -1,6 +1,7 @@
 // Types of objects to be passed into the canvas component.
 
 export enum SelectedShape {
+    None,
     Circle,
     Rectangle, 
     Triangle,

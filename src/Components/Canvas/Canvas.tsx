@@ -7,7 +7,7 @@ import '../../Types/Figures';
 import { AnimatedFigure, CircleFigure, SquareFigure, TriangleFigure } from '../../Types/ProcessingFigures';
 import { CanvasSettings, SelectedShape, SelectedAnimation } from '../../Types/Figures';
 
-export default function Canvas(/* { settings: CanvasSetting}*/) {
+export default function Canvas(props) {
     let myP5: P5;
     let myRef: React.RefObject<HTMLDivElement> = React.createRef();
 
@@ -16,7 +16,7 @@ export default function Canvas(/* { settings: CanvasSetting}*/) {
      * Mock data 
      */
     let settings: CanvasSettings = {
-        selectedFigure: SelectedShape.Triangle,
+        selectedFigure: props.shapeSelection,
         selectedAnimation: SelectedAnimation.None,
         reset: false
     };
@@ -58,9 +58,9 @@ export default function Canvas(/* { settings: CanvasSetting}*/) {
             return false;
         }
     }
-  
+
     myP5 = new p5(Sketch, myRef.current)
-  
+
     return (
         <div ref={myRef}>
 
