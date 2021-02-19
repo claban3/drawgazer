@@ -9,6 +9,7 @@ export enum SelectedShape {
 export enum SelectedAnimation {
     RadialForce,
     DownwardGravity,
+    Spin,
     None,
 }
 

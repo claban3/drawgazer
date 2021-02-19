@@ -17,7 +17,7 @@ export default function Canvas(/* { settings: CanvasSetting}*/) {
      */
     let settings: CanvasSettings = {
         selectedFigure: SelectedShape.Triangle,
-        selectedAnimation: SelectedAnimation.None,
+        selectedAnimation: SelectedAnimation.Spin,
         reset: false
     };
 
@@ -33,13 +33,13 @@ export default function Canvas(/* { settings: CanvasSetting}*/) {
             p.background(204);
 
             figs.forEach(fig => {
-                fig.update(3);
+                fig.update(settings.selectedAnimation);
                 fig.display();
             });
         }
 
         p.mousePressed = function () {
-            switch(settings.selectedFigure) {
+            switch (settings.selectedFigure) {
                 case SelectedShape.Circle:
                     let newCirc = new CircleFigure(p.mouseX, p.mouseY, -0.02, 90, p);
                     figs.push(newCirc);
