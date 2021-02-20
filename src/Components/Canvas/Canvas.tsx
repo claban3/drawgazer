@@ -1,69 +1,53 @@
-import React from 'react';
 import "./Canvas.css";
-import P5 from 'p5';
-import p5 from 'p5';
 import 'p5';
 import '../../Types/Figures';
 import { AnimatedFigure, CircleFigure, SquareFigure, TriangleFigure } from '../../Types/ProcessingFigures';
 import { CanvasSettings, SelectedShape, SelectedAnimation } from '../../Types/Figures';
+import P5Wrapper from 'react-p5-wrapper';
+import 'react-p5-wrapper';
 
-export default function Canvas(/* { settings: CanvasSetting}*/) {
-    let myP5: P5;
-    let myRef: React.RefObject<HTMLDivElement> = React.createRef();
+function sketch (p) {
+    let figs: AnimatedFigure[] = [];
+    let selectedFigure = SelectedShape.None;
 
-    /*
-     * TODO (delete this and read from props)
-     * Mock data 
-     */
-    let settings: CanvasSettings = {
-        selectedFigure: SelectedShape.Triangle,
-        selectedAnimation: SelectedAnimation.None,
-        reset: false
-    };
+    p.setup = function () {
+        p.createCanvas(1000, 500);
+        figs = [];
+    }
 
-    let Sketch = (p : P5) => {
-        let figs: AnimatedFigure[] = [];
+    p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
+        selectedFigure = props.canvasSettings.selectedFigure;
+    }
 
-        p.setup = function () {
-            p.createCanvas(640, 360);
-            figs = [];
-        }
-        
-        p.draw = function () {
-            p.background(204);
-
-            figs.forEach(fig => {
-                fig.update(3);
-                fig.display();
-            });
-        }
+    p.draw = function () {
+        p.background(204);
+        p.fill(100);
+        figs.forEach(fig => {
+            fig.update(3);
+            fig.display();
+        });
 
         p.mousePressed = function () {
-            switch(settings.selectedFigure) {
+            switch(selectedFigure) {
                 case SelectedShape.Circle:
-                    let newCirc = new CircleFigure(p.mouseX, p.mouseY, -0.02, 90, p);
+                    let newCirc = new CircleFigure(p.mouseX, p.mouseY, -0.02, 50, p);
                     figs.push(newCirc);
                     break;
                 case SelectedShape.Rectangle:
                     let newSquare = new SquareFigure(p.mouseX, p.mouseY, -0.02, 90, p);
                     figs.push(newSquare);
                     break;
-                case SelectedShape.Triangle: 
+                case SelectedShape.Triangle:
                     let newTriangle = new TriangleFigure(p.mouseX, p.mouseY, -0.02, 90, p);
                     figs.push(newTriangle);
                     break;
-            }  
-
+            }
             // prevent default
             return false;
         }
     }
-  
-    myP5 = new p5(Sketch, myRef.current)
-  
-    return (
-        <div ref={myRef}>
+}
 
-        </div>
-    );
+export default function Canvas(props) {
+    return <P5Wrapper sketch={sketch}  canvasSettings={props.canvasSettings}/>;
 }
