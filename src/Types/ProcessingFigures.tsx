@@ -64,7 +64,9 @@ export class TriangleFigure extends AnimatedFigure {
   }
 
   display() {
-    this.p5.noStroke();
+    // this.p5.noStroke();
+    this.p5.noFill();
+    this.p5.stroke(100, 200, 240);
     this.p5.push();
     this.p5.translate(this.x, this.y);
     this.p5.rotate(this.angle);
