@@ -1,45 +1,31 @@
 .toolbar-container {
     height: 100%;
     width: 15%;
-    background-color: lightgray;
+    background-color: rgb(220, 220, 220);
 
     border-style: solid;
     border-color: black;
-    border-width: 1px;
-
-    display: flex;
-    flex-direction: column;
+    border-width: 3px;
 }
 
 .shape-selection {
-    font-size: 100px;
-    font-weight: bold;
-
     color: black;
     width: 100%;
-    height: 20%;
+    height: 25%;
+
+    display: flex;
+    justify-content: center;
+
+    border-color: black;
+    border-bottom-style: groove; 
+    border-width: 1px;
 }
 
-.triangle {
-    height: 100%;
-    width: 100%;
-    background-color: red;
+.selected {
+    background-color: rgb(160, 160, 160);
 }
 
-.square {
-    height: 100%;
-    width: 100%;
-    background-color: blue;
-}
-
-.circle {
-    height: 100%;
-    width: 100%;
-    background-color: green;
-}
-
-.free-draw {
-    height: 100%;
-    width: 100%;
-    background-color: yellow;
+.shape-icon {
+    display:block;
+    margin: auto;
 }

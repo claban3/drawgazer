@@ -9,10 +9,21 @@ import 'react-p5-wrapper';
 function sketch (p) {
     let figs: AnimatedFigure[] = [];
     let selectedFigure = SelectedShape.None;
+    let bufferWidth = 60;
+    let canvasHeight = window.innerHeight - bufferWidth
+    let canvasWidth = window.innerWidth * 0.70 - bufferWidth;
+    let renderer;
 
     p.setup = function () {
-        p.createCanvas(1000, 500);
+        renderer = p.createCanvas(canvasWidth, canvasHeight);
+        renderer.parent("canvas");
         figs = [];
+    }
+
+    p.windowResized = function () {
+        canvasHeight = window.innerHeight -  bufferWidth;
+        canvasWidth = window.innerWidth * 0.70 - bufferWidth;
+        p.resizeCanvas(canvasWidth, canvasHeight);
     }
 
     p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
@@ -49,5 +60,13 @@ function sketch (p) {
 }
 
 export default function Canvas(props) {
-    return <P5Wrapper sketch={sketch}  canvasSettings={props.canvasSettings}/>;
+    return (
+        <div className="canvas-container">
+            <div className="canvas" id="canvas">
+                <P5Wrapper 
+                    sketch={sketch}     
+                    canvasSettings={props.canvasSettings}/>
+            </div>
+        </div>
+    ); 
 }
