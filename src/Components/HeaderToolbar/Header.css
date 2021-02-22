@@ -1,0 +1,45 @@
+.header-container {
+    height: 15%;
+    width: 100%;
+    /* background-color: ; */
+
+    /* border-style: solid; */
+    /* border-width: 1px; */
+
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+.header-item {
+    background: tomato;
+    padding: 5px;
+    width: 10%;
+    height: 100%;
+    /* margin-top: ; */
+    /* line-height: 150px; */
+    color: white;
+    font-weight: bold;
+    font-size: 3em;
+    text-align: center;
+}
+
+.header-tabs {
+    width: 60%;
+}
+
+/* .title {
+    width: 20%
+} */
+/* .toolbar {
+} */
+
+/* .settings-button {
+    font-size: 100px;
+    font-weight: bold;
+
+    color: black;
+    /* width: 20%;
+    height: 20%; */
+    /* background-color: red; */
+/* }    */
