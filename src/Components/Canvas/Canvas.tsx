@@ -9,6 +9,8 @@ import 'react-p5-wrapper';
 function sketch (p) {
     let figs: AnimatedFigure[] = [];
     let selectedFigure = SelectedShape.None;
+    let selectedAnimation = SelectedAnimation.DownwardGravity;
+    // ^ Set to Downward Gravity instead of None for testing purposes
 
     p.setup = function () {
         p.createCanvas(1000, 500);
@@ -17,13 +19,18 @@ function sketch (p) {
 
     p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
         selectedFigure = props.canvasSettings.selectedFigure;
+
+        // Uncomment the line below once animation toolbar is integrated, else
+        // SelectedAnimation will get updated to None
+
+        //selectedAnimation = props.canvasSettings.selectedAnimation;
     }
 
     p.draw = function () {
         p.background(204);
         p.fill(100);
         figs.forEach(fig => {
-            fig.update(3);
+            fig.update(selectedAnimation);
             fig.display();
         });
 

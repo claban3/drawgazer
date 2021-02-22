@@ -1,5 +1,6 @@
 import 'p5';
 import P5 from 'p5';
+import { SelectedAnimation } from './Figures';
 
 export class AnimatedFigure {
   x: number
@@ -15,8 +16,24 @@ export class AnimatedFigure {
       this.p5 = p5;
   }
 
-  update(x) {
-    this.angle += this.speed;
+  update(selectedAnimation) {
+    switch(selectedAnimation) {
+
+      case SelectedAnimation.None:
+        this.angle += this.speed;
+        break;
+
+      case SelectedAnimation.DownwardGravity:
+        if (this.y < 450) {
+          this.speed += 0.05;
+          this.y += this.speed;
+          this.angle += -0.02;
+        }
+        break;
+        
+      case SelectedAnimation.RadialForce:
+        break;
+    }
   }
 
   display() {}
