@@ -8,12 +8,16 @@ export class AnimatedFigure {
   speed: number
   angle: number
   p5: P5
+  yspeed: number
+  xspeed: number
   constructor(x, y, s, p5) {
       this.x = x;
       this.y = y;
       this.speed = s;
       this.angle = 0.0;
       this.p5 = p5;
+      this.xspeed = s;
+      this.yspeed = s;
   }
 
   update(selectedAnimation) {
@@ -29,6 +33,18 @@ export class AnimatedFigure {
           this.y += this.speed;
           this.angle += -0.02;
         }
+        break;
+
+      case SelectedAnimation.WallBounce:
+
+        if (this.y > 500 || this.y < 0) {
+          this.yspeed = -this.yspeed;
+        }
+        if (this.x > 1000 || this.x < 0) {
+          this.xspeed = -this.xspeed;
+        }
+        this.y += 80*this.yspeed;
+        this.x += 80*this.xspeed;
         break;
         
       case SelectedAnimation.RadialForce:

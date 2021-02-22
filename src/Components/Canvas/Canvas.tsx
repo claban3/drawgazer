@@ -9,7 +9,7 @@ import 'react-p5-wrapper';
 function sketch (p) {
     let figs: AnimatedFigure[] = [];
     let selectedFigure = SelectedShape.None;
-    let selectedAnimation = SelectedAnimation.DownwardGravity;
+    let selectedAnimation = SelectedAnimation.WallBounce;
     // ^ Set to Downward Gravity instead of None for testing purposes
 
     p.setup = function () {
