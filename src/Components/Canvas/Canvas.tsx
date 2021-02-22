@@ -10,7 +10,7 @@ function sketch (p) {
     let figs: AnimatedFigure[] = [];
     let selectedFigure = SelectedShape.None;
     let selectedAnimation = SelectedAnimation.WallBounce;
-    // ^ Set to Downward Gravity instead of None for testing purposes
+    // ^ Set to WallBounce instead of None for testing purposes
 
     p.setup = function () {
         p.createCanvas(1000, 500);
@@ -30,7 +30,7 @@ function sketch (p) {
         p.background(204);
         p.fill(100);
         figs.forEach(fig => {
-            fig.update(selectedAnimation);
+            fig.update(selectedAnimation, p.mouseX, p.mouseY);
             fig.display();
         });
 
