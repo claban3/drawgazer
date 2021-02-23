@@ -30,7 +30,7 @@ function sketch (p) {
         p.background(204);
         p.fill(100);
         figs.forEach(fig => {
-            fig.update(selectedAnimation, p.mouseX, p.mouseY);
+            fig.update(selectedAnimation, p.mouseX, p.mouseY, p.width, p.height);
             fig.display();
         });
 

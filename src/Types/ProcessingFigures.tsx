@@ -41,7 +41,7 @@ export class AnimatedFigure {
     return (x <= mouseX && x >= mouseX-range);
   }
 
-  update(selectedAnimation, mouseX, mouseY) {
+  update(selectedAnimation, mouseX, mouseY, width, height) {
     this.timer -= 1;
 
     switch(selectedAnimation) {
@@ -51,7 +51,7 @@ export class AnimatedFigure {
         break;
 
       case SelectedAnimation.DownwardGravity:
-        if (this.y < 450) {
+        if (this.y < width-50) {
           this.speed += 0.05;
           this.y += this.speed;
           this.angle += -0.02;
@@ -60,10 +60,10 @@ export class AnimatedFigure {
 
       case SelectedAnimation.WallBounce:
 
-        if (this.y > 500 || this.y < 0) {
+        if (this.y > height || this.y < 0) {
           this.yspeed = -this.yspeed;
         }
-        if (this.x > 1000 || this.x < 0) {
+        if (this.x > width || this.x < 0) {
           this.xspeed = -this.xspeed;
         }
         if (this.timer < 0 && this.inRange(this.x, this.y, mouseX, mouseY, 50)) {
