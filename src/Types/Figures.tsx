@@ -11,6 +11,7 @@ export enum SelectedShape {
 export enum SelectedAnimation {
     RadialForce,
     DownwardGravity,
+    WallBounce,
     None,
 }
 
