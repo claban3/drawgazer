@@ -5,11 +5,13 @@ export enum SelectedShape {
     Circle,
     Rectangle, 
     Triangle,
+    FreeDraw,
 };
 
 export enum SelectedAnimation {
     RadialForce,
     DownwardGravity,
+    WallBounce,
     None,
 }
 

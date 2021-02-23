@@ -1,0 +1,15 @@
+.canvas-container {
+    height: 100%;
+    width: 70%;
+    background-color: rgb(203, 213, 228);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.canvas {
+    border-width: 3px;
+    border-color:grey;
+    border-style: solid;
+}
