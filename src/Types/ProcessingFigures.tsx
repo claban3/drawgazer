@@ -12,14 +12,20 @@ export class AnimatedFigure {
   yspeed: number
   xspeed: number
   timer: number
+
+  // Return -1 or 1 randomly
+  randSign() {
+    return Math.random() < 0.5 ? -1 : 1
+  }
+
   constructor(x, y, s, p5) {
       this.x = x;
       this.y = y;
-      this.speed = s;
+      this.speed = s*this.randSign();
       this.angle = 0.0;
       this.p5 = p5;
-      this.xspeed = s;
-      this.yspeed = s;
+      this.xspeed = s*this.randSign();
+      this.yspeed = s*this.randSign();
       this.timer = 60;
   }
 
@@ -51,7 +57,7 @@ export class AnimatedFigure {
         break;
 
       case SelectedAnimation.DownwardGravity:
-        if (this.y < width-50) {
+        if (this.y < height-50) {
           this.speed += 0.05;
           this.y += this.speed;
           this.angle += -0.02;
