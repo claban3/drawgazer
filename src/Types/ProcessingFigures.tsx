@@ -3,6 +3,7 @@ import P5 from 'p5';
 import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
 import { SelectedAnimation } from './Figures';
 import useSound from 'use-sound';
+//import '*.mp3';
 import collisionSFX from '../Sounds/collision.mp3';
 
 export class AnimatedFigure {
