@@ -12,6 +12,7 @@ export class AnimatedFigure {
   yspeed: number
   xspeed: number
   timer: number
+  spin: number
 
   // Return -1 or 1 randomly
   randSign() {
@@ -27,6 +28,7 @@ export class AnimatedFigure {
       this.xspeed = s*this.randSign();
       this.yspeed = s*this.randSign();
       this.timer = 60;
+      this.spin = 0.02*this.randSign();
   }
 
   // Helper Functions
@@ -60,7 +62,7 @@ export class AnimatedFigure {
         if (this.y < height-50) {
           this.speed += 0.05;
           this.y += this.speed;
-          this.angle += -0.02;
+          this.angle += this.spin;
         }
         break;
 

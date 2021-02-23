@@ -9,8 +9,13 @@ import 'react-p5-wrapper';
 function sketch (p) {
     let figs: AnimatedFigure[] = [];
     let selectedFigure = SelectedShape.None;
-    let selectedAnimation = SelectedAnimation.WallBounce;
+    let selectedAnimation = SelectedAnimation.DownwardGravity;
     // ^ Set to WallBounce instead of None for testing purposes
+
+    function inCanvas(mouseX, mouseY, width, height) {
+
+        return mouseX >= 0 && mouseX <= width && mouseY >= 0 && mouseY <= height;
+    }
 
     p.setup = function () {
         p.createCanvas(1000, 500);
@@ -35,6 +40,9 @@ function sketch (p) {
         });
 
         p.mousePressed = function () {
+            if (!inCanvas(p.mouseX, p.mouseY, p.width, p.height)) {
+                return false;
+            }
             switch(selectedFigure) {
                 case SelectedShape.Circle:
                     let newCirc = new CircleFigure(p.mouseX, p.mouseY, -0.02, 50, p);
