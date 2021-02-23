@@ -2,7 +2,7 @@ import "./Canvas.css";
 import 'p5';
 import '../../Types/Figures';
 import { AnimatedFigure, CircleFigure, SquareFigure, TriangleFigure } from '../../Types/ProcessingFigures';
-import { SelectedShape } from '../../Types/Figures';
+import { SelectedShape, SelectedAnimation } from '../../Types/Figures';
 // import { CanvasSettings, SelectedAnimation } from '../../Types/Figures'; //uncomment once used
 import P5Wrapper from 'react-p5-wrapper';
 import 'react-p5-wrapper';
