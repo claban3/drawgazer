@@ -2,7 +2,8 @@ import "./Canvas.css";
 import 'p5';
 import '../../Types/Figures';
 import { AnimatedFigure, CircleFigure, SquareFigure, TriangleFigure } from '../../Types/ProcessingFigures';
-import { CanvasSettings, SelectedShape, SelectedAnimation } from '../../Types/Figures';
+import { SelectedShape } from '../../Types/Figures';
+// import { CanvasSettings, SelectedAnimation } from '../../Types/Figures'; //uncomment once used
 import P5Wrapper from 'react-p5-wrapper';
 import 'react-p5-wrapper';
 
@@ -13,6 +14,10 @@ function sketch (p) {
     let selectedFigure = SelectedShape.None;
     let selectedAnimation = SelectedAnimation.WallBounce;
     // ^ Set to WallBounce instead of None for testing purposes
+     let bufferWidth = 60;
+    let canvasHeight = window.innerHeight - bufferWidth
+    let canvasWidth = window.innerWidth * 0.70 - bufferWidth;
+    let renderer;
 
     function inCanvas(mouseX, mouseY, width, height) {
 
@@ -20,9 +25,16 @@ function sketch (p) {
     }
 
     p.setup = function () {
-        p.createCanvas(1000, 500);
+        renderer = p.createCanvas(canvasWidth, canvasHeight);
+        renderer.parent("canvas");
         figs = [];
         points = [];
+    }
+
+    p.windowResized = function () {
+        canvasHeight = window.innerHeight -  bufferWidth;
+        canvasWidth = window.innerWidth * 0.70 - bufferWidth;
+        p.resizeCanvas(canvasWidth, canvasHeight);
     }
 
     p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
@@ -87,5 +99,13 @@ function sketch (p) {
 }
 
 export default function Canvas(props) {
-    return <P5Wrapper sketch={sketch}  canvasSettings={props.canvasSettings}/>;
+    return (
+        <div className="canvas-container">
+            <div className="canvas" id="canvas">
+                <P5Wrapper 
+                    sketch={sketch}     
+                    canvasSettings={props.canvasSettings}/>
+            </div>
+        </div>
+    ); 
 }

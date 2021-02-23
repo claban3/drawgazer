@@ -19,12 +19,11 @@ export default function Draw(){
     };
     
     return (
-      <div>
-        <h1> Drawing Container </h1>
-        <ShapesToolbar  shapeSelection={shapeSelection}
-                        selectionHandler={shapeSelectionHandler} />
-        <Canvas canvasSettings={canvasSettings}/>
-     </div>
+        <div className="draw-container">
+            <ShapesToolbar  shapeSelection={shapeSelection}
+                            selectionHandler={shapeSelectionHandler} />
+            <Canvas canvasSettings={canvasSettings}/>
+        </div>
     );  
     // Render Toolbar and canvas component
 }
