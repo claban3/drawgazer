@@ -19,28 +19,32 @@ export default function ShapesToolbar(props)
                  onClick = { () => props.selectionHandler(SelectedShape.Triangle) }>
                     <img className="shape-icon"
                          src={triangle} 
-                         height="100px"/>
+                         height="100px"
+                         alt=""/>
             </div>
 
             <div className={`shape-selection ${rectangleHighlight}`}
                  onClick = { () => props.selectionHandler(SelectedShape.Rectangle) }>
                     <img className="shape-icon"
                          src={rectangle} 
-                         height="100px"/>
+                         height="100px"
+                         alt=""/>
             </div>
 
             <div className={`shape-selection ${circleHighlight}`}
                  onClick = { () => props.selectionHandler(SelectedShape.Circle) }>
                     <img className="shape-icon"
                          src={circle} 
-                         height="100px"/>
+                         height="100px"
+                         alt=""/>
             </div>
 
             <div className={`shape-selection ${freeDrawHighlight}`}
                  onClick = { () => props.selectionHandler(SelectedShape.FreeDraw) }>
                     <img className="shape-icon"
                          src={freeDraw} 
-                         height="100px"/>
+                         height="100px"
+                         alt=""/>
             </div>
         </div>
     );
