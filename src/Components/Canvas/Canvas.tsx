@@ -50,13 +50,13 @@ function sketch (p) {
         p.background(204);
         p.fill(100);
         figs.forEach(fig => {
-            fig.update(selectedAnimation, p.mouseX, p.mouseY, p.width, p.height);
+            fig.update(selectedAnimation, p.mouseX, p.mouseY, canvasWidth, canvasHeight);
             fig.display();
         });
         p.mousePressed = function () {
             start = true;
             points = [];
-            if (!inCanvas(p.mouseX, p.mouseY, p.width, p.height)) {
+            if (!inCanvas(p.mouseX, p.mouseY, canvasWidth, canvasHeight)) {
                 return false;
             }
             switch(selectedFigure) {

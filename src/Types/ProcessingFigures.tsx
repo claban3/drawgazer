@@ -42,22 +42,48 @@ export class AnimatedFigure {
             y >= mouseY-range && y <= mouseY+range);
   }
   below(y, mouseY, range) {
-    return (y >= mouseY && y <= mouseY+range);
+    return (y > mouseY && y < mouseY+range);
   }
   above(y, mouseY, range) {
-    return (y <= mouseY && y >= mouseY-range);
+    return (y < mouseY && y > mouseY-range);
   }
   left(x, mouseX, range) {
-    return (x >= mouseX && x <= mouseX+range);
+    return (x < mouseX && x > mouseX-range);
   }
   right(x, mouseX, range) {
-    return (x <= mouseX && x >= mouseX-range);
+    return (x > mouseX && x < mouseX-range);
+  }
+
+  belowCanvas(y, height) {
+    return (y > height+1);
+  }
+  aboveCanvas(y, height) {
+    return (y < -1);
+  }
+  leftOfCanvas(x, width) {
+    return (x < -1);
+  }
+  rightOfCanvas(x, width) {
+    return (x > width+1);
   }
 
   collision = new Audio(collisionSFX)
 
   update(selectedAnimation, mouseX, mouseY, width, height) {
     this.timer -= 1;
+
+    if (this.aboveCanvas(this.y, height)) {
+      this.y = 1;
+    }
+    if (this.belowCanvas(this.y, height)) {
+      this.y = height-1;
+    }
+    if (this.leftOfCanvas(this.x, width)) {
+      this.x = 1;
+    }
+    if (this.rightOfCanvas(this.x, width)) {
+      this.x = width-1;
+    }
 
     switch(selectedAnimation) {
 
@@ -98,11 +124,11 @@ export class AnimatedFigure {
             this.collision.play();
           }
           if (this.right(this.x, mouseX, 50)) {
-            this.xspeed = -Math.abs(this.xspeed);
+            this.xspeed = Math.abs(this.xspeed);
             this.collision.play();
           }
           if (this.left(this.x, mouseX, 50)) {
-            this.xspeed = Math.abs(this.xspeed);
+            this.xspeed = -Math.abs(this.xspeed);
             this.collision.play();
           }
         }
