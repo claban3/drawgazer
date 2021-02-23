@@ -5,6 +5,7 @@ export enum SelectedShape {
     Circle,
     Rectangle, 
     Triangle,
+    FreeDraw,
 };
 
 export enum SelectedAnimation {

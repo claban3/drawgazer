@@ -20,7 +20,8 @@ export default function ShapesToolbar(props)
                     Circle
             </div>
 
-            <div className="shape-selection free-draw">
+            <div className="shape-selection free-draw"
+                 onClick = { () => props.selectionHandler(SelectedShape.FreeDraw) }>
                     Free Draw
             </div>
         </div>

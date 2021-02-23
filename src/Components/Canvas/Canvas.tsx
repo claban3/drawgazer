@@ -8,8 +8,10 @@ import 'react-p5-wrapper';
 
 function sketch (p) {
     let figs: AnimatedFigure[] = [];
+    let points: P5Wrapper.Vector[] = [];
+    let start = false;
     let selectedFigure = SelectedShape.None;
-    let selectedAnimation = SelectedAnimation.DownwardGravity;
+    let selectedAnimation = SelectedAnimation.WallBounce;
     // ^ Set to WallBounce instead of None for testing purposes
 
     function inCanvas(mouseX, mouseY, width, height) {
@@ -20,6 +22,7 @@ function sketch (p) {
     p.setup = function () {
         p.createCanvas(1000, 500);
         figs = [];
+        points = [];
     }
 
     p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
@@ -38,8 +41,9 @@ function sketch (p) {
             fig.update(selectedAnimation, p.mouseX, p.mouseY, p.width, p.height);
             fig.display();
         });
-
         p.mousePressed = function () {
+            start = true;
+            points = [];
             if (!inCanvas(p.mouseX, p.mouseY, p.width, p.height)) {
                 return false;
             }
@@ -60,6 +64,25 @@ function sketch (p) {
             // prevent default
             return false;
         }
+
+        p.mouseReleased = function () {
+            start = false;
+        }
+
+        if (selectedFigure == SelectedShape.FreeDraw && start) {
+            points.push(p.createVector(p.mouseX, p.mouseY));
+        }
+
+        p.stroke(255);
+        p.noFill();
+        p.beginShape();
+        for (let i = 0; i<points.length; i++){
+            let x = points[i].x;
+            let y = points[i].y;
+
+            p.vertex(x, y)
+        }
+        p.endShape();
     }
 }
 
