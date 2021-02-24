@@ -39,11 +39,7 @@ function sketch (p) {
 
     p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
         selectedFigure = props.canvasSettings.selectedFigure;
-
-        // Uncomment the line below once animation toolbar is integrated, else
-        // SelectedAnimation will get updated to None
-
-        //selectedAnimation = props.canvasSettings.selectedAnimation;
+        selectedAnimation = props.canvasSettings.selectedAnimation;
     }
 
     p.draw = function () {
@@ -81,7 +77,7 @@ function sketch (p) {
             start = false;
         }
 
-        if (selectedFigure == SelectedShape.FreeDraw && start) {
+        if (selectedFigure === SelectedShape.FreeDraw && start) {
             points.push(p.createVector(p.mouseX, p.mouseY));
         }
 
