@@ -16,7 +16,8 @@ export default function ShapesToolbar(props)
     return (
         <div className="toolbar-container">
             <div className={`shape-selection ${triangleHighlight}`}
-                 onClick = { () => props.selectionHandler(SelectedShape.Triangle) }>
+                 onClick = { () => props.selectionHandler(SelectedShape.Triangle) }
+                 onTouchEnd = { () => props.selectionHandler(SelectedShape.Triangle) }>
                     <img className="shape-icon"
                          src={triangle} 
                          height="100px"
@@ -24,7 +25,8 @@ export default function ShapesToolbar(props)
             </div>
 
             <div className={`shape-selection ${rectangleHighlight}`}
-                 onClick = { () => props.selectionHandler(SelectedShape.Rectangle) }>
+                 onClick = { () => props.selectionHandler(SelectedShape.Rectangle) }
+                 onTouchEnd = { () => props.selectionHandler(SelectedShape.Rectangle) }>
                     <img className="shape-icon"
                          src={rectangle} 
                          height="100px"
@@ -32,7 +34,8 @@ export default function ShapesToolbar(props)
             </div>
 
             <div className={`shape-selection ${circleHighlight}`}
-                 onClick = { () => props.selectionHandler(SelectedShape.Circle) }>
+                 onClick = { () => props.selectionHandler(SelectedShape.Circle) }
+                 onTouchEnd = { () => props.selectionHandler(SelectedShape.Circle) }>
                     <img className="shape-icon"
                          src={circle} 
                          height="100px"
@@ -40,7 +43,8 @@ export default function ShapesToolbar(props)
             </div>
 
             <div className={`shape-selection ${freeDrawHighlight}`}
-                 onClick = { () => props.selectionHandler(SelectedShape.FreeDraw) }>
+                 onClick = { () => props.selectionHandler(SelectedShape.FreeDraw) }
+                 onTouchEnd = { () => props.selectionHandler(SelectedShape.FreeDraw) }>
                     <img className="shape-icon"
                          src={freeDraw} 
                          height="100px"

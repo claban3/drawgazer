@@ -13,6 +13,7 @@ function sketch (p) {
     let bufferWidth = 60;
     let canvasHeight = window.innerHeight - bufferWidth
     let canvasWidth = window.innerWidth * 0.70 - bufferWidth;
+    console.log("canvasHeight: " + canvasHeight + " canvasWidth: " + canvasWidth);
     let renderer;
 
     p.setup = function () {
@@ -24,6 +25,7 @@ function sketch (p) {
     p.windowResized = function () {
         canvasHeight = window.innerHeight -  bufferWidth;
         canvasWidth = window.innerWidth * 0.70 - bufferWidth;
+        console.log("resize: " + canvasWidth + " " + canvasHeight);
         p.resizeCanvas(canvasWidth, canvasHeight);
     }
 
@@ -32,7 +34,7 @@ function sketch (p) {
     }
 
     p.draw = function () {
-        p.background(204);
+        p.background(255);
         p.fill(100);
         figs.forEach(fig => {
             fig.update(3);
@@ -62,12 +64,11 @@ function sketch (p) {
 
 export default function Canvas(props) {
     return (
-        <div className="canvas-container">
-            <div className="canvas" id="canvas">
+        <div className="canvas-container" id="canvas">
                 <P5Wrapper 
+                    className="p5Wrapper"
                     sketch={sketch}     
                     canvasSettings={props.canvasSettings}/>
-            </div>
         </div>
     ); 
 }

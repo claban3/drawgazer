@@ -19,6 +19,12 @@
     border-color: black;
     border-bottom-style: groove; 
     border-width: 1px;
+
+    cursor: pointer;
+}
+
+.shape-selection:hover {
+    background-color: rgb(160, 160, 160, .5);
 }
 
 .selected {
@@ -26,6 +32,9 @@
 }
 
 .shape-icon {
+    height: auto;
+    max-width:80%;
+    max-height:80%;
     display:block;
     margin: auto;
 }

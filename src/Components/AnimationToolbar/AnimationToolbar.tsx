@@ -1,8 +1,8 @@
 import './AnimationToolbar.css';
 import { SelectedAnimation } from '../../Types/Figures';
 
-import radial from '../../Images/radial.png';
-import gravity from '../../Images/gravity.png';
+import radial from '../../Images/radial-v2.png';
+import gravity from '../../Images/gravity-v2.png';
 
 export default function AnimationToolbar(props) 
 {
@@ -11,20 +11,20 @@ export default function AnimationToolbar(props)
 
     return (
         <div className="toolbar-container">
-            <div className={`animation-selection ${radialForceHighlight}`}
-                 onClick = { () => props.selectionHandler(SelectedAnimation.RadialForce) }>
-                    <img className="animation-icon"
-                         src={radial} 
-                         height="100px"
-                         alt=""/>
-            </div>
-
             <div className={`animation-selection ${downwardGravityHighlight}`}
-                 onClick = { () => props.selectionHandler(SelectedAnimation.DownwardGravity) }>
+                 onClick = { () => props.selectionHandler(SelectedAnimation.DownwardGravity) }
+                 onTouchEnd = { () => props.selectionHandler(SelectedAnimation.DownwardGravity) }>
                     <img className="animation-icon"
                          src={gravity} 
-                         height="100px"
-                         alt=""/>
+                         alt="Downward Gravity"/>
+            </div>
+
+            <div className={`animation-selection ${radialForceHighlight}`}
+                 onClick = { () => props.selectionHandler(SelectedAnimation.RadialForce) }
+                 onTouchEnd = { () => props.selectionHandler(SelectedAnimation.RadialForce) }>
+                    <img className="animation-icon"
+                         src={radial} 
+                         alt="Radial Gravity"/>
             </div>
         </div>
     );
