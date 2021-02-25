@@ -4,7 +4,7 @@ import Canvas from '../../Components/Canvas/Canvas';
 import ShapesToolbar from '../../Components/ShapesToolbar/ShapesToolbar';
 import { CanvasSettings, SelectedAnimation, SelectedShape } from "../../Types/Figures";
 
-export default function Draw(){
+export default function Draw(props) {
     const [shapeSelection, setShapeSelection] = useState(SelectedShape.None);
 
     function shapeSelectionHandler(selection : SelectedShape) {
@@ -15,7 +15,8 @@ export default function Draw(){
     let canvasSettings: CanvasSettings = {
       selectedFigure: shapeSelection,
       selectedAnimation: SelectedAnimation.None,
-      reset: false
+      reset: props.clearCanvas,
+      resetInParent: props.resetInParent,
     };
     
     return (
