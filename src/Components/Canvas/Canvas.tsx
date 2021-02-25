@@ -8,11 +8,13 @@ import P5Wrapper from 'react-p5-wrapper';
 import 'react-p5-wrapper';
 
 function sketch (p) {
+    let reset = false;
     let figs: AnimatedFigure[] = [];
     let points: P5Wrapper.Vector[] = [];
     let start = false;
     let selectedFigure = SelectedShape.None;
     let selectedAnimation = SelectedAnimation.WallBounce;
+    let setClearCanvasInParent = () => {};
     // ^ Set to WallBounce instead of None for testing purposes
      let bufferWidth = 60;
     let canvasHeight = window.innerHeight - bufferWidth
@@ -40,19 +42,30 @@ function sketch (p) {
     p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
         selectedFigure = props.canvasSettings.selectedFigure;
         selectedAnimation = props.canvasSettings.selectedAnimation;
+        reset = props.canvasSettings.reset;
+        setClearCanvasInParent = props.canvasSettings.resetInParent;
+        // Uncomment the line below once animation toolbar is integrated, else
+        // SelectedAnimation will get updated to None
+        //selectedAnimation = props.canvasSettings.selectedAnimation;
     }
 
     p.draw = function () {
+        if (reset) {
+            figs = [];
+            points = [];
+            reset = false;
+            setClearCanvasInParent();
+        }
         p.background(204);
         p.fill(100);
         figs.forEach(fig => {
-            fig.update(selectedAnimation, p.mouseX, p.mouseY, p.width, p.height);
+            fig.update(selectedAnimation, p.mouseX, p.mouseY, canvasWidth, canvasHeight);
             fig.display();
         });
         p.mousePressed = function () {
             start = true;
             points = [];
-            if (!inCanvas(p.mouseX, p.mouseY, p.width, p.height)) {
+            if (!inCanvas(p.mouseX, p.mouseY, canvasWidth, canvasHeight)) {
                 return false;
             }
             switch(selectedFigure) {

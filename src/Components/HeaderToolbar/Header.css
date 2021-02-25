@@ -1,0 +1,17 @@
+.header-container {
+    height: 15%;
+    width: 100%;
+    float: center;
+    /* background-color: ; */
+
+    /* border-style: solid; */
+    /* border-width: 1px; */
+
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+.header-item {
+    float: right;
+}
