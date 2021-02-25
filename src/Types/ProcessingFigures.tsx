@@ -1,6 +1,6 @@
 import 'p5';
 import P5 from 'p5';
-import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
+// import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
 import { SelectedAnimation } from './Figures';
 import useSound from 'use-sound';
 //import '*.mp3';

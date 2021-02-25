@@ -41,11 +41,11 @@ function sketch (p) {
 
     p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
         selectedFigure = props.canvasSettings.selectedFigure;
+        selectedAnimation = props.canvasSettings.selectedAnimation;
         reset = props.canvasSettings.reset;
         setClearCanvasInParent = props.canvasSettings.resetInParent;
         // Uncomment the line below once animation toolbar is integrated, else
         // SelectedAnimation will get updated to None
-
         //selectedAnimation = props.canvasSettings.selectedAnimation;
     }
 
@@ -90,7 +90,7 @@ function sketch (p) {
             start = false;
         }
 
-        if (selectedFigure == SelectedShape.FreeDraw && start) {
+        if (selectedFigure === SelectedShape.FreeDraw && start) {
             points.push(p.createVector(p.mouseX, p.mouseY));
         }
 

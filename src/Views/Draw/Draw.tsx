@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import './Draw.css';
 import Canvas from '../../Components/Canvas/Canvas';
 import ShapesToolbar from '../../Components/ShapesToolbar/ShapesToolbar';
+import AnimationToolbar from '../../Components/AnimationToolbar/AnimationToolbar';
 import { CanvasSettings, SelectedAnimation, SelectedShape } from "../../Types/Figures";
 import HeaderToolbar from '../../Components/HeaderToolbar/Header';
 
 export default function Draw(props) {
     const [shapeSelection, setShapeSelection] = useState(SelectedShape.None);
+    const [animationSelection, setAnimationSelection] = useState(SelectedAnimation.None);
     const [clearCanvas, setClearCanvas] = useState(false);
 
     function shapeSelectionHandler(selection : SelectedShape) {
@@ -14,6 +16,11 @@ export default function Draw(props) {
         else setShapeSelection(selection);
     }
 
+    function animationSelectionHandler(selection : SelectedAnimation) {
+        if(animationSelection === selection) setAnimationSelection(SelectedAnimation.None);
+        else setAnimationSelection(selection);
+    }
+    
     function setClearCanvasHandler() {
         setClearCanvas(!clearCanvas);
     }
@@ -27,12 +34,13 @@ export default function Draw(props) {
     
     return (
         <div>
-            <HeaderToolbar resetCanvas={setClearCanvasHandler}/>        
-        
+            <HeaderToolbar resetCanvas={setClearCanvasHandler}/>
             <div className="draw-container">
-                <ShapesToolbar  shapeSelection={shapeSelection}
-                                selectionHandler={shapeSelectionHandler} />
-                <Canvas canvasSettings={canvasSettings}/>
+                <ShapesToolbar      shapeSelection={shapeSelection}
+                                    selectionHandler={shapeSelectionHandler} />
+                <Canvas             canvasSettings={canvasSettings}/>
+                <AnimationToolbar   animationSelection={animationSelection}
+                                    selectionHandler={animationSelectionHandler} />
             </div>
         </div>
     );  
