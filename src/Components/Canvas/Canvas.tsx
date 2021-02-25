@@ -36,7 +36,6 @@ function sketch (p) {
     p.windowResized = function () {
         canvasHeight = window.innerHeight -  bufferWidth;
         canvasWidth = window.innerWidth * 0.70 - bufferWidth;
-        console.log("resize: " + canvasWidth + " " + canvasHeight);
         p.resizeCanvas(canvasWidth, canvasHeight);
     }
 
