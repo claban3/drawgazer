@@ -31,7 +31,8 @@ export default function AnimationToolbar(props)
             </div>
 
             <div className={`animation-selection ${wallBounceHighlight}`}
-                 onClick = { () => props.selectionHandler(SelectedAnimation.WallBounce) }>
+                 onClick = { () => props.selectionHandler(SelectedAnimation.WallBounce) }
+                 onTouchEnd = { () => props.selectionHandler(SelectedAnimation.WallBounce) }>
                     <img className="animation-icon"
                          src={gravity} 
                          alt="Wall Bounce"/>

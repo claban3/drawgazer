@@ -44,7 +44,7 @@ export default function Draw(){
     
     let canvasSettings: CanvasSettings = {
       selectedFigure: shapeSelection,
-      selectedAnimation: SelectedAnimation.None,
+      selectedAnimation: animationSelection,
       reset: clearCanvas,
       resetInParent: setClearCanvasHandler,
     };
