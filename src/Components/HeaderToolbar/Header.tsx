@@ -7,20 +7,13 @@ import './Header.css';
 export default function HeaderToolbar(props) { 
     return (
         <div className="header-container">
-        <h1>drawgazer</h1>
-        <IconButton aria-label="delete"
-                    className="header-item"
-                    onClick={() => props.resetCanvas()}
-                    onTouchEnd={() => props.resetCanvas()}>
-          <DeleteIcon />
-        </IconButton>
+            <span id="title">drawgazer</span>
+            <IconButton aria-label="delete"
+                        className="header-item"
+                        onClick={() => props.resetCanvas()}
+                        onTouchEnd={() => props.resetCanvas()}>
+            <DeleteIcon />
+            </IconButton>
         </div>
       );
-}
-
-function a11yProps(index) {
-    return {
-        id: `simple-tab-${index}`,
-        'aria-controls': `simple-tabpanel-${index}`,
-    };
 }

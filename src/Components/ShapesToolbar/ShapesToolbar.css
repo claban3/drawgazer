@@ -1,5 +1,5 @@
 .toolbar-container {
-    height: 100%;
+    height: calc(100% - 6px);
     width: 15%;
     background-color: rgb(220, 220, 220);
 
@@ -9,9 +9,8 @@
 }
 
 .shape-selection {
-    color: black;
+    height: calc(25% - 1px);
     width: 100%;
-    height: 25%;
 
     display: flex;
     justify-content: center;
@@ -19,6 +18,12 @@
     border-color: black;
     border-bottom-style: groove; 
     border-width: 1px;
+
+    cursor: pointer;
+}
+
+.shape-selection:hover {
+    background-color: rgb(160, 160, 160, .5);
 }
 
 .selected {
@@ -26,6 +31,9 @@
 }
 
 .shape-icon {
-    display:block;
+    height: auto;
+    max-width: 80%;
+    max-height: 80%;
+    display: block;
     margin: auto;
 }

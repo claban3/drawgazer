@@ -3,7 +3,6 @@ import 'p5';
 import '../../Types/Figures';
 import { AnimatedFigure, CircleFigure, SquareFigure, TriangleFigure } from '../../Types/ProcessingFigures';
 import { SelectedShape, SelectedAnimation } from '../../Types/Figures';
-// import { CanvasSettings, SelectedAnimation } from '../../Types/Figures'; //uncomment once used
 import P5Wrapper from 'react-p5-wrapper';
 import 'react-p5-wrapper';
 
@@ -17,8 +16,9 @@ function sketch (p) {
     let setClearCanvasInParent = () => {};
     // ^ Set to WallBounce instead of None for testing purposes
      let bufferWidth = 60;
-    let canvasHeight = window.innerHeight - bufferWidth
+    let canvasHeight = window.innerHeight * 0.90 - bufferWidth
     let canvasWidth = window.innerWidth * 0.70 - bufferWidth;
+    console.log("canvasHeight: " + canvasHeight + " canvasWidth: " + canvasWidth);
     let renderer;
 
     function inCanvas(mouseX, mouseY, width, height) {
@@ -50,13 +50,13 @@ function sketch (p) {
     }
 
     p.draw = function () {
+        p.background(255);
         if (reset) {
             figs = [];
             points = [];
             reset = false;
             setClearCanvasInParent();
         }
-        p.background(204);
         p.fill(100);
         figs.forEach(fig => {
             fig.update(selectedAnimation, p.mouseX, p.mouseY, canvasWidth, canvasHeight);
@@ -110,12 +110,11 @@ function sketch (p) {
 
 export default function Canvas(props) {
     return (
-        <div className="canvas-container">
-            <div className="canvas" id="canvas">
+        <div className="canvas-container" id="canvas">
                 <P5Wrapper 
+                    className="p5Wrapper"
                     sketch={sketch}     
                     canvasSettings={props.canvasSettings}/>
-            </div>
         </div>
     ); 
 }
