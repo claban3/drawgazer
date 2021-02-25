@@ -1,8 +1,9 @@
 import './AnimationToolbar.css';
 import { SelectedAnimation } from '../../Types/Figures';
 
-import radial from '../../Images/radial.png';
 import gravity from '../../Images/gravity.png';
+import gravity2 from '../../Images/gravity-v2.png';
+import radial from '../../Images/radial.png';
 import radial2 from '../../Images/radial-v2.png';
 
 export default function AnimationToolbar(props) 
@@ -17,7 +18,7 @@ export default function AnimationToolbar(props)
                  onClick = { () => props.selectionHandler(SelectedAnimation.DownwardGravity) }
                  onTouchEnd = { () => props.selectionHandler(SelectedAnimation.DownwardGravity) }>
                     <img className="animation-icon"
-                         src={gravity} 
+                         src={gravity2} 
                          alt="Downward Gravity"/>
             </div>
 
@@ -32,7 +33,7 @@ export default function AnimationToolbar(props)
             <div className={`animation-selection ${wallBounceHighlight}`}
                  onClick = { () => props.selectionHandler(SelectedAnimation.WallBounce) }>
                     <img className="animation-icon"
-                         src={radial} 
+                         src={gravity} 
                          alt="Wall Bounce"/>
             </div>
         </div>
