@@ -22,19 +22,19 @@ export default function AnimationToolbar(props)
                          alt="Downward Gravity"/>
             </div>
 
-            <div className={`animation-selection ${radialForceHighlight}`}
+            {/* <div className={`animation-selection ${radialForceHighlight}`}
                  onClick = { () => props.selectionHandler(SelectedAnimation.RadialForce) }
                  onTouchEnd = { () => props.selectionHandler(SelectedAnimation.RadialForce) }>
                     <img className="animation-icon"
                          src={radial2} 
                          alt="Radial Gravity"/>
-            </div>
+            </div> */}
 
             <div className={`animation-selection ${wallBounceHighlight}`}
                  onClick = { () => props.selectionHandler(SelectedAnimation.WallBounce) }
                  onTouchEnd = { () => props.selectionHandler(SelectedAnimation.WallBounce) }>
                     <img className="animation-icon"
-                         src={gravity} 
+                         src={radial} 
                          alt="Wall Bounce"/>
             </div>
         </div>
