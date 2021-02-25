@@ -88,7 +88,7 @@ export class AnimatedFigure {
     switch(selectedAnimation) {
 
       case SelectedAnimation.None:
-        this.angle += this.speed;
+        // this.angle += this.speed;
         break;
 
       case SelectedAnimation.DownwardGravity:
