@@ -68,17 +68,18 @@ function sketch (p) {
             if (!inCanvas(p.mouseX, p.mouseY, canvasWidth, canvasHeight)) {
                 return false;
             }
+            let s = Math.random() * 50 + 50;
             switch(selectedFigure) {
                 case SelectedShape.Circle:
-                    let newCirc = new CircleFigure(p.mouseX, p.mouseY, -0.02, 50, p);
+                    let newCirc = new CircleFigure(p.mouseX, p.mouseY, -0.02, s, p);
                     figs.push(newCirc);
                     break;
                 case SelectedShape.Rectangle:
-                    let newSquare = new SquareFigure(p.mouseX, p.mouseY, -0.02, 90, p);
+                    let newSquare = new SquareFigure(p.mouseX, p.mouseY, -0.02, s, p);
                     figs.push(newSquare);
                     break;
                 case SelectedShape.Triangle:
-                    let newTriangle = new TriangleFigure(p.mouseX, p.mouseY, -0.02, 90, p);
+                    let newTriangle = new TriangleFigure(p.mouseX, p.mouseY, -0.02, s, p);
                     figs.push(newTriangle);
                     break;
             }
