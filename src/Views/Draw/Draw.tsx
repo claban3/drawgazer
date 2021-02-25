@@ -5,6 +5,7 @@ import Canvas from '../../Components/Canvas/Canvas';
 import ShapesToolbar from '../../Components/ShapesToolbar/ShapesToolbar';
 import AnimationToolbar from '../../Components/AnimationToolbar/AnimationToolbar';
 import { CanvasSettings, SelectedAnimation, SelectedShape } from "../../Types/Figures";
+import HeaderToolbar from '../../Components/HeaderToolbar/Header';
 
 function getWindowDimensions() {
     const { innerWidth: width, innerHeight: height } = window;
@@ -15,6 +16,7 @@ export default function Draw(){
     const [shapeSelection, setShapeSelection] = useState(SelectedShape.None);
     const [animationSelection, setAnimationSelection] = useState(SelectedAnimation.None);
     const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+    const [clearCanvas, setClearCanvas] = useState(false);
 
     useEffect(() => {
         function handleResize() {
@@ -35,42 +37,40 @@ export default function Draw(){
         if(animationSelection === selection) setAnimationSelection(SelectedAnimation.None);
         else setAnimationSelection(selection);
     }
-
+    
+    function setClearCanvasHandler() {
+        setClearCanvas(!clearCanvas);
+    }
+    
     let canvasSettings: CanvasSettings = {
       selectedFigure: shapeSelection,
-      selectedAnimation: animationSelection,
-      reset: false
+      selectedAnimation: SelectedAnimation.None,
+      reset: clearCanvas,
+      resetInParent: setClearCanvasHandler,
     };
-    
-    
-    if(isBrowser) return (
+
+    if(windowDimensions.height > windowDimensions.width) return ( 
+        <h1 id="msg">
+            Please rotate your device to landscape orientation 
+            <br/>
+            OR 
+            <br/>
+            Increase the size of your browser
+        </h1>
+    );
+    else return (
         <div className="draw-container">
-            <ShapesToolbar  shapeSelection={shapeSelection}
-                    selectionHandler={shapeSelectionHandler} />
-            <Canvas canvasSettings={canvasSettings}/>
-            <AnimationToolbar  animationSelection={animationSelection}
-                            selectionHandler={animationSelectionHandler} />
+            <HeaderToolbar resetCanvas={setClearCanvasHandler}/>    
+
+            <div className="canvas-content">
+                <ShapesToolbar      shapeSelection={shapeSelection}
+                                    selectionHandler={shapeSelectionHandler}/>
+
+                <Canvas             canvasSettings={canvasSettings}/>
+
+                <AnimationToolbar   animationSelection={animationSelection}
+                                    selectionHandler={animationSelectionHandler}/>
+            </div>
         </div>
     );
-    else {
-        if(windowDimensions.width > windowDimensions.height) return (
-            <div className="draw-container">
-                <ShapesToolbar  shapeSelection={shapeSelection}
-                        selectionHandler={shapeSelectionHandler} />
-                <Canvas canvasSettings={canvasSettings}/>
-                <AnimationToolbar  animationSelection={animationSelection}
-                            selectionHandler={animationSelectionHandler} />
-            </div> 
-        );
-        else return ( 
-
-            <h1>
-                Please rotate your device to landscape orientation 
-                <br/>
-                OR 
-                <br/>
-                Increase the size of your browser
-            </h1>
-        );
-    }
 }

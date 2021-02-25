@@ -11,11 +11,16 @@ export enum SelectedShape {
 export enum SelectedAnimation {
     RadialForce,
     DownwardGravity,
+    WallBounce,
     None,
 }
 
+interface voidFunc {
+    (none: void): void
+}
 export type CanvasSettings = {
     selectedFigure: SelectedShape,
     selectedAnimation: SelectedAnimation, 
     reset: Boolean,
+    resetInParent: voidFunc
 };

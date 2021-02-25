@@ -1,13 +1,15 @@
 import './AnimationToolbar.css';
 import { SelectedAnimation } from '../../Types/Figures';
 
-import radial from '../../Images/radial-v2.png';
-import gravity from '../../Images/gravity-v2.png';
+import radial from '../../Images/radial.png';
+import gravity from '../../Images/gravity.png';
+import radial2 from '../../Images/radial-v2.png';
 
 export default function AnimationToolbar(props) 
 {
     let radialForceHighlight = (props.animationSelection === SelectedAnimation.RadialForce) ? "selected" : "";
     let downwardGravityHighlight = (props.animationSelection === SelectedAnimation.DownwardGravity) ? "selected" : "";
+    let wallBounceHighlight = (props.animationSelection === SelectedAnimation.WallBounce) ? "selected" : "";
 
     return (
         <div className="toolbar-container">
@@ -23,8 +25,15 @@ export default function AnimationToolbar(props)
                  onClick = { () => props.selectionHandler(SelectedAnimation.RadialForce) }
                  onTouchEnd = { () => props.selectionHandler(SelectedAnimation.RadialForce) }>
                     <img className="animation-icon"
-                         src={radial} 
+                         src={radial2} 
                          alt="Radial Gravity"/>
+            </div>
+
+            <div className={`animation-selection ${wallBounceHighlight}`}
+                 onClick = { () => props.selectionHandler(SelectedAnimation.WallBounce) }>
+                    <img className="animation-icon"
+                         src={radial} 
+                         alt="Wall Bounce"/>
             </div>
         </div>
     );
