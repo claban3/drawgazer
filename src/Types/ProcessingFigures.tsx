@@ -2,6 +2,9 @@ import 'p5';
 import P5 from 'p5';
 import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
 import { SelectedAnimation } from './Figures';
+import useSound from 'use-sound';
+//import '*.mp3';
+import collisionSFX from '../Sounds/collision.mp3';
 
 export class AnimatedFigure {
   x: number
@@ -13,6 +16,7 @@ export class AnimatedFigure {
   xspeed: number
   timer: number
   spin: number
+  dead: boolean
 
   // Return -1 or 1 randomly
   randSign() {
@@ -29,6 +33,7 @@ export class AnimatedFigure {
       this.yspeed = s*this.randSign();
       this.timer = 60;
       this.spin = 0.02*this.randSign();
+      this.dead = false;
   }
 
   // Helper Functions
@@ -37,20 +42,48 @@ export class AnimatedFigure {
             y >= mouseY-range && y <= mouseY+range);
   }
   below(y, mouseY, range) {
-    return (y >= mouseY && y <= mouseY+range);
+    return (y > mouseY && y < mouseY+range);
   }
   above(y, mouseY, range) {
-    return (y <= mouseY && y >= mouseY-range);
+    return (y < mouseY && y > mouseY-range);
   }
   left(x, mouseX, range) {
-    return (x >= mouseX && x <= mouseX+range);
+    return (x < mouseX && x > mouseX-range);
   }
   right(x, mouseX, range) {
-    return (x <= mouseX && x >= mouseX-range);
+    return (x > mouseX && x < mouseX-range);
   }
+
+  belowCanvas(y, height) {
+    return (y > height+1);
+  }
+  aboveCanvas(y, height) {
+    return (y < -1);
+  }
+  leftOfCanvas(x, width) {
+    return (x < -1);
+  }
+  rightOfCanvas(x, width) {
+    return (x > width+1);
+  }
+
+  collision = new Audio(collisionSFX)
 
   update(selectedAnimation, mouseX, mouseY, width, height) {
     this.timer -= 1;
+
+    if (this.aboveCanvas(this.y, height)) {
+      this.y = 1;
+    }
+    if (this.belowCanvas(this.y, height)) {
+      this.y = height-1;
+    }
+    if (this.leftOfCanvas(this.x, width)) {
+      this.x = 1;
+    }
+    if (this.rightOfCanvas(this.x, width)) {
+      this.x = width-1;
+    }
 
     switch(selectedAnimation) {
 
@@ -64,29 +97,39 @@ export class AnimatedFigure {
           this.y += this.speed;
           this.angle += this.spin;
         }
+        else if(!this.dead){
+          this.dead = true;
+          this.collision.play();
+        }
         break;
 
       case SelectedAnimation.WallBounce:
 
         if (this.y > height || this.y < 0) {
           this.yspeed = -this.yspeed;
+          this.collision.play();
         }
         if (this.x > width || this.x < 0) {
           this.xspeed = -this.xspeed;
+          this.collision.play();
         }
         if (this.timer < 0 && this.inRange(this.x, this.y, mouseX, mouseY, 50)) {
           this.timer = 60;
           if (this.below(this.y, mouseY, 50)) {
             this.yspeed = Math.abs(this.yspeed);
+            this.collision.play();
           }
           if (this.above(this.y, mouseY, 50)) {
             this.yspeed = -Math.abs(this.yspeed);
+            this.collision.play();
           }
           if (this.right(this.x, mouseX, 50)) {
-            this.xspeed = -Math.abs(this.xspeed);
+            this.xspeed = Math.abs(this.xspeed);
+            this.collision.play();
           }
           if (this.left(this.x, mouseX, 50)) {
-            this.xspeed = Math.abs(this.xspeed);
+            this.xspeed = -Math.abs(this.xspeed);
+            this.collision.play();
           }
         }
         this.y += 80*this.yspeed;
