@@ -4,25 +4,25 @@
     background-color: rgb(220, 220, 220);
 
     border-style: solid;
-    border-color: black;
+    border-color: rgb(160, 160, 160);
     border-width: 3px;
 }
 
-.shape-selection {
+.animation-selection {
     height: calc(25% - 1px);
     width: 100%;
 
     display: flex;
     justify-content: center;
 
-    border-color: black;
-    border-bottom-style: groove; 
+    border-color: rgb(160, 160, 160);
+    border-bottom-style: ridge; 
     border-width: 1px;
 
     cursor: pointer;
 }
 
-.shape-selection:hover {
+.animation-selection:hover {
     background-color: rgb(160, 160, 160, .5);
 }
 
@@ -30,7 +30,7 @@
     background-color: rgb(160, 160, 160);
 }
 
-.shape-icon {
+.animation-icon {
     height: auto;
     max-width: 80%;
     max-height: 80%;

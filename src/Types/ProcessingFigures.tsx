@@ -1,7 +1,7 @@
 import 'p5';
 import p5 from 'p5';
 import P5 from 'p5';
-import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
+// import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
 import { SelectedAnimation } from './Figures';
 import useSound from 'use-sound';
 //import '*.mp3';
@@ -98,7 +98,7 @@ export class AnimatedFigure {
 
     switch(selectedAnimation) {
       case SelectedAnimation.None:
-        this.angle += this.speed;
+        // this.angle += this.speed;
         break;
 
       case SelectedAnimation.DownwardGravity:
@@ -164,6 +164,7 @@ export class CircleFigure extends AnimatedFigure {
   display() {
     this.p5.push();
     this.p5.noStroke();
+    this.p5.fill('#36A533')
     this.p5.translate(this.x, this.y);
     this.p5.rotate(this.angle);
     this.p5.ellipse(-this.dim/2, 0, this.dim, this.dim);
@@ -181,6 +182,7 @@ export class SquareFigure extends AnimatedFigure {
   display() {
     this.p5.push();
     this.p5.noStroke();
+    this.p5.fill('#28306D')
     this.p5.translate(this.x, this.y);
     this.p5.rotate(this.angle);
     this.p5.square(-this.dim/2, 0, this.dim);
@@ -197,8 +199,8 @@ export class TriangleFigure extends AnimatedFigure {
 
   display() {
     this.p5.push();
-    this.p5.stroke(100, 200, 240);
-    this.p5.noFill();
+    this.p5.noStroke();
+    this.p5.fill('#ED1C24');
     this.p5.translate(this.x, this.y);
     this.p5.rotate(this.angle);
     this.p5.triangle(-this.dim/2, 0, 0, this.dim * this.p5.sin(this.p5.PI/3), this.dim/2, 0);
