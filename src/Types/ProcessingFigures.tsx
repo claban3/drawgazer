@@ -6,6 +6,7 @@ import { SelectedAnimation } from './Figures';
 import useSound from 'use-sound';
 //import '*.mp3';
 import collisionSFX from '../Sounds/collision.mp3';
+import { updateDo } from 'typescript';
 
 export class AnimatedFigure {
   x: number
@@ -77,6 +78,60 @@ export class AnimatedFigure {
 
   collision = new Audio(collisionSFX)
 
+  updateDownWardGravity(selectedAnimation, mouseX, mouseY, width, height) {
+    if (this.y < height-50) {
+      this.speed += 0.05;
+      this.y += this.speed;
+      this.angle += this.spin;
+    }
+    else if(!this.dead){
+      this.dead = true;
+      this.collision.play();
+    }
+  }
+
+  updateWallBounce(selectedAnimation, mouseX, mouseY, width, height) {
+    
+    if (this.y > height || this.y < 0) {
+      this.yspeed = -this.yspeed;
+      this.collision.play();
+    }
+
+    if (this.x > width || this.x < 0) {
+      this.xspeed = -this.xspeed;
+      this.collision.play();
+    }
+    
+    if (this.timer < 0 && this.inRange(this.x, this.y, mouseX, mouseY, 50)) {
+      this.timer = 60;
+    
+      if (this.below(this.y, mouseY, 50)) {
+        this.yspeed = Math.abs(this.yspeed);
+        this.collision.play();
+      }
+    
+      if (this.above(this.y, mouseY, 50)) {
+        this.yspeed = -Math.abs(this.yspeed);
+        this.collision.play();
+      }
+    
+      if (this.right(this.x, mouseX, 50)) {
+        this.xspeed = Math.abs(this.xspeed);
+        this.collision.play();
+      }
+    
+      if (this.left(this.x, mouseX, 50)) {
+        this.xspeed = -Math.abs(this.xspeed);
+        this.collision.play();
+      }
+    }
+
+    this.y += 80*this.yspeed;
+    this.x += 80*this.xspeed;
+  }
+
+  updateRadialForce(selectedAnimation, mouseX, mouseY, width, height) {}
+
   update(selectedAnimation, mouseX, mouseY, width, height) {
     this.timer -= 1;
 
@@ -102,48 +157,11 @@ export class AnimatedFigure {
         break;
 
       case SelectedAnimation.DownwardGravity:
-        if (this.y < height-50) {
-          this.speed += 0.05;
-          this.y += this.speed;
-          this.angle += this.spin;
-        }
-        else if(!this.dead){
-          this.dead = true;
-          this.collision.play();
-        }
+        this.updateDownWardGravity(selectedAnimation, mouseX, mouseY, width, height);
         break;
 
       case SelectedAnimation.WallBounce:
-
-        if (this.y > height || this.y < 0) {
-          this.yspeed = -this.yspeed;
-          this.collision.play();
-        }
-        if (this.x > width || this.x < 0) {
-          this.xspeed = -this.xspeed;
-          this.collision.play();
-        }
-        if (this.timer < 0 && this.inRange(this.x, this.y, mouseX, mouseY, 50)) {
-          this.timer = 60;
-          if (this.below(this.y, mouseY, 50)) {
-            this.yspeed = Math.abs(this.yspeed);
-            this.collision.play();
-          }
-          if (this.above(this.y, mouseY, 50)) {
-            this.yspeed = -Math.abs(this.yspeed);
-            this.collision.play();
-          }
-          if (this.right(this.x, mouseX, 50)) {
-            this.xspeed = Math.abs(this.xspeed);
-            this.collision.play();
-          }
-          if (this.left(this.x, mouseX, 50)) {
-            this.xspeed = -Math.abs(this.xspeed);
-            this.collision.play();
-          }
-        }
-        this.y += 80*this.yspeed;
-        this.x += 80*this.xspeed;
+        this.updateWallBounce(selectedAnimation, mouseX, mouseY, width, height);
         break;
         
       case SelectedAnimation.RadialForce:
