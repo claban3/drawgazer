@@ -42,15 +42,19 @@ export class AnimatedFigure {
     return (x >= mouseX-range && x <= mouseX+range && 
             y >= mouseY-range && y <= mouseY+range);
   }
+
   below(y, mouseY, range) {
     return (y > mouseY && y < mouseY+range);
   }
+  
   above(y, mouseY, range) {
     return (y < mouseY && y > mouseY-range);
   }
+  
   left(x, mouseX, range) {
     return (x < mouseX && x > mouseX-range);
   }
+  
   right(x, mouseX, range) {
     return (x > mouseX && x < mouseX-range);
   }
@@ -58,12 +62,15 @@ export class AnimatedFigure {
   belowCanvas(y, height) {
     return (y > height+1);
   }
+  
   aboveCanvas(y, height) {
     return (y < -1);
   }
+  
   leftOfCanvas(x, width) {
     return (x < -1);
   }
+  
   rightOfCanvas(x, width) {
     return (x > width+1);
   }
@@ -76,18 +83,20 @@ export class AnimatedFigure {
     if (this.aboveCanvas(this.y, height)) {
       this.y = 1;
     }
+    
     if (this.belowCanvas(this.y, height)) {
       this.y = height-1;
     }
+    
     if (this.leftOfCanvas(this.x, width)) {
       this.x = 1;
     }
+    
     if (this.rightOfCanvas(this.x, width)) {
       this.x = width-1;
     }
 
     switch(selectedAnimation) {
-
       case SelectedAnimation.None:
         this.angle += this.speed;
         break;
@@ -194,26 +203,5 @@ export class TriangleFigure extends AnimatedFigure {
     this.p5.rotate(this.angle);
     this.p5.triangle(-this.dim/2, 0, 0, this.dim * this.p5.sin(this.p5.PI/3), this.dim/2, 0);
     this.p5.pop();
-  }
-}
-
-export function applyForces() {
-
-  // apply force towards centre
-  nodes.forEach(node => {
-    gravity = node.pos.copy().mult(-1).mult(gravityConstant)
-    node.force = gravity
-  })
-
-  // apply repulsive force between nodes
-  for (let i = 0; i < nodes.length; i++) {
-    for (let j = i + 1; j < nodes.length; j++) {
-      pos = nodes[i].pos
-      dir = nodes[j].pos.copy().sub(pos)
-      force = dir.div(dir.mag() * dir.mag())
-      force.mult(forceConstant)
-      nodes[i].force.add(force.copy().mult(-1))
-      nodes[j].force.add(force)
-    }
   }
 }
