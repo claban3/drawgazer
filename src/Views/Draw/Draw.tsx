@@ -4,8 +4,8 @@ import './Draw.css';
 import Canvas from '../../Components/Canvas/Canvas';
 import ShapesToolbar from '../../Components/ShapesToolbar/ShapesToolbar';
 import AnimationToolbar from '../../Components/AnimationToolbar/AnimationToolbar';
+import Options from '../../Components/Options/Options';
 import { CanvasSettings, SelectedAnimation, SelectedShape } from "../../Types/Figures";
-import HeaderToolbar from '../../Components/HeaderToolbar/Header';
 
 function getWindowDimensions() {
     const { innerWidth: width, innerHeight: height } = window;
@@ -59,18 +59,15 @@ export default function Draw(){
         </h1>
     );
     else return (
-        <div className="draw-container">
-            <HeaderToolbar resetCanvas={setClearCanvasHandler}/>    
+        <div className="canvas-content">
+            <ShapesToolbar      shapeSelection={shapeSelection}
+                                selectionHandler={shapeSelectionHandler}/>
 
-            <div className="canvas-content">
-                <ShapesToolbar      shapeSelection={shapeSelection}
-                                    selectionHandler={shapeSelectionHandler}/>
+            <Canvas             canvasSettings={canvasSettings}/>
+            <Options/>
 
-                <Canvas             canvasSettings={canvasSettings}/>
-
-                <AnimationToolbar   animationSelection={animationSelection}
-                                    selectionHandler={animationSelectionHandler}/>
-            </div>
+            <AnimationToolbar   animationSelection={animationSelection}
+                                selectionHandler={animationSelectionHandler}/>
         </div>
     );
 }

@@ -1,0 +1,49 @@
+.options-container {
+    height: 25%;
+    width: 15%;
+    
+    /* Is there a better way to float them to the bottom */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.icons-container {
+    height: calc(42px*2);
+
+    margin-left: 4px;
+
+    display: flex;
+    flex-direction: column-reverse;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    /* align-content: stretch; */
+}
+
+.icon {
+    height: 40px;
+    width: 40px;
+    margin: 1px;
+    cursor: pointer;
+}
+
+.icon:hover {
+    background-color: rgb(160, 160, 160, 0.5);
+}
+
+@font-face {
+    font-family: Poppins;
+    src: url(../../Poppins-Regular.ttf);
+}
+
+.title {
+    font-family: Poppins;
+    position: absolute;
+    bottom: 4px;
+    left: 10px;
+
+    font-weight: 400;
+    /* font-size: 30px; */
+    font-size: 1.8vw;
+    letter-spacing: 0.25em;
+}

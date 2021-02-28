@@ -1,23 +1,24 @@
-.toolbar-container {
-    height: calc(100% - 6px);
-    width: 15%;
-    background-color: rgb(220, 220, 220);
+.animation-toolbar-container {
+    height: 25%;
+    width: 85%;
 
-    border-style: solid;
-    border-color: rgb(160, 160, 160);
-    border-width: 3px;
+    background-color: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
 }
 
 .animation-selection {
-    height: calc(25% - 1px);
-    width: 100%;
+    height: 100%;
+    width: 30%;
 
     display: flex;
     justify-content: center;
 
-    border-color: rgb(160, 160, 160);
-    border-bottom-style: ridge; 
-    border-width: 1px;
+    background: #ACABAB;
+    /* background-color: rgb(220, 220, 220); */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px 10px 0px 0px;
 
     cursor: pointer;
 }

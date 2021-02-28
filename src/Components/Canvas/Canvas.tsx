@@ -15,10 +15,10 @@ function sketch (p) {
     let selectedAnimation = SelectedAnimation.WallBounce;
     let setClearCanvasInParent = () => {};
     // ^ Set to WallBounce instead of None for testing purposes
-     let bufferWidth = 60;
-    let canvasHeight = window.innerHeight * 0.90 - bufferWidth
-    let canvasWidth = window.innerWidth * 0.70 - bufferWidth;
-    console.log("canvasHeight: " + canvasHeight + " canvasWidth: " + canvasWidth);
+    let bufferWidth = 40;
+    let bufferHeight = 40;
+    let canvasHeight = window.innerHeight * 0.75 - bufferHeight;
+    let canvasWidth = window.innerWidth * 0.85 - bufferWidth;
     let renderer;
 
     function inCanvas(mouseX, mouseY, width, height) {
@@ -34,8 +34,8 @@ function sketch (p) {
     }
 
     p.windowResized = function () {
-        canvasHeight = window.innerHeight -  bufferWidth;
-        canvasWidth = window.innerWidth * 0.70 - bufferWidth;
+        canvasHeight = window.innerHeight * 0.75 - bufferHeight;
+        canvasWidth = window.innerWidth * 0.85 - bufferWidth;
         p.resizeCanvas(canvasWidth, canvasHeight);
     }
 
@@ -50,7 +50,7 @@ function sketch (p) {
     }
 
     p.draw = function () {
-        p.background(255);
+        p.background(220);
         if (reset) {
             figs = [];
             points = [];
