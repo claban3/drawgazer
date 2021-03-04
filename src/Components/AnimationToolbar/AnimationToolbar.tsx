@@ -13,7 +13,7 @@ export default function AnimationToolbar(props)
     let wallBounceHighlight = (props.animationSelection === SelectedAnimation.WallBounce) ? "selected" : "";
 
     return (
-        <div className="toolbar-container">
+        <div className="animation-toolbar-container">
             <div className={`animation-selection ${downwardGravityHighlight}`}
                  onClick = { () => props.selectionHandler(SelectedAnimation.DownwardGravity) }
                  onTouchEnd = { () => props.selectionHandler(SelectedAnimation.DownwardGravity) }>
@@ -22,13 +22,13 @@ export default function AnimationToolbar(props)
                          alt="Downward Gravity"/>
             </div>
 
-            {/* <div className={`animation-selection ${radialForceHighlight}`}
+            <div className={`animation-selection ${radialForceHighlight}`}
                  onClick = { () => props.selectionHandler(SelectedAnimation.RadialForce) }
                  onTouchEnd = { () => props.selectionHandler(SelectedAnimation.RadialForce) }>
                     <img className="animation-icon"
                          src={radial2} 
                          alt="Radial Gravity"/>
-            </div> */}
+            </div>
 
             <div className={`animation-selection ${wallBounceHighlight}`}
                  onClick = { () => props.selectionHandler(SelectedAnimation.WallBounce) }

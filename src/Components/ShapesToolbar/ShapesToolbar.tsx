@@ -4,7 +4,7 @@ import { SelectedShape } from '../../Types/Figures';
 import triangle from '../../Images/triangle.png';
 import rectangle from '../../Images/square.png';
 import circle from '../../Images/circle.png';
-import freeDraw from '../../Images/free-draw.png';
+// import freeDraw from '../../Images/free-draw.png';
 
 export default function ShapesToolbar(props) 
 {
@@ -14,7 +14,7 @@ export default function ShapesToolbar(props)
     let freeDrawHighlight = (props.shapeSelection === SelectedShape.FreeDraw) ? "selected" : "";
 
     return (
-        <div className="toolbar-container">
+        <div className="shape-toolbar-container">
             <div className={`shape-selection ${triangleHighlight}`}
                  onClick = { () => props.selectionHandler(SelectedShape.Triangle) }
                  onTouchEnd = { () => props.selectionHandler(SelectedShape.Triangle) }>
@@ -39,13 +39,13 @@ export default function ShapesToolbar(props)
                          alt="Circle"/>
             </div>
 
-            <div className={`shape-selection ${freeDrawHighlight}`}
+            {/* <div className={`shape-selection ${freeDrawHighlight}`}
                  onClick = { () => props.selectionHandler(SelectedShape.FreeDraw) }
                  onTouchEnd = { () => props.selectionHandler(SelectedShape.FreeDraw) }>
                     <img className="shape-icon"
                          src={freeDraw} 
                          alt="Free Draw"/>
-            </div>
+            </div> */}
         </div>
     );
 }
