@@ -16,14 +16,15 @@ function sketch (p) {
         points: [],
         selectedFigure: SelectedShape.None,
         selectedAnimation: SelectedAnimation.None, 
-        bufferWidth: 60,
-        canvasHeight: window.innerHeight * 0.90 - 60,
-        canvasWidth: window.innerWidth * 0.70 - 60,
+        bufferWidth: 40,
+        // bufferHeight: 40,
+        canvasHeight: window.innerHeight * 0.75 - 40 /* bufferWidth */,
+        canvasWidth: window.innerWidth * 0.85 - 40 /* bufferHeight */,
     };
     
     let reset = false;
     let setClearCanvasInParent = () => {};
-    let renderer ;
+    let renderer;
 
     function inCanvas(mouseX, mouseY, width, height) {
         return mouseX >= 0 && mouseX <= width && mouseY >= 0 && mouseY <= height;
@@ -37,8 +38,8 @@ function sketch (p) {
     }
 
     p.windowResized = function () {
-        sketchData.canvasHeight = window.innerHeight -  sketchData.bufferWidth;
-        sketchData.canvasWidth = window.innerWidth * 0.70 - sketchData.bufferWidth;
+        sketchData.canvasHeight = window.innerHeight * 0.75 -  sketchData.bufferWidth;
+        sketchData.canvasWidth = window.innerWidth * 0.85 - sketchData.bufferWidth;
         p.resizeCanvas(sketchData.canvasWidth, sketchData.canvasHeight);
     }
 
