@@ -5,7 +5,7 @@ import { RadialForce } from './RadialForce';
 import { WallBounce } from './WallBounce';
 
 export function pushNewFigure(selectedFigure, figs, p) {
-    let s = Math.random() * 50 + 50;
+    let s = Math.random() * 50 + 20;
     switch(selectedFigure) {
         case SelectedShape.Circle:
             let newCirc = new CircleFigure(p.mouseX, p.mouseY, -0.02, s, p);

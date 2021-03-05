@@ -5,7 +5,9 @@ import P5 from 'p5';
 import useSound from 'use-sound';
 //import '*.mp3';
 import collisionSFX from '../Sounds/collision.mp3';
-const Collides = require('p5collide');
+import * as Collides from 'p5collide';
+
+const MAX_SPEED = 10;
 
 export class AnimatedFigure {
   p5: P5
@@ -27,7 +29,7 @@ export class AnimatedFigure {
   constructor(x, y, s, d, p5) {
       this.p5 = p5;
       this.pos = p5.createVector(x, y);
-      this.velocity = p5.createVector(s * this.randSign(), s * this.randSign());
+      this.velocity = p5.createVector(100 * s * this.randSign(),100 * s * this.randSign());
       this.force = p5.createVector(0, 0); 
       this.mass = p5.PI * d;
 
@@ -37,29 +39,23 @@ export class AnimatedFigure {
       this.dead = false;
   }
 
-  // Helper Functions
-  inRange(x, y, mouseX, mouseY, range) {
-    return (x >= mouseX-range && x <= mouseX+range && 
-            y >= mouseY-range && y <= mouseY+range);
-  }
-
-  below(y, mouseY, range) {
-    return (y > mouseY && y < mouseY+range);
-  }
-  
-  above(y, mouseY, range) {
-    return (y < mouseY && y > mouseY-range);
-  }
-  
-  left(x, mouseX, range) {
-    return (x < mouseX && x > mouseX-range);
-  }
-  
-  right(x, mouseX, range) {
-    return (x > mouseX && x < mouseX-range);
+  collideWithMouse() {
+    return false;
   }
   
   collideCanvasBottom(canvasWidth, canvasHeight) {
+    return false;
+  }
+  
+  collideCanvasTop(canvasWidth, canvasHeight) {
+    return false;
+  }
+  
+  collideCanvasLeft(canvasWidth, canvasHeight) {
+    return false;
+  }
+  
+  collideCanvasRight(canvasWidth, canvasHeight) {
     return false;
   }
 
@@ -69,6 +65,7 @@ export class AnimatedFigure {
       p.mouseY < canvasHeight && p.mouseY > 0
     );
   }
+
   update(width, height) {
     this.timer -= 1;
   }
@@ -83,12 +80,31 @@ export class CircleFigure extends AnimatedFigure {
     this.dim = d;
   }
 
+  collideWithMouse() {
+    return Collides.collidePointCircle(this.p5.mouseX, this.p5.mouseY, this.pos.x, this.pos.y, this.dim);
+  }
+
   collideCanvasBottom(canvasWidth, canvasHeight) {
     return Collides.collideLineCircle(0, canvasHeight, canvasWidth, canvasHeight, this.pos.x, this.pos.y, this.dim);
+  }
+  
+  collideCanvasTop(canvasWidth, canvasHeight) {
+    return Collides.collideLineCircle(0, 0, canvasWidth, 0, this.pos.x, this.pos.y, this.dim);
+  }
+
+  collideCanvasLeft(canvasWidth, canvasHeight) {
+    return Collides.collideLineCircle(0, 0, 0, canvasHeight, this.pos.x, this.pos.y, this.dim);
+  }
+  
+  collideCanvasRight(canvasWidth, canvasHeight) {
+    return Collides.collideLineCircle(canvasWidth, 0, canvasWidth, canvasHeight, this.pos.x, this.pos.y, this.dim);
   }
 
   display() {
     this.p5.push();
+    if (this.velocity.mag() > MAX_SPEED) {
+      this.velocity.normalize().mult(MAX_SPEED);
+    }
     this.p5.stroke(1);
     this.p5.fill('#36A533')
     this.p5.ellipse(this.pos.x, this.pos.y, this.dim, this.dim);
@@ -103,12 +119,31 @@ export class SquareFigure extends AnimatedFigure {
     this.dim = d;
   }
 
+  collideWithMouse() {
+    return Collides.collidePointRect(this.p5.mouseX, this.p5.mouseY, this.pos.x, this.pos.y, this.dim, this.dim);
+  }
+  
   collideCanvasBottom(canvasWidth, canvasHeight) {
     return Collides.collideLineRect(0, canvasHeight, canvasWidth, canvasHeight, this.pos.x, this.pos.y, this.dim, this.dim);
   }
   
+  collideCanvasTop(canvasWidth, canvasHeight) {
+    return Collides.collideLineRect(0, 0, canvasWidth, 0, this.pos.x, this.pos.y, this.dim, this.dim);
+  }
+  
+  collideCanvasLeft(canvasWidth, canvasHeight) {
+    return Collides.collideLineRect(0, 0, 0, canvasHeight, this.pos.x, this.pos.y, this.dim, this.dim);
+  }
+  
+  collideCanvasRight(canvasWidth, canvasHeight) {
+    return Collides.collideLineRect(canvasWidth, 0, canvasWidth, canvasHeight, this.pos.x, this.pos.y, this.dim, this.dim);
+  }
+  
   display() {
     this.p5.push();
+    if (this.velocity.mag() > MAX_SPEED) {
+      this.velocity.normalize().mult(MAX_SPEED);
+    }
     this.p5.noStroke();
     this.p5.fill('#28306D')
     // this.p5.translate(this.pos.x, this.pos.y);
@@ -139,13 +174,31 @@ export class TriangleFigure extends AnimatedFigure {
     return [this.p5.createVector(x1,y1), this.p5.createVector(x2,y2), this.p5.createVector(x3,y3)];
   }
 
+  collideWithMouse() {
+    return Collides.collidePointPoly(this.p5.mouseX, this.p5.mouseY, this.corners());
+  }
+
   collideCanvasBottom(canvasWidth, canvasHeight) {
-    let points = this.corners();
-    return Collides.collideLinePoly(0, canvasHeight, canvasWidth, canvasHeight, points);
+    return Collides.collideLinePoly(0, canvasHeight, canvasWidth, canvasHeight, this.corners());
+  }
+
+  collideCanvasTop(canvasWidth, canvasHeight) {
+    return Collides.collideLinePoly(0, 0, canvasWidth, 0, this.corners());
+  }
+  
+  collideCanvasLeft(canvasWidth, canvasHeight) {
+    return Collides.collideLinePoly(0, 0, 0, canvasHeight, this.corners());
+  }
+  
+  collideCanvasRight(canvasWidth, canvasHeight) {
+    return Collides.collideLinePoly(canvasWidth, 0, canvasWidth, canvasHeight, this.corners());
   }
 
   display() {
     this.p5.push();
+    if (this.velocity.mag() > MAX_SPEED) {
+      this.velocity.normalize().mult(MAX_SPEED);
+    }
     this.p5.noStroke();
     this.p5.fill('#ED1C24');
     this.p5.angleMode(this.p5.DEGREES);
