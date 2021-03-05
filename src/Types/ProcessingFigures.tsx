@@ -39,6 +39,16 @@ export class AnimatedFigure {
       this.dead = false;
   }
 
+  static collidesWith(fig1: AnimatedFigure, fig2: AnimatedFigure) {
+    let corners1 = fig1.getShapeDescriptor();
+    let corners2 = fig2.getShapeDescriptor();
+    return Collides.collideAll(corners1, corners2);
+  }
+
+  getShapeDescriptor() {
+    return {};
+  }
+
   collideWithMouse() {
     return false;
   }
@@ -80,6 +90,13 @@ export class CircleFigure extends AnimatedFigure {
     this.dim = d;
   }
 
+  getShapeDescriptor() {
+    return {
+      type: "CIRCLE",
+      data: [this.pos.x, this.pos.y, this.dim],
+    };
+  }
+  
   collideWithMouse() {
     return Collides.collidePointCircle(this.p5.mouseX, this.p5.mouseY, this.pos.x, this.pos.y, this.dim);
   }
@@ -117,6 +134,13 @@ export class SquareFigure extends AnimatedFigure {
   constructor(x, y, s, d, p5) {
     super(x, y, s, d, p5);
     this.dim = d;
+  }
+
+  getShapeDescriptor() {
+    return {
+      type: "RECT",
+      data: [this.pos.x, this.pos.y, this.dim, this.dim],
+    };
   }
 
   collideWithMouse() {
@@ -160,6 +184,20 @@ export class TriangleFigure extends AnimatedFigure {
     this.dim = d;
   }
   
+  getShapeDescriptor() {
+    let cornersObject = [];
+    this.corners().forEach(pos => {
+      let x = pos.x;
+      let y = pos.y
+      cornersObject.push({ x, y });  
+    });
+
+    return {
+      type: "POLY",
+      data: cornersObject,
+    };
+  }
+
   corners(): P5.Vector[] {
     let base_half = (this.dim / 2) * this.p5.cos(30);
     let x1 = this.pos.x - base_half;

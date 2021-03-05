@@ -29,12 +29,10 @@ export class Animation {
 
         switch(sketchData.selectedAnimation) {
             case SelectedAnimation.RadialForce:
-                DownwardGravity.draw(sketchData, p);
+                RadialForce.draw(sketchData, p);
                 break;
             case SelectedAnimation.DownwardGravity:
                 DownwardGravity.draw(sketchData, p);
-
-                // RadialForce.draw(sketchData, p);
                 break;
             case SelectedAnimation.WallBounce:
                 WallBounce.draw(sketchData, p);

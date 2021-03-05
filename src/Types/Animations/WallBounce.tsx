@@ -15,7 +15,6 @@ export class WallBounce extends Animation {
             }
             
             if (fig.collideWithMouse()) {
-                console.log("collides");
                 let speed = fig.velocity.mag();
                 let repelForce = fig.pos.copy().sub(p.createVector(p.mouseX, p. mouseY)).normalize();
                 fig.velocity.add(repelForce.mult(speed));
