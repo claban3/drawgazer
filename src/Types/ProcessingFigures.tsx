@@ -2,37 +2,36 @@ import 'p5';
 import p5 from 'p5';
 import P5 from 'p5';
 // import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
-import { SelectedAnimation } from './Figures';
 import useSound from 'use-sound';
 //import '*.mp3';
 import collisionSFX from '../Sounds/collision.mp3';
-import { updateDo } from 'typescript';
+const Collides = require('p5collide');
 
 export class AnimatedFigure {
-  x: number
-  y: number
-  speed: number
-  angle: number
   p5: P5
-  yspeed: number
-  xspeed: number
+  pos: P5.Vector
+  force: P5.Vector
+  velocity: P5.Vector
+  mass: number
+  angle: number
   timer: number
-  spin: number
   dead: boolean
-
+  spin: number
+  dim: number
+  collision: HTMLAudioElement = new Audio(collisionSFX)
   // Return -1 or 1 randomly
   randSign() {
     return Math.random() < 0.5 ? -1 : 1
   }
 
-  constructor(x, y, s, p5) {
-      this.x = x;
-      this.y = y;
-      this.speed = s*this.randSign();
-      this.angle = 0.0;
+  constructor(x, y, s, d, p5) {
       this.p5 = p5;
-      this.xspeed = s*this.randSign();
-      this.yspeed = s*this.randSign();
+      this.pos = p5.createVector(x, y);
+      this.velocity = p5.createVector(s * this.randSign(), s * this.randSign());
+      this.force = p5.createVector(0, 0); 
+      this.mass = p5.PI * d;
+
+      this.angle = 0.0;
       this.timer = 60;
       this.spin = 0.02*this.randSign();
       this.dead = false;
@@ -59,114 +58,19 @@ export class AnimatedFigure {
   right(x, mouseX, range) {
     return (x > mouseX && x < mouseX-range);
   }
-
-  belowCanvas(y, height) {
-    return (y > height+1);
-  }
   
-  aboveCanvas(y, height) {
-    return (y < -1);
-  }
-  
-  leftOfCanvas(x, width) {
-    return (x < -1);
-  }
-  
-  rightOfCanvas(x, width) {
-    return (x > width+1);
+  collideCanvasBottom(canvasWidth, canvasHeight) {
+    return false;
   }
 
-  collision = new Audio(collisionSFX)
-
-  updateDownWardGravity(selectedAnimation, mouseX, mouseY, width, height) {
-    if (this.y < height-50) {
-      this.speed += 0.05;
-      this.y += this.speed;
-      this.angle += this.spin;
-    }
-    else if(!this.dead){
-      this.dead = true;
-      this.collision.play();
-    }
+  static mouseOnCanvas(p: P5, canvasWidth, canvasHeight) {
+    return (
+      p.mouseX < canvasWidth && p.mouseX > 0 && 
+      p.mouseY < canvasHeight && p.mouseY > 0
+    );
   }
-
-  updateWallBounce(selectedAnimation, mouseX, mouseY, width, height) {
-    
-    if (this.y > height || this.y < 0) {
-      this.yspeed = -this.yspeed;
-      this.collision.play();
-    }
-
-    if (this.x > width || this.x < 0) {
-      this.xspeed = -this.xspeed;
-      this.collision.play();
-    }
-    
-    if (this.timer < 0 && this.inRange(this.x, this.y, mouseX, mouseY, 50)) {
-      this.timer = 60;
-    
-      if (this.below(this.y, mouseY, 50)) {
-        this.yspeed = Math.abs(this.yspeed);
-        this.collision.play();
-      }
-    
-      if (this.above(this.y, mouseY, 50)) {
-        this.yspeed = -Math.abs(this.yspeed);
-        this.collision.play();
-      }
-    
-      if (this.right(this.x, mouseX, 50)) {
-        this.xspeed = Math.abs(this.xspeed);
-        this.collision.play();
-      }
-    
-      if (this.left(this.x, mouseX, 50)) {
-        this.xspeed = -Math.abs(this.xspeed);
-        this.collision.play();
-      }
-    }
-
-    this.y += 80*this.yspeed;
-    this.x += 80*this.xspeed;
-  }
-
-  updateRadialForce(selectedAnimation, mouseX, mouseY, width, height) {}
-
-  update(selectedAnimation, mouseX, mouseY, width, height) {
+  update(width, height) {
     this.timer -= 1;
-
-    if (this.aboveCanvas(this.y, height)) {
-      this.y = 1;
-    }
-    
-    if (this.belowCanvas(this.y, height)) {
-      this.y = height-1;
-    }
-    
-    if (this.leftOfCanvas(this.x, width)) {
-      this.x = 1;
-    }
-    
-    if (this.rightOfCanvas(this.x, width)) {
-      this.x = width-1;
-    }
-
-    switch(selectedAnimation) {
-      case SelectedAnimation.None:
-        // this.angle += this.speed;
-        break;
-
-      case SelectedAnimation.DownwardGravity:
-        this.updateDownWardGravity(selectedAnimation, mouseX, mouseY, width, height);
-        break;
-
-      case SelectedAnimation.WallBounce:
-        this.updateWallBounce(selectedAnimation, mouseX, mouseY, width, height);
-        break;
-        
-      case SelectedAnimation.RadialForce:
-        break;
-    }
   }
 
   display() {}
@@ -174,18 +78,20 @@ export class AnimatedFigure {
 
 export class CircleFigure extends AnimatedFigure {
   dim: number
-  constructor(x, y, s, d, p5) {
-    super(x, y, s, p5);
+  constructor(x, y, s, d, p5: P5) {
+    super(x, y, s, d, p5);
     this.dim = d;
+  }
+
+  collideCanvasBottom(canvasWidth, canvasHeight) {
+    return Collides.collideLineCircle(0, canvasHeight, canvasWidth, canvasHeight, this.pos.x, this.pos.y, this.dim);
   }
 
   display() {
     this.p5.push();
-    this.p5.noStroke();
+    this.p5.stroke(1);
     this.p5.fill('#36A533')
-    this.p5.translate(this.x, this.y);
-    this.p5.rotate(this.angle);
-    this.p5.ellipse(-this.dim/2, 0, this.dim, this.dim);
+    this.p5.ellipse(this.pos.x, this.pos.y, this.dim, this.dim);
     this.p5.pop();
   }
 }
@@ -193,17 +99,21 @@ export class CircleFigure extends AnimatedFigure {
 export class SquareFigure extends AnimatedFigure {
   dim: number
   constructor(x, y, s, d, p5) {
-    super(x, y, s, p5);
+    super(x, y, s, d, p5);
     this.dim = d;
   }
 
+  collideCanvasBottom(canvasWidth, canvasHeight) {
+    return Collides.collideLineRect(0, canvasHeight, canvasWidth, canvasHeight, this.pos.x, this.pos.y, this.dim, this.dim);
+  }
+  
   display() {
     this.p5.push();
     this.p5.noStroke();
     this.p5.fill('#28306D')
-    this.p5.translate(this.x, this.y);
-    this.p5.rotate(this.angle);
-    this.p5.square(-this.dim/2, 0, this.dim);
+    // this.p5.translate(this.pos.x, this.pos.y);
+    // this.p5.rotate(this.angle);
+    this.p5.square(this.pos.x, this.pos.y, this.dim);
     this.p5.pop();
   }
 }
@@ -211,17 +121,45 @@ export class SquareFigure extends AnimatedFigure {
 export class TriangleFigure extends AnimatedFigure {
   dim: number
   constructor(x, y, s, d, p5) {
-    super(x, y, s, p5);
+    super(x, y, s, d, p5);
     this.dim = d;
+  }
+  
+  corners(): P5.Vector[] {
+    let base_half = (this.dim / 2) * this.p5.cos(30);
+    let x1 = this.pos.x - base_half;
+    let y1 = this.pos.y - (this.dim / 2);
+    
+    let x2 = this.pos.x;
+    let y2 = this.pos.y + this.dim / 2;
+    
+    let x3 = this.pos.x + base_half;
+    let y3 = this.pos.y + this.dim / 2;
+
+    return [this.p5.createVector(x1,y1), this.p5.createVector(x2,y2), this.p5.createVector(x3,y3)];
+  }
+
+  collideCanvasBottom(canvasWidth, canvasHeight) {
+    let points = this.corners();
+    return Collides.collideLinePoly(0, canvasHeight, canvasWidth, canvasHeight, points);
   }
 
   display() {
     this.p5.push();
     this.p5.noStroke();
     this.p5.fill('#ED1C24');
-    this.p5.translate(this.x, this.y);
-    this.p5.rotate(this.angle);
-    this.p5.triangle(-this.dim/2, 0, 0, this.dim * this.p5.sin(this.p5.PI/3), this.dim/2, 0);
+    this.p5.angleMode(this.p5.DEGREES);
+    let base_half = (this.dim / 2) * this.p5.cos(15);
+    let x1 = this.pos.x - base_half;
+    let y1 = this.pos.y + (this.dim / 2);
+    
+    let x2 = this.pos.x;
+    let y2 = this.pos.y - (this.dim / 2);
+    
+    let x3 = this.pos.x + base_half;
+    let y3 = this.pos.y + (this.dim / 2);
+
+    this.p5.triangle(x1, y1, x2, y2, x3, y3);
     this.p5.pop();
   }
 }
