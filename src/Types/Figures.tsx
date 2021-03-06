@@ -1,5 +1,7 @@
-// Types of objects to be passed into the canvas component.
+import { AnimatedFigure } from "./ProcessingFigures";
+import P5Wrapper from 'react-p5-wrapper';
 
+// Types of objects to be passed into the canvas component.
 export enum SelectedShape {
     None,
     Circle,
@@ -24,3 +26,14 @@ export type CanvasSettings = {
     reset: Boolean,
     resetInParent: voidFunc
 };
+
+export type SketchData = {
+    onPressed: Boolean,
+    figs: AnimatedFigure[],
+    points: P5Wrapper.Vector[],
+    selectedFigure: SelectedShape,
+    selectedAnimation: SelectedAnimation,
+    bufferWidth: number,
+    canvasHeight: number,
+    canvasWidth: number
+}
