@@ -13,7 +13,7 @@ html, body {
     width: 100vw;
     background-color: #FFFFFF;
     background-size: 100vw 100vh;
-    /* background-color: #D0D5FF; */
+    overflow: hidden;
 }
 
 code {

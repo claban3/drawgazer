@@ -1,0 +1,131 @@
+.settings-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    background-color: #FFFFFF;
+
+    display: flex;
+    flex-direction: row;
+
+    z-index: 2;
+}
+
+.settings-container.opening {
+    animation: slideUp .2s linear;
+}
+
+.settings-container.closing{
+    animation: slideDown .2s linear;
+}
+
+.settings-side-bar {
+    width: calc(25% - 1px);
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    font-family: Poppins;
+    letter-spacing: 0.1em;
+
+
+    border-right: 1px solid black;
+} .settings-side-bar .options {
+    height: 15%;
+    width: 100%;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tab-selection {
+    text-decoration-line: underline;
+    box-shadow: inset -3px 0 0px 0px #FF6868;
+}
+
+.settings-content {
+    width: 75%;
+    height: 100%;
+    display: flex;
+}
+
+.settings-exit {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+
+    height: 30px;
+    width: 30px;
+}
+
+.color-picker-container {
+    height: 100%;
+    width: 40%;
+    display: flex;
+}
+
+.chrome-picker {
+    height: auto;
+    min-width: 90%;
+    max-height: 80% ;
+    display: block;
+    margin: auto;
+}
+
+.buttons-container {
+    height: 100%;
+    width: 60%;
+
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.buttons-row {
+    height: 50%;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding: 20px 0%; 
+} .one {
+    align-items: flex-end;
+} .two {
+    align-items: flex-start;
+}
+
+.shape-icon-settings {
+    width: 25%;
+    height: 11.25vw; /* .75*.60*.25: Height == Width*/
+    cursor: pointer;
+} 
+
+.shape-button, .animation-button{
+    height: 10vw;
+    width: 40%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-weight: 600;
+    font-size: 2.8vw;
+    letter-spacing: 0.1em;
+    color: white;
+    -webkit-text-stroke: 1px black;
+    
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 0px 10px 10px 0px;
+
+    cursor: pointer;
+}
+
+.shape-button {
+    background-color: var(--shapeButtonColor);
+}
+
+.animation-button {
+    background-color: var(--animationButtonColor);
+}

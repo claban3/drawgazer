@@ -8,9 +8,9 @@ import radial2 from '../../Images/radial-v2.png';
 
 export default function AnimationToolbar(props) 
 {
-    let radialForceHighlight = (props.animationSelection === SelectedAnimation.RadialForce) ? "selected" : "";
-    let downwardGravityHighlight = (props.animationSelection === SelectedAnimation.DownwardGravity) ? "selected" : "";
-    let wallBounceHighlight = (props.animationSelection === SelectedAnimation.WallBounce) ? "selected" : "";
+    let radialForceHighlight = (props.animationSelection === SelectedAnimation.RadialForce) ? "animation-selected" : "";
+    let downwardGravityHighlight = (props.animationSelection === SelectedAnimation.DownwardGravity) ? "animation-selected" : "";
+    let wallBounceHighlight = (props.animationSelection === SelectedAnimation.WallBounce) ? "animation-selected" : "";
 
     return (
         <div className="animation-toolbar-container">

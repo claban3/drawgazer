@@ -22,8 +22,8 @@ export default function Options(props)
                 </div>
 
                 <div className="icon" title="Settings"
-                     onClick = {() => props.toggleSettings()}
-                     onTouchEnd = {() => props.toggleSettings()}>
+                     onClick = {() => props.settingStateChangeHandler()}
+                     onTouchEnd = {() => props.settingStateChangeHandle()}>
 
                     <img className="icon"
                          src={settings}
