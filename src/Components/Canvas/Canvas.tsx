@@ -1,116 +1,82 @@
 import "./Canvas.css";
 import 'p5';
 import '../../Types/Figures';
-import { AnimatedFigure, CircleFigure, SquareFigure, TriangleFigure } from '../../Types/ProcessingFigures';
-import { SelectedShape, SelectedAnimation } from '../../Types/Figures';
+import { SelectedShape, SelectedAnimation, SketchData } from '../../Types/Figures';
 import P5Wrapper from 'react-p5-wrapper';
 import 'react-p5-wrapper';
+import { useState } from "react";
+import React from "react";
+import { Animation } from '../../Types/Animations/Animation';
+
 
 function sketch (p) {
+    let sketchData: SketchData = {
+        onPressed: false,
+        figs: [],
+        points: [],
+        selectedFigure: SelectedShape.None,
+        selectedAnimation: SelectedAnimation.None, 
+        bufferWidth: 40,
+        bufferHeight: 40,
+        canvasHeight: window.innerHeight * 0.75 - 40 /* bufferWidth */,
+        canvasWidth: window.innerWidth * 0.85 - 40 /* bufferHeight */,
+    };
+    
     let reset = false;
-    let figs: AnimatedFigure[] = [];
-    let points: P5Wrapper.Vector[] = [];
-    let start = false;
-    let selectedFigure = SelectedShape.None;
-    let selectedAnimation = SelectedAnimation.WallBounce;
     let setClearCanvasInParent = () => {};
-    // ^ Set to WallBounce instead of None for testing purposes
-    let bufferWidth = 40;
-    let bufferHeight = 40;
-    let canvasHeight = window.innerHeight * 0.75 - bufferHeight;
-    let canvasWidth = window.innerWidth * 0.85 - bufferWidth;
     let renderer;
 
     function inCanvas(mouseX, mouseY, width, height) {
-
         return mouseX >= 0 && mouseX <= width && mouseY >= 0 && mouseY <= height;
     }
 
     p.setup = function () {
-        renderer = p.createCanvas(canvasWidth, canvasHeight);
+        renderer = p.createCanvas(sketchData.canvasWidth, sketchData.canvasHeight);
         renderer.parent("canvas");
-        figs = [];
-        points = [];
+        sketchData.figs = [];
+        sketchData.points = [];
     }
 
     p.windowResized = function () {
-        canvasHeight = window.innerHeight * 0.75 - bufferHeight;
-        canvasWidth = window.innerWidth * 0.85 - bufferWidth;
-        p.resizeCanvas(canvasWidth, canvasHeight);
+        sketchData.canvasHeight = window.innerHeight * 0.75 -  sketchData.bufferHeight;
+        sketchData.canvasWidth = window.innerWidth * 0.85 - sketchData.bufferWidth;
+        p.resizeCanvas(sketchData.canvasWidth, sketchData.canvasHeight);
     }
 
     p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
-        selectedFigure = props.canvasSettings.selectedFigure;
-        selectedAnimation = props.canvasSettings.selectedAnimation;
+        console.log("what");
+        sketchData.selectedFigure = props.canvasSettings.selectedFigure;
+        sketchData.selectedAnimation = props.canvasSettings.selectedAnimation;
         reset = props.canvasSettings.reset;
         setClearCanvasInParent = props.canvasSettings.resetInParent;
-        // Uncomment the line below once animation toolbar is integrated, else
-        // SelectedAnimation will get updated to None
-        //selectedAnimation = props.canvasSettings.selectedAnimation;
     }
 
     p.draw = function () {
-        p.background(220);
         if (reset) {
-            figs = [];
-            points = [];
+            sketchData.figs = [];
+            sketchData.points = [];
             reset = false;
             setClearCanvasInParent();
         }
-        p.fill(100);
-        figs.forEach(fig => {
-            fig.update(selectedAnimation, p.mouseX, p.mouseY, canvasWidth, canvasHeight);
-            fig.display();
-        });
-        p.mousePressed = function () {
-            start = true;
-            points = [];
-            if (!inCanvas(p.mouseX, p.mouseY, canvasWidth, canvasHeight)) {
-                return false;
-            }
-            let s = Math.random() * 50 + 50;
-            switch(selectedFigure) {
-                case SelectedShape.Circle:
-                    let newCirc = new CircleFigure(p.mouseX, p.mouseY, -0.02, s, p);
-                    figs.push(newCirc);
-                    break;
-                case SelectedShape.Rectangle:
-                    let newSquare = new SquareFigure(p.mouseX, p.mouseY, -0.02, s, p);
-                    figs.push(newSquare);
-                    break;
-                case SelectedShape.Triangle:
-                    let newTriangle = new TriangleFigure(p.mouseX, p.mouseY, -0.02, s, p);
-                    figs.push(newTriangle);
-                    break;
-            }
-            // prevent default
-            return false;
-        }
 
-        p.mouseReleased = function () {
-            start = false;
+        p.mouseClicked = function (event) {
+            // if (event.type == 'touchstart') {
+            return Animation.mousePressed(sketchData, p);
         }
-
-        if (selectedFigure === SelectedShape.FreeDraw && start) {
-            points.push(p.createVector(p.mouseX, p.mouseY));
+        
+        p.mouseReleased = function() {
+            Animation.mouseReleased(sketchData, p);
+            // return false;
         }
-
-        p.stroke(255);
-        p.noFill();
-        p.beginShape();
-        for (let i = 0; i<points.length; i++){
-            let x = points[i].x;
-            let y = points[i].y;
-
-            p.vertex(x, y)
-        }
-        p.endShape();
+        
+        Animation.draw(sketchData, p);
     }
 }
 
 export default function Canvas(props) {
+    // props.canvasSettings.selectedAnimation = SelectedAnimation.RadialForce;
     return (
-        <div className="canvas-container" id="canvas">
+         <div className="canvas-container" id="canvas">
                 <P5Wrapper 
                     className="p5Wrapper"
                     sketch={sketch}     
