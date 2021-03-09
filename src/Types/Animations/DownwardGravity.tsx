@@ -3,8 +3,8 @@ import { SketchData } from '../Figures';
 export class DownwardGravity extends Animation {
     static draw(sketchData: SketchData, p) {
         sketchData.figs.forEach(fig => {
-          if(fig.collideCanvasLeft(sketchData.canvasWidth, sketchData.canvasHeight * 2) ||
-             fig.collideCanvasRight(sketchData.canvasWidth, sketchData.canvasHeight * 2)) {
+          if(fig.collideCanvasLeft(sketchData.canvasWidth, sketchData.canvasHeight) ||
+             fig.collideCanvasRight(sketchData.canvasWidth, sketchData.canvasHeight)) {
             fig.velocity.x *= -1;
           }
           
