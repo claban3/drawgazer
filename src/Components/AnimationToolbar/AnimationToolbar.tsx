@@ -15,24 +15,24 @@ export default function AnimationToolbar(props)
     return (
         <div className="animation-toolbar-container">
             <div className={`animation-selection ${downwardGravityHighlight}`}
-                 onClick = { () => props.selectionHandler(SelectedAnimation.DownwardGravity) }
-                 onTouchEnd = { () => props.selectionHandler(SelectedAnimation.DownwardGravity) }>
+                 onClick = { () => props.selectionHandler(SelectedAnimation.DownwardGravity) }>
+                 {/* onTouchEnd = { () => props.selectionHandler(SelectedAnimation.DownwardGravity) }> */}
                     <img className="animation-icon"
                          src={gravity2} 
                          alt="Downward Gravity"/>
             </div>
 
             <div className={`animation-selection ${radialForceHighlight}`}
-                 onClick = { () => props.selectionHandler(SelectedAnimation.RadialForce) }
-                 onTouchEnd = { () => props.selectionHandler(SelectedAnimation.RadialForce) }>
+                 onClick = { () => props.selectionHandler(SelectedAnimation.RadialForce) }>
+                 {/* onTouchEnd = { () => props.selectionHandler(SelectedAnimation.RadialForce) }> */}
                     <img className="animation-icon"
                          src={radial2} 
                          alt="Radial Gravity"/>
             </div>
 
             <div className={`animation-selection ${wallBounceHighlight}`}
-                 onClick = { () => props.selectionHandler(SelectedAnimation.WallBounce) }
-                 onTouchEnd = { () => props.selectionHandler(SelectedAnimation.WallBounce) }>
+                 onClick = { () => props.selectionHandler(SelectedAnimation.WallBounce) }>
+                 {/* onTouchEnd = { () => props.selectionHandler(SelectedAnimation.WallBounce) }> */}
                     <img className="animation-icon"
                          src={radial} 
                          alt="Wall Bounce"/>
