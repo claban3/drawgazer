@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { BrowserView, isBrowser, isMobile, withOrientationChange } from "react-device-detect";
+import { useEffect, useState } from "react";
 import './Draw.css';
 import Canvas from '../../Components/Canvas/Canvas';
 import ShapesToolbar from '../../Components/ShapesToolbar/ShapesToolbar';
@@ -12,7 +11,7 @@ function getWindowDimensions() {
     return { width, height };
 }
 
-export default function Draw(){
+export default function Draw(props){
     const [shapeSelection, setShapeSelection] = useState(SelectedShape.None);
     const [animationSelection, setAnimationSelection] = useState(SelectedAnimation.None);
     const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
@@ -49,6 +48,7 @@ export default function Draw(){
       resetInParent: setClearCanvasHandler,
     };
 
+    // TODO: pull this out to the parent: App.tsx
     if(windowDimensions.height > windowDimensions.width) return ( 
         <h1 id="msg">
             Please rotate your device to landscape orientation 
@@ -63,8 +63,8 @@ export default function Draw(){
             <ShapesToolbar      shapeSelection={shapeSelection}
                                 selectionHandler={shapeSelectionHandler}/>
 
-            <Canvas             canvasSettings={canvasSettings}/>
-            <Options/>
+            <Canvas canvasSettings={canvasSettings}/>
+            <Options settingStateChangeHandler={props.settingStateChangeHandler}/>
 
             <AnimationToolbar   animationSelection={animationSelection}
                                 selectionHandler={animationSelectionHandler}/>
