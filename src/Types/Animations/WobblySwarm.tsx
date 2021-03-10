@@ -23,6 +23,12 @@ export class WobblySwarm extends Animation {
                     accelerationY += force * distanceY;
                 }
             }
+            var mouseDistanceX = p.mouseX - figs[i].pos.x;
+            var mouseDistanceY = p.mouseY - figs[i].pos.y;
+            var mouseDistance = Math.sqrt(mouseDistanceX * mouseDistanceX + mouseDistanceY * mouseDistanceY) + 0.1;
+            let mouseForce = (mouseDistance + 200) * figs[i].mass / mouseDistance;
+            accelerationX += mouseForce * mouseDistanceX;
+            accelerationY += mouseForce * mouseDistanceY;
             figs[i].velocity.x = figs[i].velocity.x * 0.99 + accelerationX * figs[i].mass;
             figs[i].velocity.y = figs[i].velocity.y * 0.99 + accelerationY * figs[i].mass;
         }
