@@ -168,10 +168,8 @@ export class SquareFigure extends AnimatedFigure {
     if (this.velocity.mag() > MAX_SPEED) {
       this.velocity.normalize().mult(MAX_SPEED);
     }
-    this.p5.noStroke();
+    this.p5.stroke(1);
     this.p5.fill('#28306D')
-    // this.p5.translate(this.pos.x, this.pos.y);
-    // this.p5.rotate(this.angle);
     this.p5.square(this.pos.x, this.pos.y, this.dim);
     this.p5.pop();
   }
@@ -237,7 +235,7 @@ export class TriangleFigure extends AnimatedFigure {
     if (this.velocity.mag() > MAX_SPEED) {
       this.velocity.normalize().mult(MAX_SPEED);
     }
-    this.p5.noStroke();
+    this.p5.stroke(1);
     this.p5.fill('#ED1C24');
     this.p5.angleMode(this.p5.DEGREES);
     let base_half = (this.dim / 2) * this.p5.cos(15);

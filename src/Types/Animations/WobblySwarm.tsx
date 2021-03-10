@@ -1,4 +1,5 @@
 import { SketchData } from '../Figures';
+import { AnimatedFigure } from '../ProcessingFigures';
 import { pushNewFigure } from './Animation';
 
 export class WobblySwarm extends Animation {
@@ -33,8 +34,10 @@ export class WobblySwarm extends Animation {
     }
 
     static mousePressed(sketchData: SketchData, p) {
-        for (let i = 0; i < 5; i++) {
-            pushNewFigure(sketchData.selectedFigure, sketchData.figs, p);
+        if (AnimatedFigure.mouseOnCanvas(p, sketchData.canvasWidth, sketchData.canvasHeight)) {
+            for (let i = 0; i < 5; i++) {
+                pushNewFigure(sketchData.selectedFigure, sketchData.figs, p);
+            }
         }
 
         return false;
