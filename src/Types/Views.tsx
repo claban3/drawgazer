@@ -2,5 +2,6 @@
 
 export enum ViewType {
     Draw,
-    Settings
+    Settings,
+    ShareSession
 }

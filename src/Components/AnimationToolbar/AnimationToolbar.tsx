@@ -5,6 +5,8 @@ import gravity from '../../Images/gravity.png';
 import gravity2 from '../../Images/gravity-v2.png';
 import radial from '../../Images/radial.png';
 import radial2 from '../../Images/radial-v2.png';
+import bubbles from '../../Images/bubbles.png';
+import wallbounce from '../../Images/wallbounce.png';
 
 export default function AnimationToolbar(props) 
 {
@@ -34,7 +36,7 @@ export default function AnimationToolbar(props)
                  onClick = { () => props.selectionHandler(SelectedAnimation.WallBounce) }
                  onTouchEnd = { () => props.selectionHandler(SelectedAnimation.WallBounce) }>
                     <img className="animation-icon"
-                         src={radial} 
+                         src={wallbounce} 
                          alt="Wall Bounce"/>
             </div>
         </div>

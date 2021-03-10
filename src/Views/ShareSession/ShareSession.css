@@ -1,0 +1,45 @@
+.shareSession-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    background-color: #FFFFFF;
+
+    display: flex;
+    flex-direction: row;
+
+    z-index: 2;
+}
+
+.shareSession-container.opening {
+    animation: slideUp .2s linear;
+}
+
+.shareSession-container.closing{
+    animation: slideDown .2s linear;
+}
+
+.shareSession-exit {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+
+    height: 30px;
+    width: 30px;
+}
+
+.friend-ID-input {
+    width: 200px;
+    height: 20px;
+    padding-right: 50px;
+}
+
+.friend-ID-submit {
+    background: url("../../Images/share_session.png");
+    border: 0;
+    display: block;
+    margin-left: -50px;
+    height: 20px;
+    width: 50px;
+}

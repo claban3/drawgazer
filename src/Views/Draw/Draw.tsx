@@ -64,7 +64,8 @@ export default function Draw(props){
                                 selectionHandler={shapeSelectionHandler}/>
 
             <Canvas canvasSettings={canvasSettings}/>
-            <Options settingStateChangeHandler={props.settingStateChangeHandler}/>
+            <Options settingStateChangeHandler={props.settingStateChangeHandler}
+                     shareSessionStateChangeHandler={props.shareSessionStateChangeHandler}/>
 
             <AnimationToolbar   animationSelection={animationSelection}
                                 selectionHandler={animationSelectionHandler}/>

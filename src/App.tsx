@@ -1,6 +1,7 @@
 import './App.css';
 import Draw from './Views/Draw/Draw';
 import Settings from './Views/Settings/Settings';
+import ShareSession from './Views/ShareSession/ShareSession';
 import { useEffect, useState } from 'react';
 import { generateContrastColors } from '@adobe/leonardo-contrast-colors';
 
@@ -20,6 +21,7 @@ const defaultColors = {
 function App() {
     const [draw, setDraw] = useState(true);
     const [settingState, setSettingState] = useState(0);
+    const [shareSessionState, setShareSessionState] = useState(0)
 
     // TODO: On startup check for saved colors in cookies. If not, use default
     const [colors, setColors] = useState(defaultColors); 
@@ -70,13 +72,25 @@ function App() {
         setSettingState( (settingState + 1 ) % 4 );
     }
 
+    function shareSessionStateChangeHandler() {
+        // 0: Closed
+        // 1: Opening
+        // 2: Open
+        // 3: Closing
+        setShareSessionState( (shareSessionState + 1 ) % 4 );
+    }
+
     return (
         <>
         { (settingState>0) && <Settings settingStateChangeHandler={settingStateChangeHandler} 
                                         settingState={settingState}
                                         colorChangeHandler={colorChangeHandler}/> }
 
-        { draw && <Draw settingStateChangeHandler={settingStateChangeHandler}/> }
+        { (shareSessionState>0) && <ShareSession shareSessionStateChangeHandler={shareSessionStateChangeHandler} 
+                                                 shareSessionState={shareSessionState}/> }
+
+        { draw && <Draw settingStateChangeHandler={settingStateChangeHandler}
+                        shareSessionStateChangeHandler={shareSessionStateChangeHandler}/> }
         </>
     );
 }
