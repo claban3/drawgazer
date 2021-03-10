@@ -18,14 +18,22 @@ export enum SelectedAnimation {
     Stack,
     RadialForce,
     None,
-}
+};
 
 interface voidFunc {
     (none: void): void
-}
+};
+
+export type ShapeColors = {
+    triangle: string,
+    rectangle: string,
+    circle: string,
+};
+
 export type CanvasSettings = {
     selectedFigure: SelectedShape,
     selectedAnimation: SelectedAnimation, 
+    colorSettings: ShapeColors,
     reset: Boolean,
     resetInParent: voidFunc
 };
@@ -34,10 +42,11 @@ export type SketchData = {
     onPressed: Boolean,
     figs: AnimatedFigure[],
     points: P5Wrapper.Vector[],
+    colorSettings: ShapeColors,
     selectedFigure: SelectedShape,
     selectedAnimation: SelectedAnimation,
     bufferWidth: number,
     bufferHeight: number,
     canvasHeight: number,
     canvasWidth: number
-}
+};

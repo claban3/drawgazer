@@ -1,19 +1,25 @@
 import "./Canvas.css";
 import 'p5';
 import '../../Types/Figures';
-import { SelectedShape, SelectedAnimation, SketchData } from '../../Types/Figures';
+import { SelectedShape, SelectedAnimation, SketchData, ShapeColors } from '../../Types/Figures';
 import P5Wrapper from 'react-p5-wrapper';
 import 'react-p5-wrapper';
 import { useState } from "react";
 import React from "react";
 import { Animation } from '../../Types/Animations/Animation';
 
+let defaultColorSettings: ShapeColors = {
+    triangle: '#ED1C24',
+    rectangle: '#28306D',
+    circle: '#36A533', 
+};
 
 function sketch (p) {
     let sketchData: SketchData = {
         onPressed: false,
         figs: [],
         points: [],
+        colorSettings: defaultColorSettings,
         selectedFigure: SelectedShape.None,
         selectedAnimation: SelectedAnimation.None, 
         bufferWidth: 40,
@@ -44,9 +50,13 @@ function sketch (p) {
     }
 
     p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
-        console.log("what");
         sketchData.selectedFigure = props.canvasSettings.selectedFigure;
         sketchData.selectedAnimation = props.canvasSettings.selectedAnimation;
+        if (props.canvasSettings.colorSettings) {
+            sketchData.colorSettings = props.canvasSettings.colorSettings;
+        } else {
+            sketchData.colorSettings = defaultColorSettings;
+        }
         reset = props.canvasSettings.reset;
         setClearCanvasInParent = props.canvasSettings.resetInParent;
     }

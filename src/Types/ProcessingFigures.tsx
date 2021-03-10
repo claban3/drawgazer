@@ -8,6 +8,7 @@ import bounceSFX from '../Sounds/bounce.mp3';
 import popSFX from '../Sounds/pop.mp3';
 import thudSFX from '../Sounds/thud.mp3';
 import * as Collides from 'p5collide';
+import { SketchData } from './Figures';
 
 const MAX_SPEED = 10;
 const WALL_PADDING = 5;
@@ -86,7 +87,7 @@ export class AnimatedFigure {
     this.timer -= 1;
   }
 
-  display() {}
+  display(sketchData: SketchData) {}
 }
 
 export class CircleFigure extends AnimatedFigure {
@@ -123,13 +124,13 @@ export class CircleFigure extends AnimatedFigure {
     return Collides.collideLineCircle(canvasWidth - WALL_PADDING, 0, canvasWidth - WALL_PADDING, canvasHeight, this.pos.x, this.pos.y, this.dim);
   }
 
-  display() {
+  display(sketchData: SketchData) {
     this.p5.push();
     if (this.velocity.mag() > MAX_SPEED) {
       this.velocity.normalize().mult(MAX_SPEED);
     }
     this.p5.stroke(1);
-    this.p5.fill('#36A533')
+    this.p5.fill(sketchData.colorSettings.circle)
     this.p5.ellipse(this.pos.x, this.pos.y, this.dim, this.dim);
     this.p5.pop();
   }
@@ -169,13 +170,13 @@ export class SquareFigure extends AnimatedFigure {
     return Collides.collideLineRect(canvasWidth - WALL_PADDING, 0, canvasWidth - WALL_PADDING, canvasHeight, this.pos.x, this.pos.y, this.dim, this.dim);
   }
   
-  display() {
+  display(sketchData: SketchData) {
     this.p5.push();
     if (this.velocity.mag() > MAX_SPEED) {
       this.velocity.normalize().mult(MAX_SPEED);
     }
     this.p5.stroke(1);
-    this.p5.fill('#28306D')
+    this.p5.fill(sketchData.colorSettings.rectangle);
     this.p5.square(this.pos.x, this.pos.y, this.dim);
     this.p5.pop();
   }
@@ -236,13 +237,13 @@ export class TriangleFigure extends AnimatedFigure {
     return Collides.collideLinePoly(canvasWidth - WALL_PADDING, 0, canvasWidth - WALL_PADDING, canvasHeight, this.corners());
   }
 
-  display() {
+  display(sketchData: SketchData) {
     this.p5.push();
     if (this.velocity.mag() > MAX_SPEED) {
       this.velocity.normalize().mult(MAX_SPEED);
     }
     this.p5.stroke(1);
-    this.p5.fill('#ED1C24');
+    this.p5.fill(sketchData.colorSettings.triangle);
     this.p5.angleMode(this.p5.DEGREES);
     let base_half = (this.dim / 2) * this.p5.cos(15);
     let x1 = this.pos.x - base_half;

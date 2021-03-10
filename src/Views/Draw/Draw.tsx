@@ -4,18 +4,25 @@ import Canvas from '../../Components/Canvas/Canvas';
 import ShapesToolbar from '../../Components/ShapesToolbar/ShapesToolbar';
 import AnimationToolbar from '../../Components/AnimationToolbar/AnimationToolbar';
 import Options from '../../Components/Options/Options';
-import { CanvasSettings, SelectedAnimation, SelectedShape } from "../../Types/Figures";
+import { CanvasSettings, SelectedAnimation, SelectedShape, ShapeColors } from "../../Types/Figures";
 
 function getWindowDimensions() {
     const { innerWidth: width, innerHeight: height } = window;
     return { width, height };
 }
 
+let defaultColorSettings: ShapeColors = {
+    triangle: '#ED1C24',
+    rectangle: '#28306D',
+    circle: '#36A533', 
+};
+
 export default function Draw(props){
     const [shapeSelection, setShapeSelection] = useState(SelectedShape.None);
     const [animationSelection, setAnimationSelection] = useState(SelectedAnimation.None);
     const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
     const [clearCanvas, setClearCanvas] = useState(false);
+    // const [colorSettings, setColorSettings] = useState(defaultColorSettings);
 
     useEffect(() => {
         function handleResize() {
@@ -44,10 +51,11 @@ export default function Draw(props){
     let canvasSettings: CanvasSettings = {
       selectedFigure: shapeSelection,
       selectedAnimation: animationSelection,
+      colorSettings: props.colorSettings,
       reset: clearCanvas,
       resetInParent: setClearCanvasHandler,
     };
-
+    
     // TODO: pull this out to the parent: App.tsx
     if(windowDimensions.height > windowDimensions.width) return ( 
         <h1 id="msg">
