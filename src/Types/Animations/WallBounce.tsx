@@ -21,7 +21,7 @@ export class WallBounce extends Animation {
             }
         
             fig.pos.add(fig.velocity);
-            fig.display();
+            fig.display(sketchData);
         });
 
     }

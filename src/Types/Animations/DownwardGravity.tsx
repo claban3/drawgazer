@@ -18,7 +18,7 @@ export class DownwardGravity extends Animation {
             fig.dead = true;
           }
 
-          fig.display();
+          fig.display(sketchData);
         });
     }
 

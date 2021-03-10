@@ -7,7 +7,6 @@ import { WobblySwarm } from './WobblySwarm';
 
 export function pushNewFigure(selectedFigure, figs, p: p5) {
     let s = Math.random() * 50 + 20;
-    console.log(figs.length);
     switch(selectedFigure) {
         case SelectedShape.Circle:
             let newCirc = new CircleFigure(p.mouseX, p.mouseY, -0.02, s, p);
@@ -42,7 +41,7 @@ export class Animation {
             case SelectedAnimation.None:
                 sketchData.figs.forEach(fig => {
                     fig.update(sketchData.canvasWidth, sketchData.canvasHeight);
-                    fig.display();
+                    fig.display(sketchData);
                 });
                 break;
         }

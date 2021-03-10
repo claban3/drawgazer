@@ -3,7 +3,7 @@ import Draw from './Views/Draw/Draw';
 import Settings from './Views/Settings/Settings';
 import { useEffect, useState } from 'react';
 import { generateContrastColors } from '@adobe/leonardo-contrast-colors';
-
+import { ShapeColors } from './Types/Figures';
 
 const defaultColors = {
     "--triangleColor": "#FF0000",
@@ -70,13 +70,18 @@ function App() {
         setSettingState( (settingState + 1 ) % 4 );
     }
 
+    let canvasColorSettings: ShapeColors = {
+        triangle: colors["--triangleColor"],
+        rectangle: colors["--squareColor"],
+        circle: colors["--circleColor"],
+    };
     return (
         <>
         { (settingState>0) && <Settings settingStateChangeHandler={settingStateChangeHandler} 
                                         settingState={settingState}
                                         colorChangeHandler={colorChangeHandler}/> }
 
-        { draw && <Draw settingStateChangeHandler={settingStateChangeHandler}/> }
+        { draw && <Draw colorSettings={canvasColorSettings} settingStateChangeHandler={settingStateChangeHandler}/> }
         </>
     );
 }

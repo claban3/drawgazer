@@ -29,7 +29,7 @@ export class WobblySwarm extends Animation {
 
         figs.forEach(fig => {
             fig.pos.add(fig.velocity);
-            fig.display();
+            fig.display(sketchData);
         });
     }
 
