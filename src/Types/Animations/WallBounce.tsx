@@ -5,6 +5,10 @@ export class WallBounce extends Animation {
         sketchData.figs.forEach(fig => {
             let width = sketchData.canvasWidth;
             let height = sketchData.canvasHeight;
+            
+            if (fig.dead){
+                fig.dead = false;
+            }
 
             if (fig.collideCanvasLeft(width, height) || fig.collideCanvasRight(width, height)) {
                 fig.velocity.x *= -1;
