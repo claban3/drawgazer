@@ -8,7 +8,7 @@ import radial2 from '../../Images/radial-v2.png';
 
 export default function AnimationToolbar(props) 
 {
-    let radialForceHighlight = (props.animationSelection === SelectedAnimation.RadialForce) ? "animation-selected" : "";
+    let wobblySwarmHighlight = (props.animationSelection === SelectedAnimation.WobblySwarm) ? "animation-selected" : "";
     let downwardGravityHighlight = (props.animationSelection === SelectedAnimation.DownwardGravity) ? "animation-selected" : "";
     let wallBounceHighlight = (props.animationSelection === SelectedAnimation.WallBounce) ? "animation-selected" : "";
 
@@ -22,8 +22,8 @@ export default function AnimationToolbar(props)
                          alt="Downward Gravity"/>
             </div>
 
-            <div className={`animation-selection ${radialForceHighlight}`}
-                 onClick = { () => props.selectionHandler(SelectedAnimation.RadialForce) }>
+            <div className={`animation-selection ${wobblySwarmHighlight}`}
+                 onClick = { () => props.selectionHandler(SelectedAnimation.WobblySwarm) }>
                  {/* onTouchEnd = { () => props.selectionHandler(SelectedAnimation.RadialForce) }> */}
                     <img className="animation-icon"
                          src={radial2} 

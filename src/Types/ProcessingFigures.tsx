@@ -31,7 +31,7 @@ export class AnimatedFigure {
       this.pos = p5.createVector(x, y);
       this.velocity = p5.createVector(100 * s * this.randSign(),100 * s * this.randSign());
       this.force = p5.createVector(0, 0); 
-      this.mass = p5.PI * d;
+      this.mass = Math.random() * 0.03 + 0.003;
 
       this.angle = 0.0;
       this.timer = 60;

@@ -74,7 +74,6 @@ function sketch (p) {
 }
 
 export default function Canvas(props) {
-    // props.canvasSettings.selectedAnimation = SelectedAnimation.RadialForce;
     return (
          <div className="canvas-container" id="canvas">
                 <P5Wrapper 

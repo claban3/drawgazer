@@ -2,8 +2,8 @@ import p5 from 'p5';
 import { SelectedAnimation, SelectedShape, SketchData } from '../Figures';
 import { AnimatedFigure, CircleFigure, SquareFigure, TriangleFigure } from '../ProcessingFigures';
 import { DownwardGravity } from './DownwardGravity';
-import { RadialForce } from './RadialForce';
 import { WallBounce } from './WallBounce';
+import { WobblySwarm } from './WobblySwarm';
 
 export function pushNewFigure(selectedFigure, figs, p: p5) {
     let s = Math.random() * 50 + 20;
@@ -30,8 +30,8 @@ export class Animation {
         p.fill(100);
 
         switch(sketchData.selectedAnimation) {
-            case SelectedAnimation.RadialForce:
-                RadialForce.draw(sketchData, p);
+            case SelectedAnimation.WobblySwarm:
+                WobblySwarm.draw(sketchData, p);
                 break;
             case SelectedAnimation.DownwardGravity:
                 DownwardGravity.draw(sketchData, p);
@@ -53,32 +53,32 @@ export class Animation {
             pushNewFigure(sketchData.selectedFigure, sketchData.figs, p);
         }
 
-        // switch(sketchData.selectedAnimation) {
-        //     case SelectedAnimation.RadialForce:
-        //         RadialForce.mousePressed(sketchData, p);
-        //         break;
-        //     case SelectedAnimation.DownwardGravity:
-        //         DownwardGravity.mousePressed(sketchData, p);
-        //         break;
-        //     case SelectedAnimation.WallBounce:
-        //         WallBounce.mousePressed(sketchData, p);
-        //         break;
-        //     case SelectedAnimation.None:
-        //         break; 
-        // }
+        switch(sketchData.selectedAnimation) {
+            case SelectedAnimation.WobblySwarm:
+                WobblySwarm.mousePressed(sketchData, p);
+                break;
+            case SelectedAnimation.DownwardGravity:
+                DownwardGravity.mousePressed(sketchData, p);
+                break;
+            case SelectedAnimation.WallBounce:
+                WallBounce.mousePressed(sketchData, p);
+                break;
+            case SelectedAnimation.None:
+                break; 
+        }
         return false;
     }
 
     static mouseReleased(sketchData: SketchData, p) {
         switch(sketchData.selectedAnimation) {
-            case SelectedAnimation.RadialForce:
-                // RadialForce.mouseReleased(sketchData, p);
+            case SelectedAnimation.WobblySwarm:
+                WobblySwarm.mouseReleased(sketchData, p);
                 break;
             case SelectedAnimation.DownwardGravity:
-                // DownwardGravity.mouseReleased(sketchData, p);
+                DownwardGravity.mouseReleased(sketchData, p);
                 break;
             case SelectedAnimation.WallBounce:
-                // WallBounce.mouseReleased(sketchData, p);
+                WallBounce.mouseReleased(sketchData, p);
                 break;
             case SelectedAnimation.None:
                 break; 
