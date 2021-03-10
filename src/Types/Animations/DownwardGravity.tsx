@@ -1,15 +1,16 @@
 import { SketchData } from '../Figures';
 import { AnimatedFigure } from '../ProcessingFigures';
+import { WallBounce } from './WallBounce';
 
 export class DownwardGravity extends Animation {
     static draw(sketchData: SketchData, p) {
         sketchData.figs.forEach(fig => {
-          let width = sketchData.canvasWidth;
-          let height = sketchData.canvasHeight;
-          if (!fig.dead && (fig.collideCanvasLeft(width, height) || fig.collideCanvasRight(width, height))) {
+          if((fig.collideCanvasLeft(sketchData.canvasWidth, sketchData.canvasHeight) ||
+             fig.collideCanvasRight(sketchData.canvasWidth, sketchData.canvasHeight)) &&
+             !fig.dead) {
             fig.velocity.x *= -1;
             fig.spin *= -1;
-            fig.bounce.play();
+            fig.bounce.play()
           }
 
           let nodes = sketchData.figs;
@@ -21,9 +22,9 @@ export class DownwardGravity extends Animation {
               stacked = true;
             }
           }
-
+          
           if (!stacked && !fig.collideCanvasBottom(sketchData.canvasWidth, sketchData.canvasHeight)) {
-            fig.velocity.add(0, 0.10);
+            fig.velocity.add(0, 0.07);
             fig.pos.add(fig.velocity);
             fig.angle += fig.spin;
             // fig.collision.play();

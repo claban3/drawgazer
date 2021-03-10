@@ -1,3 +1,17 @@
+:root {
+    --triangleColor: unset;
+    --squareColor: unset;
+    --circleColor: unset;
+
+    --shapeButtonColor: unset;
+    --shapeButtonHover: unset;
+    --shapeButtonSelected: unset;
+
+    --animationButtonColor: unset;
+    --animationButtonHover: unset;
+    --animationButtonSelected: unset;
+}
+
 .shape-toolbar-container {
     height: 75%;
     width: 15%;
@@ -12,29 +26,39 @@
     height: 30%;
     width: 100%;
 
-    background: #4A4A4A;
-    /* background-color: rgb(220, 220, 220); */
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 0px 10px 10px 0px;
-
     display: flex;
     justify-content: center;
 
+    background-color: var(--shapeButtonColor);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 0px 10px 10px 0px;
+
     cursor: pointer;
-}
+} 
 
 .shape-selection:hover {
-    background-color: rgb(160, 160, 160, .5);
+    background-color: var(--shapeButtonHover);
 }
 
-.selected {
-    background-color: rgb(160, 160, 160);
+.shape-selected {
+    background-color: var(--shapeButtonSelected);
 }
 
 .shape-icon {
-    height: auto;
-    max-width: 80%;
+    width: 80%;
     max-height: 80%;
     display: block;
     margin: auto;
+}
+
+.triangle {
+    fill: var(--triangleColor);
+}
+
+.square {
+    fill: var(--squareColor);
+}
+
+.circle {
+    fill: var(--circleColor);
 }

@@ -17,7 +17,7 @@ function sketch (p) {
         selectedFigure: SelectedShape.None,
         selectedAnimation: SelectedAnimation.None, 
         bufferWidth: 40,
-        // bufferHeight: 40,
+        bufferHeight: 40,
         canvasHeight: window.innerHeight * 0.75 - 40 /* bufferWidth */,
         canvasWidth: window.innerWidth * 0.85 - 40 /* bufferHeight */,
     };
@@ -38,12 +38,13 @@ function sketch (p) {
     }
 
     p.windowResized = function () {
-        sketchData.canvasHeight = window.innerHeight * 0.75 -  sketchData.bufferWidth;
+        sketchData.canvasHeight = window.innerHeight * 0.75 -  sketchData.bufferHeight;
         sketchData.canvasWidth = window.innerWidth * 0.85 - sketchData.bufferWidth;
         p.resizeCanvas(sketchData.canvasWidth, sketchData.canvasHeight);
     }
 
     p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
+        console.log("what");
         sketchData.selectedFigure = props.canvasSettings.selectedFigure;
         sketchData.selectedAnimation = props.canvasSettings.selectedAnimation;
         reset = props.canvasSettings.reset;
@@ -57,21 +58,22 @@ function sketch (p) {
             reset = false;
             setClearCanvasInParent();
         }
+
+        p.mouseClicked = function (event) {
+            // if (event.type == 'touchstart') {
+            return Animation.mousePressed(sketchData, p);
+        }
+        
+        p.mouseReleased = function() {
+            Animation.mouseReleased(sketchData, p);
+            // return false;
+        }
         
         Animation.draw(sketchData, p);
-    }
-
-    p.mousePressed = function () {
-        Animation.mousePressed(sketchData, p);
-    }
-
-    p.mouseReleased = function () {
-        Animation.mouseReleased(sketchData, p);
     }
 }
 
 export default function Canvas(props) {
-    // props.canvasSettings.selectedAnimation = SelectedAnimation.RadialForce;
     return (
          <div className="canvas-container" id="canvas">
                 <P5Wrapper 

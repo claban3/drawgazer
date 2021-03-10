@@ -1,7 +1,7 @@
 import { AnimatedFigure } from "./ProcessingFigures";
 import P5Wrapper from 'react-p5-wrapper';
-
 // Types of objects to be passed into the canvas component.
+
 export enum SelectedShape {
     None,
     Circle,
@@ -11,7 +11,7 @@ export enum SelectedShape {
 };
 
 export enum SelectedAnimation {
-    RadialForce,
+    WobblySwarm,
     DownwardGravity,
     WallBounce,
     BubblePop,
@@ -35,6 +35,7 @@ export type SketchData = {
     selectedFigure: SelectedShape,
     selectedAnimation: SelectedAnimation,
     bufferWidth: number,
+    bufferHeight: number,
     canvasHeight: number,
     canvasWidth: number
 }

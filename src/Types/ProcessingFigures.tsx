@@ -10,7 +10,7 @@ import thudSFX from '../Sounds/thud.mp3';
 import * as Collides from 'p5collide';
 
 const MAX_SPEED = 10;
-
+const WALL_PADDING = 5;
 export class AnimatedFigure {
   p5: P5
   pos: P5.Vector
@@ -36,7 +36,7 @@ export class AnimatedFigure {
       this.pos = p5.createVector(x, y);
       this.velocity = p5.createVector(100 * s * this.randSign(),100 * s * this.randSign());
       this.force = p5.createVector(0, 0); 
-      this.mass = p5.PI * d;
+      this.mass = Math.random() * 0.03 + 0.003;
 
       this.angle = 0.0;
       this.timer = 60;
@@ -77,8 +77,8 @@ export class AnimatedFigure {
 
   static mouseOnCanvas(p: P5, canvasWidth, canvasHeight) {
     return (
-      p.mouseX < canvasWidth && p.mouseX > 0 && 
-      p.mouseY < canvasHeight && p.mouseY > 0
+      p.mouseX <= canvasWidth && p.mouseX >= 0 && 
+      p.mouseY <= canvasHeight && p.mouseY >= 0
     );
   }
 
@@ -108,19 +108,19 @@ export class CircleFigure extends AnimatedFigure {
   }
 
   collideCanvasBottom(canvasWidth, canvasHeight) {
-    return Collides.collideLineCircle(0, canvasHeight, canvasWidth, canvasHeight, this.pos.x, this.pos.y, this.dim);
+    return Collides.collideLineCircle(0, canvasHeight - WALL_PADDING, canvasWidth, canvasHeight - WALL_PADDING, this.pos.x, this.pos.y, this.dim);
   }
   
   collideCanvasTop(canvasWidth, canvasHeight) {
-    return Collides.collideLineCircle(0, 0, canvasWidth, 0, this.pos.x, this.pos.y, this.dim);
+    return Collides.collideLineCircle(0, WALL_PADDING, canvasWidth, WALL_PADDING, this.pos.x, this.pos.y, this.dim);
   }
 
   collideCanvasLeft(canvasWidth, canvasHeight) {
-    return Collides.collideLineCircle(0, 0, 0, canvasHeight, this.pos.x, this.pos.y, this.dim);
+    return Collides.collideLineCircle(WALL_PADDING, 0, WALL_PADDING, canvasHeight, this.pos.x, this.pos.y, this.dim);
   }
   
   collideCanvasRight(canvasWidth, canvasHeight) {
-    return Collides.collideLineCircle(canvasWidth, 0, canvasWidth, canvasHeight, this.pos.x, this.pos.y, this.dim);
+    return Collides.collideLineCircle(canvasWidth - WALL_PADDING, 0, canvasWidth - WALL_PADDING, canvasHeight, this.pos.x, this.pos.y, this.dim);
   }
 
   display() {
@@ -154,19 +154,19 @@ export class SquareFigure extends AnimatedFigure {
   }
   
   collideCanvasBottom(canvasWidth, canvasHeight) {
-    return Collides.collideLineRect(0, canvasHeight, canvasWidth, canvasHeight, this.pos.x, this.pos.y, this.dim, this.dim);
+    return Collides.collideLineRect(0, canvasHeight - WALL_PADDING, canvasWidth, canvasHeight - WALL_PADDING, this.pos.x, this.pos.y, this.dim, this.dim);
   }
   
   collideCanvasTop(canvasWidth, canvasHeight) {
-    return Collides.collideLineRect(0, 0, canvasWidth, 0, this.pos.x, this.pos.y, this.dim, this.dim);
+    return Collides.collideLineRect(0, WALL_PADDING, canvasWidth, WALL_PADDING, this.pos.x, this.pos.y, this.dim, this.dim);
   }
   
   collideCanvasLeft(canvasWidth, canvasHeight) {
-    return Collides.collideLineRect(0, 0, 0, canvasHeight, this.pos.x, this.pos.y, this.dim, this.dim);
+    return Collides.collideLineRect(WALL_PADDING, 0, WALL_PADDING, canvasHeight, this.pos.x, this.pos.y, this.dim, this.dim);
   }
   
   collideCanvasRight(canvasWidth, canvasHeight) {
-    return Collides.collideLineRect(canvasWidth, 0, canvasWidth, canvasHeight, this.pos.x, this.pos.y, this.dim, this.dim);
+    return Collides.collideLineRect(canvasWidth - WALL_PADDING, 0, canvasWidth - WALL_PADDING, canvasHeight, this.pos.x, this.pos.y, this.dim, this.dim);
   }
   
   display() {
@@ -174,10 +174,8 @@ export class SquareFigure extends AnimatedFigure {
     if (this.velocity.mag() > MAX_SPEED) {
       this.velocity.normalize().mult(MAX_SPEED);
     }
-    this.p5.noStroke();
+    this.p5.stroke(1);
     this.p5.fill('#28306D')
-    // this.p5.translate(this.pos.x, this.pos.y);
-    // this.p5.rotate(this.angle);
     this.p5.square(this.pos.x, this.pos.y, this.dim);
     this.p5.pop();
   }
@@ -223,19 +221,19 @@ export class TriangleFigure extends AnimatedFigure {
   }
 
   collideCanvasBottom(canvasWidth, canvasHeight) {
-    return Collides.collideLinePoly(0, canvasHeight, canvasWidth, canvasHeight, this.corners());
+    return Collides.collideLinePoly(0, canvasHeight - WALL_PADDING, canvasWidth, canvasHeight - WALL_PADDING, this.corners());
   }
 
   collideCanvasTop(canvasWidth, canvasHeight) {
-    return Collides.collideLinePoly(0, 0, canvasWidth, 0, this.corners());
+    return Collides.collideLinePoly(0, WALL_PADDING, canvasWidth, WALL_PADDING, this.corners());
   }
   
   collideCanvasLeft(canvasWidth, canvasHeight) {
-    return Collides.collideLinePoly(0, 0, 0, canvasHeight, this.corners());
+    return Collides.collideLinePoly(WALL_PADDING, 0, WALL_PADDING, canvasHeight, this.corners());
   }
   
   collideCanvasRight(canvasWidth, canvasHeight) {
-    return Collides.collideLinePoly(canvasWidth, 0, canvasWidth, canvasHeight, this.corners());
+    return Collides.collideLinePoly(canvasWidth - WALL_PADDING, 0, canvasWidth - WALL_PADDING, canvasHeight, this.corners());
   }
 
   display() {
@@ -243,7 +241,7 @@ export class TriangleFigure extends AnimatedFigure {
     if (this.velocity.mag() > MAX_SPEED) {
       this.velocity.normalize().mult(MAX_SPEED);
     }
-    this.p5.noStroke();
+    this.p5.stroke(1);
     this.p5.fill('#ED1C24');
     this.p5.angleMode(this.p5.DEGREES);
     let base_half = (this.dim / 2) * this.p5.cos(15);
