@@ -50,6 +50,9 @@ export class WobblySwarm extends Animation {
         }
 
         figs.forEach(fig => {
+            if (fig.dead){
+                fig.dead = false;
+            }
             fig.pos.add(fig.velocity);
             fig.display();
         });
