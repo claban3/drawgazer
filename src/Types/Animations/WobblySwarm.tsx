@@ -33,15 +33,19 @@ export class WobblySwarm extends Animation {
             figs[i].velocity.y = figs[i].velocity.y * 0.99 + accelerationY * figs[i].mass;
             if (figs[i].pos.x < 0) {
                 figs[i].pos.x = 0;
+                figs[i].velocity.x *= -0.9;
             }
             if (figs[i].pos.x > sketchData.canvasWidth) {
                 figs[i].pos.x = sketchData.canvasWidth;
+                figs[i].velocity.x *= -0.9;
             }
             if (figs[i].pos.y < 0) {
                 figs[i].pos.y = 0;
+                figs[i].velocity.y *= -0.9;
             }
             if (figs[i].pos.y > sketchData.canvasHeight) {
                 figs[i].pos.y = sketchData.canvasHeight;
+                figs[i].velocity.y *= -0.9;
             }
         }
 
