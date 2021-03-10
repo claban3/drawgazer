@@ -20,14 +20,13 @@ export class BubblePop extends Animation {
         let rotFactor = 0.1
 
         let to_burst = []
+        let nodes = sketchData.figs;
 
         sketchData.figs.forEach(fig => {
             let width = sketchData.canvasWidth;
             let height = sketchData.canvasHeight;
 
             fig.timer -= 1;
-
-            let nodes = sketchData.figs;
 
             // prevent lag and sound spike
             if (fig.dead){
@@ -40,7 +39,7 @@ export class BubblePop extends Animation {
             for (let i = 0; i < nodes.length; i++) {
                 if (AnimatedFigure.collidesWith(nodes[i], fig) && nodes[i] != fig) {
                         //this.checkAndApplyCollision(nodes[i], nodes[j], p);
-
+                    console.log("triangles collide");
                     if (!to_burst.includes(nodes[i])){
                             to_burst.push(nodes[i])
                     }
