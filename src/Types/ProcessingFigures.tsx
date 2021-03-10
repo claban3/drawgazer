@@ -2,9 +2,11 @@ import 'p5';
 import p5 from 'p5';
 import P5 from 'p5';
 // import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
-import useSound from 'use-sound';
+//import useSound from 'use-sound';
 //import '*.mp3';
-import collisionSFX from '../Sounds/collision.mp3';
+import bounceSFX from '../Sounds/bounce.mp3';
+import popSFX from '../Sounds/pop.mp3';
+import thudSFX from '../Sounds/thud.mp3';
 import * as Collides from 'p5collide';
 
 const MAX_SPEED = 10;
@@ -20,10 +22,13 @@ export class AnimatedFigure {
   dead: boolean
   spin: number
   dim: number
-  collision: HTMLAudioElement = new Audio(collisionSFX)
+  bounce: HTMLAudioElement = new Audio(bounceSFX)
+  pop: HTMLAudioElement = new Audio(popSFX)
+  thud: HTMLAudioElement = new Audio(thudSFX)
+  rotAngle: number
   // Return -1 or 1 randomly
   randSign() {
-    return Math.random() < 0.5 ? -1 : 1
+    return Math.random() < 0.5 ? -1 : 1;
   }
 
   constructor(x, y, s, d, p5) {
@@ -37,6 +42,7 @@ export class AnimatedFigure {
       this.timer = 60;
       this.spin = 0.02*this.randSign();
       this.dead = false;
+      this.rotAngle = 0.0;
   }
 
   static collidesWith(fig1: AnimatedFigure, fig2: AnimatedFigure) {
