@@ -11,12 +11,6 @@ function getWindowDimensions() {
     return { width, height };
 }
 
-let defaultColorSettings: ShapeColors = {
-    triangle: '#ED1C24',
-    rectangle: '#28306D',
-    circle: '#36A533', 
-};
-
 export default function Draw(props){
     const [shapeSelection, setShapeSelection] = useState(SelectedShape.None);
     const [animationSelection, setAnimationSelection] = useState(SelectedAnimation.None);
