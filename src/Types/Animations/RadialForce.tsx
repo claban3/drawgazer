@@ -84,6 +84,9 @@ export class RadialForce extends Animation {
 
         sketchData.figs.forEach(fig => {
             // print("VEL", vel, "FORCE", force)
+            if (fig.dead){
+                fig.dead = false;
+            }
             fig.pos.add(fig.velocity);
             fig.display(sketchData);
         });

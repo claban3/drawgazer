@@ -3,6 +3,7 @@ import { SelectedAnimation, SelectedShape, SketchData } from '../Figures';
 import { AnimatedFigure, CircleFigure, SquareFigure, TriangleFigure } from '../ProcessingFigures';
 import { DownwardGravity } from './DownwardGravity';
 import { WallBounce } from './WallBounce';
+import { BubblePop } from './BubblePop';
 import { WobblySwarm } from './WobblySwarm';
 
 export function pushNewFigure(selectedFigure, figs, p: p5) {
@@ -38,6 +39,9 @@ export class Animation {
             case SelectedAnimation.WallBounce:
                 WallBounce.draw(sketchData, p);
                 break;
+            case SelectedAnimation.BubblePop:
+                BubblePop.draw(sketchData, p)
+                break;
             case SelectedAnimation.None:
                 sketchData.figs.forEach(fig => {
                     fig.update(sketchData.canvasWidth, sketchData.canvasHeight);
@@ -62,6 +66,9 @@ export class Animation {
             case SelectedAnimation.WallBounce:
                 WallBounce.mousePressed(sketchData, p);
                 break;
+            case SelectedAnimation.BubblePop:
+                BubblePop.mousePressed(sketchData, p);
+                break;
             case SelectedAnimation.None:
                 break; 
         }
@@ -78,6 +85,9 @@ export class Animation {
                 break;
             case SelectedAnimation.WallBounce:
                 WallBounce.mouseReleased(sketchData, p);
+                break;
+            case SelectedAnimation.BubblePop:
+                /// WallBounce.mouseReleased(sketchData, p);
                 break;
             case SelectedAnimation.None:
                 break; 
