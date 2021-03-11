@@ -23,29 +23,32 @@ export class WobblySwarm extends Animation {
                     accelerationY += force * distanceY;
                 }
             }
+
             var mouseDistanceX = p.mouseX - figs[i].pos.x;
             var mouseDistanceY = p.mouseY - figs[i].pos.y;
             var mouseDistance = Math.sqrt(mouseDistanceX * mouseDistanceX + mouseDistanceY * mouseDistanceY) + 0.1;
             let mouseForce = (mouseDistance + 200) * figs[i].mass / mouseDistance;
+            
             accelerationX += mouseForce * mouseDistanceX;
             accelerationY += mouseForce * mouseDistanceY;
+            
             figs[i].velocity.x = figs[i].velocity.x * 0.99 + accelerationX * figs[i].mass;
             figs[i].velocity.y = figs[i].velocity.y * 0.99 + accelerationY * figs[i].mass;
-            if (figs[i].pos.x < 0) {
-                figs[i].pos.x = 0;
-                figs[i].velocity.x *= -0.9;
+            
+            if (figs[i].collideCanvasLeft(sketchData.canvasWidth, sketchData.canvasHeight)) {
+                figs[i].velocity.x *= -1.4;
             }
-            if (figs[i].pos.x > sketchData.canvasWidth) {
-                figs[i].pos.x = sketchData.canvasWidth;
-                figs[i].velocity.x *= -0.9;
+            
+            if (figs[i].collideCanvasRight(sketchData.canvasWidth, sketchData.canvasHeight)) {
+                figs[i].velocity.x *= -1.4;
             }
-            if (figs[i].pos.y < 0) {
-                figs[i].pos.y = 0;
-                figs[i].velocity.y *= -0.9;
+            
+            if (figs[i].collideCanvasTop(sketchData.canvasWidth, sketchData.canvasHeight)) {
+                figs[i].velocity.y *= -1.4;
             }
-            if (figs[i].pos.y > sketchData.canvasHeight) {
-                figs[i].pos.y = sketchData.canvasHeight;
-                figs[i].velocity.y *= -0.9;
+            
+            if (figs[i].collideCanvasBottom(sketchData.canvasWidth, sketchData.canvasHeight)) {
+                figs[i].velocity.y *= -1.4;
             }
         }
 
@@ -53,6 +56,7 @@ export class WobblySwarm extends Animation {
             if (fig.dead){
                 fig.dead = false;
             }
+
             fig.pos.add(fig.velocity);
             fig.display();
         });
