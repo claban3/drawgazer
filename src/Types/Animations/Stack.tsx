@@ -34,10 +34,10 @@ export class Stack extends Animation {
             fig.thud.play();
           }
 
-          fig.display();
+          fig.display(sketchData);
         });
     }
-
+ 
     static mousePressed(sketchData: SketchData, p) {
         
     }
