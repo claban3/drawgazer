@@ -1,5 +1,8 @@
 # Setup
 To get started run `npm install`
+Then, run the app with `yarn start`
+
+Alternatively, visit us at https://drawgazer.com/
 
 # Getting Started with Create React App
 
