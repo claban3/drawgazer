@@ -15,6 +15,8 @@ export enum SelectedAnimation {
     DownwardGravity,
     WallBounce,
     BubblePop,
+    Stack,
+    RadialForce,
     None,
 }
 
