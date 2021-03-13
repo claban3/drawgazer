@@ -66,6 +66,7 @@ function sketch (p) {
             sketchData.figs = [];
             sketchData.points = [];
             reset = false;
+            p.background(255);
             setClearCanvasInParent();
         }
 

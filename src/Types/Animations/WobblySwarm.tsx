@@ -4,6 +4,8 @@ import { pushNewFigure } from './Animation';
 
 export class WobblySwarm extends Animation {
     static draw(sketchData: SketchData, p) {
+        p.background(255);
+        p.fill(100);
         let figs = sketchData.figs;
 
         for (let i = 0; i < figs.length; i++) {

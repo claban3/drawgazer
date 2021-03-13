@@ -5,6 +5,8 @@ import { DownwardGravity } from './DownwardGravity';
 import { WallBounce } from './WallBounce';
 import { BubblePop } from './BubblePop';
 import { WobblySwarm } from './WobblySwarm';
+import { RiverAnimation } from './RiverAnimation';
+import { DraggedOut } from './DraggedOut';
 
 export function pushNewFigure(selectedFigure, figs, p: p5) {
     let s = Math.random() * 50 + 20;
@@ -26,23 +28,29 @@ export function pushNewFigure(selectedFigure, figs, p: p5) {
 
 export class Animation {
     static draw(sketchData: SketchData, p) {
-        p.background(255);
-        p.fill(100);
-
         switch(sketchData.selectedAnimation) {
             case SelectedAnimation.WobblySwarm:
                 WobblySwarm.draw(sketchData, p);
                 break;
             case SelectedAnimation.DownwardGravity:
-                DownwardGravity.draw(sketchData, p);
+                // DownwardGravity.draw(sketchData, p);
+                RiverAnimation.draw(sketchData, p);
+                break;
+            case SelectedAnimation.DraggedOut:
+                DraggedOut.draw(sketchData, p);
                 break;
             case SelectedAnimation.WallBounce:
                 WallBounce.draw(sketchData, p);
                 break;
             case SelectedAnimation.BubblePop:
-                BubblePop.draw(sketchData, p)
+                BubblePop.draw(sketchData, p);
+                break;
+            case SelectedAnimation.RiverAnimation:
+                RiverAnimation.draw(sketchData, p);
                 break;
             case SelectedAnimation.None:
+                p.background(255);
+                p.fill(100);
                 sketchData.figs.forEach(fig => {
                     fig.update(sketchData.canvasWidth, sketchData.canvasHeight);
                     fig.display(sketchData);
@@ -61,13 +69,17 @@ export class Animation {
                 WobblySwarm.mousePressed(sketchData, p);
                 break;
             case SelectedAnimation.DownwardGravity:
-                DownwardGravity.mousePressed(sketchData, p);
+                // DownwardGravity.mousePressed(sketchData, p);
+                RiverAnimation.mousePressed(sketchData, p);
                 break;
             case SelectedAnimation.WallBounce:
                 WallBounce.mousePressed(sketchData, p);
                 break;
             case SelectedAnimation.BubblePop:
                 BubblePop.mousePressed(sketchData, p);
+                break;
+            case SelectedAnimation.RiverAnimation:
+                RiverAnimation.mousePressed(sketchData, p);
                 break;
             case SelectedAnimation.None:
                 break; 
@@ -81,13 +93,18 @@ export class Animation {
                 WobblySwarm.mouseReleased(sketchData, p);
                 break;
             case SelectedAnimation.DownwardGravity:
-                DownwardGravity.mouseReleased(sketchData, p);
+                // DownwardGravity.mouseReleased(sketchData, p);
+                RiverAnimation.mouseReleased(sketchData, p);
+
                 break;
             case SelectedAnimation.WallBounce:
                 WallBounce.mouseReleased(sketchData, p);
                 break;
             case SelectedAnimation.BubblePop:
                 /// WallBounce.mouseReleased(sketchData, p);
+                break;
+            case SelectedAnimation.RiverAnimation:
+                RiverAnimation.mousePressed(sketchData, p);
                 break;
             case SelectedAnimation.None:
                 break; 

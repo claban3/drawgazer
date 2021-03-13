@@ -14,9 +14,11 @@ export enum SelectedAnimation {
     WobblySwarm,
     DownwardGravity,
     WallBounce,
+    DraggedOut,
     BubblePop,
     Stack,
     RadialForce,
+    RiverAnimation,
     None,
 };
 

@@ -1,9 +1,7 @@
 import { SketchData } from '../Figures';
 
-export class WallBounce extends Animation {
+export class RiverAnimation extends Animation {
     static draw(sketchData: SketchData, p) {
-        p.background(255);
-        p.fill(100);
         sketchData.figs.forEach(fig => {
             let width = sketchData.canvasWidth;
             let height = sketchData.canvasHeight;
