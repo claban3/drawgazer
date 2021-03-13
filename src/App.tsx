@@ -22,10 +22,27 @@ function App() {
     const [settingState, setSettingState] = useState(0);
 
     // TODO: On startup check for saved colors in cookies. If not, use default
+    const [newSession, setNewSession] = useState(true);
     const [colors, setColors] = useState(defaultColors); 
 
+    useEffect(() => {
+        if(newSession) {
+            setNewSession(false);
+            let savedColors = JSON.parse(localStorage.getItem("savedColors"));
+            //Load figures
+            if(savedColors) {
+                setColors(savedColors);
+            }
+        }
+        setCSSProperties();
+    }, [newSession]);
 
     useEffect(() => {
+        localStorage.setItem("savedColors", JSON.stringify(colors));
+        setCSSProperties();
+    }, [colors]);
+
+    function setCSSProperties() {
         document.documentElement.style.setProperty("--triangleColor", colors["--triangleColor"]);
         document.documentElement.style.setProperty("--squareColor", colors["--squareColor"]);
         document.documentElement.style.setProperty("--circleColor", colors["--circleColor"]);
@@ -37,10 +54,16 @@ function App() {
         document.documentElement.style.setProperty("--animationButtonColor", colors["--animationButtonColor"])
         document.documentElement.style.setProperty("--animationButtonHover", colors["--animationButtonHover"])
         document.documentElement.style.setProperty("--animationButtonSelected", colors["--animationButtonSelected"])
-    });
+    }
 
     function colorChangeHandler(id : string, color : any) { 
-        if(id === "--shapeButtonColor" || id === "--animationButtonColor")
+        if(id === "reset") {
+            setColors(defaultColors);
+        }
+        else if(id === "cancel") {
+            setColors(color);
+        }
+        else if(id === "--shapeButtonColor" || id === "--animationButtonColor")
         {               
             let contrastColors = generateContrastColors({ colorKeys: [color.hex], base: color.hex, ratios: [2,4], colorspace: "RGB"});
 
@@ -79,7 +102,8 @@ function App() {
         <>
         { (settingState>0) && <Settings settingStateChangeHandler={settingStateChangeHandler} 
                                         settingState={settingState}
-                                        colorChangeHandler={colorChangeHandler}/> }
+                                        colorChangeHandler={colorChangeHandler}
+                                        colors={colors}/> }
 
         { draw && <Draw colorSettings={canvasColorSettings} settingStateChangeHandler={settingStateChangeHandler}/> }
         </>

@@ -14,6 +14,8 @@ export default function Settings(props) {
     const [buttonSelection, setButtonSelection] = useState(null);
     const [pickerColor, setPickerColor] = useState("#FFFFFF");
 
+    const [originalColors, setOriginalColors] = useState(props.colors);
+
     let colorSchemeUnderline = (tabSelection === tabs[0]) ? "tab-selection" : "";
     let animationsUnderline = (tabSelection === tabs[1]) ? "tab-selection" : "";
     let soundUnderline = (tabSelection === tabs[2]) ? "tab-selection" : "";
@@ -33,6 +35,20 @@ export default function Settings(props) {
             props.colorChangeHandler(buttonSelection, color);
             setPickerColor(color);
         }
+    }
+
+    function resetDefaulColor() {
+        props.colorChangeHandler('reset');
+
+    }
+
+    function saveColorChanges() {
+        setOriginalColors(props.colors);
+    }
+
+    function cancelColorChanges() {
+        console.log("cancel");
+        props.colorChangeHandler('cancel', originalColors)
     }
 
     return (
@@ -71,6 +87,23 @@ export default function Settings(props) {
                         <ChromePicker
                             color={pickerColor}
                             onChange={colorChangeHandler} />
+
+                        <div className="save-cancel-reset-buttons">
+                            <div className="save-color"
+                                 onClick={() => saveColorChanges()}>
+                                     save
+                            </div>
+
+                            <div className="cancel-color"
+                                 onClick={() => cancelColorChanges()}>
+                                     cancel
+                            </div>
+
+                            <div className="reset-color"
+                                 onClick={() => resetDefaulColor()}>
+                                     reset
+                            </div>
+                        </div>
                     </div>
 
                     <div className="buttons-container">
