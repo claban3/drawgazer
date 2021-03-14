@@ -4,9 +4,8 @@ import '../../Types/Figures';
 import { SelectedShape, SelectedAnimation, SketchData, ShapeColors } from '../../Types/Figures';
 import P5Wrapper from 'react-p5-wrapper';
 import 'react-p5-wrapper';
-import { useState } from "react";
-import React from "react";
 import { Animation } from '../../Types/Animations/Animation';
+import { CircleFigure, SquareFigure, TriangleFigure } from "../../Types/ProcessingFigures";
 
 let defaultColorSettings: ShapeColors = {
     triangle: '#ED1C24',
@@ -27,7 +26,29 @@ function sketch (p) {
         canvasHeight: window.innerHeight * 0.75 - 40 /* bufferWidth */,
         canvasWidth: window.innerWidth * 0.85 - 40 /* bufferHeight */,
     };
-    
+
+
+    let savedFigs = JSON.parse(localStorage.getItem("savedFigs"));
+    if(savedFigs)
+    {
+        for(let i=0; i < savedFigs.length; i++) {
+            let fig = savedFigs[i];
+            switch(fig.type) {
+                case "circle":
+                    sketchData.figs.push(new CircleFigure(fig.x, fig.y, -0.02, fig.d, p));
+                    break;
+                case "square":
+                    sketchData.figs.push(new SquareFigure(fig.x, fig.y, -0.02, fig.d, p));
+                    break;
+                case "triangle":
+                    sketchData.figs.push(new TriangleFigure(fig.x, fig.y, -0.02, fig.d, p));
+                    break;
+                default: 
+                    console.log("Canvas received bad JSON from local storage")
+            }
+        }
+    }
+
     let reset = false;
     let setClearCanvasInParent = () => {};
     let renderer;
@@ -40,7 +61,6 @@ function sketch (p) {
     p.setup = function () {
         renderer = p.createCanvas(sketchData.canvasWidth, sketchData.canvasHeight);
         renderer.parent("canvas");
-        sketchData.figs = [];
         sketchData.points = [];
         settingState = 0;
     }
@@ -70,15 +90,14 @@ function sketch (p) {
             sketchData.points = [];
             reset = false;
             setClearCanvasInParent();
+            localStorage.removeItem("savedFigs");
         }
 
         p.mouseClicked = function (event) {
-            // if (event.type == 'touchstart') {
             if (settingState===0){
                 return Animation.mousePressed(sketchData, p);
             }
         }
-        
         
         p.mouseReleased = function() {
             if (settingState===0){
@@ -89,8 +108,8 @@ function sketch (p) {
 
         if (settingState===0){
             Animation.draw(sketchData, p);
+            localStorage.setItem("savedFigs", JSON.stringify(sketchData.figs));
         }
-        
     }
 }
 
