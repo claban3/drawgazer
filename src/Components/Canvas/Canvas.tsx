@@ -72,19 +72,25 @@ function sketch (p) {
             setClearCanvasInParent();
         }
 
-        else if (settingState===0){
-            p.mouseClicked = function (event) {
-                // if (event.type == 'touchstart') {
-                    return Animation.mousePressed(sketchData, p);
+        p.mouseClicked = function (event) {
+            // if (event.type == 'touchstart') {
+            if (settingState===0){
+                return Animation.mousePressed(sketchData, p);
             }
-            
-            p.mouseReleased = function() {
+        }
+        
+        
+        p.mouseReleased = function() {
+            if (settingState===0){
                 Animation.mouseReleased(sketchData, p);
-                // return false;
             }
+            // return false;
+        }
 
+        if (settingState===0){
             Animation.draw(sketchData, p);
         }
+        
     }
 }
 
