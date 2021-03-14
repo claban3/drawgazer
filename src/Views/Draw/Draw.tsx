@@ -48,6 +48,7 @@ export default function Draw(props){
       colorSettings: props.colorSettings,
       reset: clearCanvas,
       resetInParent: setClearCanvasHandler,
+      settingState: props.settingState
     };
     
     // TODO: pull this out to the parent: App.tsx
