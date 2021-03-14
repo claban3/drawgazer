@@ -81,7 +81,7 @@ function App() {
                                         settingState={settingState}
                                         colorChangeHandler={colorChangeHandler}/> }
 
-        { draw && <Draw colorSettings={canvasColorSettings} settingStateChangeHandler={settingStateChangeHandler}/> }
+        { draw && <Draw colorSettings={canvasColorSettings} settingStateChangeHandler={settingStateChangeHandler} settingState={settingState}/> }
         </>
     );
 }

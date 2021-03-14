@@ -31,6 +31,7 @@ function sketch (p) {
     let reset = false;
     let setClearCanvasInParent = () => {};
     let renderer;
+    let settingState;
 
     function inCanvas(mouseX, mouseY, width, height) {
         return mouseX >= 0 && mouseX <= width && mouseY >= 0 && mouseY <= height;
@@ -41,6 +42,7 @@ function sketch (p) {
         renderer.parent("canvas");
         sketchData.figs = [];
         sketchData.points = [];
+        settingState = 0;
     }
 
     p.windowResized = function () {
@@ -59,6 +61,7 @@ function sketch (p) {
         }
         reset = props.canvasSettings.reset;
         setClearCanvasInParent = props.canvasSettings.resetInParent;
+        settingState = props.canvasSettings.settingState;
     }
 
     p.draw = function () {
@@ -71,15 +74,23 @@ function sketch (p) {
 
         p.mouseClicked = function (event) {
             // if (event.type == 'touchstart') {
-            return Animation.mousePressed(sketchData, p);
+            if (settingState===0){
+                return Animation.mousePressed(sketchData, p);
+            }
         }
+        
         
         p.mouseReleased = function() {
-            Animation.mouseReleased(sketchData, p);
+            if (settingState===0){
+                Animation.mouseReleased(sketchData, p);
+            }
             // return false;
         }
+
+        if (settingState===0){
+            Animation.draw(sketchData, p);
+        }
         
-        Animation.draw(sketchData, p);
     }
 }
 
@@ -88,7 +99,7 @@ export default function Canvas(props) {
          <div className="canvas-container" id="canvas">
                 <P5Wrapper 
                     className="p5Wrapper"
-                    sketch={sketch}     
+                    sketch={sketch}
                     canvasSettings={props.canvasSettings}/>
         </div>
     ); 
