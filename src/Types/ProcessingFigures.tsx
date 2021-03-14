@@ -35,10 +35,10 @@ export class AnimatedFigure {
     return Math.random() < 0.5 ? -1 : 1;
   }
 
-  constructor(x, y, s, c, p5) {
+  constructor(x, y, c, p5) {
       this.p5 = p5;
       this.pos = p5.createVector(x, y);
-      this.velocity = p5.createVector(10 * s * this.randSign(), 10 * s * this.randSign());
+      this.velocity = p5.createVector(3 * this.randSign(), 3 * this.randSign());
       this.force = p5.createVector(0, 0); 
       this.mass = Math.random() * 0.03 + 0.003;
       this.acceleration = p5.createVector(0,0);
@@ -99,8 +99,8 @@ export class AnimatedFigure {
 
 export class CircleFigure extends AnimatedFigure {
   dim: number
-  constructor(x, y, s, d, c, p5: P5) {
-    super(x, y, s, c, p5);
+  constructor(x, y, d, c, p5: P5) {
+    super(x, y, c, p5);
     this.dim = d;
   }
 
@@ -162,8 +162,8 @@ export class CircleFigure extends AnimatedFigure {
 
 export class SquareFigure extends AnimatedFigure {
   dim: number
-  constructor(x, y, s, d, c, p5) {
-    super(x, y, s, c, p5);
+  constructor(x, y, d, c, p5) {
+    super(x, y, c, p5);
     this.dim = d;
   }
 
@@ -223,8 +223,8 @@ export class SquareFigure extends AnimatedFigure {
 
 export class TriangleFigure extends AnimatedFigure {
   dim: number
-  constructor(x, y, s, d, c, p5) {
-    super(x, y, s, c, p5);
+  constructor(x, y, d, c, p5) {
+    super(x, y, c, p5);
     this.dim = d;
   }
   

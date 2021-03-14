@@ -9,26 +9,26 @@ import { DraggedPainting } from './DraggedPainting';
 import { DraggedOut } from './DraggedOut';
 import { generateColorSpectrum } from './ColorSampling';
 
-export function pushNewFigure(selectedFigure, figs, sketchData: SketchData, p: p5) {
-    let s = Math.random() * 50 + 20;
+export function pushNewFigure(selectedFigure, figs, p: p5) {
+    let dimension = Math.random() * 50 + 20;
     let color;
 
     switch(selectedFigure) {
         case SelectedShape.Circle:
             color = Animation.circleColors[Math.floor(Math.random() * Animation.circleColors.length)];
-            let newCirc = new CircleFigure(p.mouseX, p.mouseY, -0.02, s, color, p);
+            let newCirc = new CircleFigure(p.mouseX, p.mouseY, dimension, color, p);
             figs.push(newCirc);
             break;
             
         case SelectedShape.Rectangle:
             color = Animation.rectColors[Math.floor(Math.random() * Animation.rectColors.length)];
-            let newSquare = new SquareFigure(p.mouseX, p.mouseY, -0.02, s, color, p);
+            let newSquare = new SquareFigure(p.mouseX, p.mouseY, dimension, color, p);
             figs.push(newSquare);
             break;
 
         case SelectedShape.Triangle:
             color = Animation.triangleColors[Math.floor(Math.random() * Animation.triangleColors.length)]
-            let newTriangle = new TriangleFigure(p.mouseX, p.mouseY, -0.02, s, color, p);
+            let newTriangle = new TriangleFigure(p.mouseX, p.mouseY, dimension, color, p);
             figs.push(newTriangle);
             break;
     }
@@ -78,7 +78,7 @@ export class Animation {
 
     static mousePressed(sketchData: SketchData, p: p5) {
         if (AnimatedFigure.mouseOnCanvas(p, sketchData.canvasWidth, sketchData.canvasHeight)) {
-            pushNewFigure(sketchData.selectedFigure, sketchData.figs, sketchData, p);
+            pushNewFigure(sketchData.selectedFigure, sketchData.figs, p);
         }
 
         switch(sketchData.selectedAnimation) {
