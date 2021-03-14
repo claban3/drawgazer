@@ -18,7 +18,7 @@ export enum SelectedAnimation {
     BubblePop,
     Stack,
     RadialForce,
-    RiverAnimation,
+    DraggedPainting,
     None,
 };
 
@@ -52,3 +52,9 @@ export type SketchData = {
     canvasHeight: number,
     canvasWidth: number
 };
+
+export type CustomFigureStyles = {
+    randomFill: boolean, 
+    stroke: boolean,
+    opacity: number
+}

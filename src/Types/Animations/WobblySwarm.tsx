@@ -66,7 +66,9 @@ export class WobblySwarm extends Animation {
 
     static mousePressed(sketchData: SketchData, p) {
         if (AnimatedFigure.mouseOnCanvas(p, sketchData.canvasWidth, sketchData.canvasHeight)) {
-            pushNewFigure(sketchData.selectedFigure, sketchData.figs, p);
+            for (let i = 0; i < 2; i++) {
+                pushNewFigure(sketchData.selectedFigure, sketchData.figs, sketchData, p);
+            }
         }
 
         return false;

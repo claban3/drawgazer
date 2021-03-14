@@ -54,9 +54,14 @@ function sketch (p) {
         sketchData.selectedAnimation = props.canvasSettings.selectedAnimation;
         if (props.canvasSettings.colorSettings) {
             sketchData.colorSettings = props.canvasSettings.colorSettings;
+            if (p != undefined) {
+            // p.background(255);
+                Animation.propsHandler(sketchData, p);
+            }
         } else {
             sketchData.colorSettings = defaultColorSettings;
         }
+
         reset = props.canvasSettings.reset;
         setClearCanvasInParent = props.canvasSettings.resetInParent;
     }
