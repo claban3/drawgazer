@@ -2,8 +2,8 @@ import './App.css';
 import Draw from './Views/Draw/Draw';
 import Settings from './Views/Settings/Settings';
 import { useEffect, useState } from 'react';
-import { generateContrastColors } from '@adobe/leonardo-contrast-colors';
 import { ShapeColors } from './Types/Figures';
+import { generateContrastColors } from '@adobe/leonardo-contrast-colors';
 
 const defaultColors = {
     "--triangleColor": "#FF0000",
@@ -21,15 +21,14 @@ function App() {
     const [draw, setDraw] = useState(true);
     const [settingState, setSettingState] = useState(0);
 
-    // TODO: On startup check for saved colors in cookies. If not, use default
     const [newSession, setNewSession] = useState(true);
     const [colors, setColors] = useState(defaultColors); 
+    const [resetColors, setResetColors] = useState(false);
 
     useEffect(() => {
         if(newSession) {
             setNewSession(false);
             let savedColors = JSON.parse(localStorage.getItem("savedColors"));
-            //Load figures
             if(savedColors) {
                 setColors(savedColors);
             }
@@ -39,8 +38,10 @@ function App() {
 
     useEffect(() => {
         localStorage.setItem("savedColors", JSON.stringify(colors));
+        setResetColors( !(JSON.stringify(colors) === JSON.stringify(defaultColors)) );
         setCSSProperties();
     }, [colors]);
+
 
     function setCSSProperties() {
         document.documentElement.style.setProperty("--triangleColor", colors["--triangleColor"]);
@@ -59,9 +60,6 @@ function App() {
     function colorChangeHandler(id : string, color : any) { 
         if(id === "reset") {
             setColors(defaultColors);
-        }
-        else if(id === "cancel") {
-            setColors(color);
         }
         else if(id === "--shapeButtonColor" || id === "--animationButtonColor")
         {               
@@ -94,16 +92,17 @@ function App() {
     }
 
     let canvasColorSettings: ShapeColors = {
-        triangle: colors["--triangleColor"],
-        rectangle: colors["--squareColor"],
-        circle: colors["--circleColor"],
+        triangle: document.documentElement.style.getPropertyValue("--triangleColor"),
+        rectangle: document.documentElement.style.getPropertyValue("--squareColor"),
+        circle: document.documentElement.style.getPropertyValue("--circleColor"),
     };
+
     return (
         <>
         { (settingState>0) && <Settings settingStateChangeHandler={settingStateChangeHandler} 
                                         settingState={settingState}
                                         colorChangeHandler={colorChangeHandler}
-                                        colors={colors}/> }
+                                        resetColors={resetColors}/> }
 
         { draw && <Draw colorSettings={canvasColorSettings} settingStateChangeHandler={settingStateChangeHandler}/> }
         </>
