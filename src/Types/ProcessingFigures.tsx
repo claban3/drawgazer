@@ -151,7 +151,7 @@ export class CircleFigure extends AnimatedFigure {
     
     if (customStyles.randomFill) {
       let color = this.p5.color(this.color);
-      color.setAlpha((this.dim / 2));
+      color.setAlpha((this.dim * 7));
       this.p5.fill(color);
     }
 

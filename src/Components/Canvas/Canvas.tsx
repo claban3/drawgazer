@@ -54,14 +54,11 @@ function sketch (p) {
     p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
         sketchData.selectedFigure = props.canvasSettings.selectedFigure;
         sketchData.selectedAnimation = props.canvasSettings.selectedAnimation;
+        
         if (props.canvasSettings.colorSettings && 
-            props.canvasSettings.colorSettings !== sketchData.colorSettings) {
-                // p.background(255);
-
+            props.canvasSettings.colorSettings != sketchData.colorSettings) {
                 sketchData.colorSettings = props.canvasSettings.colorSettings;
                 Animation.propsHandler(sketchData, p);
-        } else {
-            sketchData.colorSettings = defaultColorSettings;
         }
 
         reset = props.canvasSettings.reset;
