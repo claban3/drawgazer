@@ -102,7 +102,6 @@ export class CircleFigure extends AnimatedFigure {
         type: 'circle',
         x: this.pos.x,
         y: this.pos.y,
-        s: Math.random() * 50 + 20,
         d: this.dim,
       }
   }
@@ -158,7 +157,6 @@ export class SquareFigure extends AnimatedFigure {
         type: 'square',
         x: this.pos.x,
         y: this.pos.y,
-        s: Math.random() * 50 + 20,
         d: this.dim,
       }
   }
@@ -214,7 +212,6 @@ export class TriangleFigure extends AnimatedFigure {
         type: 'triangle',
         x: this.pos.x,
         y: this.pos.y,
-        s: Math.random() * 50 + 20,
         d: this.dim,
       }
   }

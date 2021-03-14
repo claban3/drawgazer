@@ -4,8 +4,6 @@ import '../../Types/Figures';
 import { SelectedShape, SelectedAnimation, SketchData, ShapeColors } from '../../Types/Figures';
 import P5Wrapper from 'react-p5-wrapper';
 import 'react-p5-wrapper';
-import { useState } from "react";
-import React from "react";
 import { Animation } from '../../Types/Animations/Animation';
 import { CircleFigure, SquareFigure, TriangleFigure } from "../../Types/ProcessingFigures";
 
@@ -45,6 +43,8 @@ function sketch (p) {
                 case "triangle":
                     sketchData.figs.push(new TriangleFigure(fig.x, fig.y, -0.02, fig.d, p));
                     break;
+                default: 
+                    console.log("Canvas received bad JSON from local storage")
             }
         }
     }
@@ -92,7 +92,6 @@ function sketch (p) {
 
         p.mouseClicked = function (event) {
             Animation.mousePressed(sketchData, p);
-            localStorage.setItem("savedFigs", JSON.stringify(sketchData.figs));
             return false;
         }
         
@@ -102,6 +101,7 @@ function sketch (p) {
         }
 
         Animation.draw(sketchData, p);
+        localStorage.setItem("savedFigs", JSON.stringify(sketchData.figs));
     }
 }
 
