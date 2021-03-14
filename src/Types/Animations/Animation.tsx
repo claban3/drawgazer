@@ -41,7 +41,6 @@ export class Animation {
     static triangleColors = [];
 
     static propsHandler(sketchData, p) {
-        // p.background(255);
         Animation.rectColors = generateColorSpectrum(sketchData.colorSettings.rectangle);
         Animation.circleColors = generateColorSpectrum(sketchData.colorSettings.circle);
         Animation.triangleColors = generateColorSpectrum(sketchData.colorSettings.triangle);
@@ -89,7 +88,7 @@ export class Animation {
             case SelectedAnimation.None:
                 break; 
         }
-        
+
         return false;
     }
 
