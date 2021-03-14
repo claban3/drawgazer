@@ -41,6 +41,8 @@ function sketch (p) {
         renderer.parent("canvas");
         sketchData.figs = [];
         sketchData.points = [];
+        Animation.propsHandler(sketchData, p);
+
     }
 
     p.windowResized = function () {
@@ -52,12 +54,12 @@ function sketch (p) {
     p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
         sketchData.selectedFigure = props.canvasSettings.selectedFigure;
         sketchData.selectedAnimation = props.canvasSettings.selectedAnimation;
-        if (props.canvasSettings.colorSettings) {
-            sketchData.colorSettings = props.canvasSettings.colorSettings;
-            if (p != undefined) {
-            // p.background(255);
+        if (props.canvasSettings.colorSettings && 
+            props.canvasSettings.colorSettings !== sketchData.colorSettings) {
+                // p.background(255);
+
+                sketchData.colorSettings = props.canvasSettings.colorSettings;
                 Animation.propsHandler(sketchData, p);
-            }
         } else {
             sketchData.colorSettings = defaultColorSettings;
         }
@@ -76,13 +78,11 @@ function sketch (p) {
         }
 
         p.mouseClicked = function (event) {
-            // if (event.type == 'touchstart') {
             return Animation.mousePressed(sketchData, p);
         }
         
         p.mouseReleased = function() {
-            Animation.mouseReleased(sketchData, p);
-            // return false;
+            return Animation.mouseReleased(sketchData, p);
         }
         
         Animation.draw(sketchData, p);
