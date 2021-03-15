@@ -42,3 +42,5 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Marco Rodrigues
 
 ## Andrew Pospeshil
+<img src="../drawgazer/team-headshots/aposp-headshot.jpg" width="200"> </br>
+Andrew is a senior studying Computer Science Engineering at the University of Michigan. He has a wide variety of interests in the field of software engineering including operating systems, user interface development, and web development. Outside of work, Andrew is interested in language learning, traveling (pre- or hopefully post-pandemic), and equitable STEM education.
