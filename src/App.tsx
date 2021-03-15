@@ -2,8 +2,8 @@ import './App.css';
 import Draw from './Views/Draw/Draw';
 import Settings from './Views/Settings/Settings';
 import { useEffect, useState } from 'react';
-import { generateContrastColors } from '@adobe/leonardo-contrast-colors';
 import { ShapeColors } from './Types/Figures';
+import { generateContrastColors } from '@adobe/leonardo-contrast-colors';
 
 const defaultColors = {
     "--triangleColor": "#FF0000",
@@ -21,11 +21,29 @@ function App() {
     const [draw, setDraw] = useState(true);
     const [settingState, setSettingState] = useState(0);
 
-    // TODO: On startup check for saved colors in cookies. If not, use default
+    const [newSession, setNewSession] = useState(true);
     const [colors, setColors] = useState(defaultColors); 
-
+    const [resetColors, setResetColors] = useState(false);
 
     useEffect(() => {
+        if(newSession) {
+            setNewSession(false);
+            let savedColors = JSON.parse(localStorage.getItem("savedColors"));
+            if(savedColors) {
+                setColors(savedColors);
+            }
+        }
+        setCSSProperties();
+    }, [newSession]);
+
+    useEffect(() => {
+        localStorage.setItem("savedColors", JSON.stringify(colors));
+        setResetColors( !(JSON.stringify(colors) === JSON.stringify(defaultColors)) );
+        setCSSProperties();
+    }, [colors]);
+
+
+    function setCSSProperties() {
         document.documentElement.style.setProperty("--triangleColor", colors["--triangleColor"]);
         document.documentElement.style.setProperty("--squareColor", colors["--squareColor"]);
         document.documentElement.style.setProperty("--circleColor", colors["--circleColor"]);
@@ -37,10 +55,13 @@ function App() {
         document.documentElement.style.setProperty("--animationButtonColor", colors["--animationButtonColor"])
         document.documentElement.style.setProperty("--animationButtonHover", colors["--animationButtonHover"])
         document.documentElement.style.setProperty("--animationButtonSelected", colors["--animationButtonSelected"])
-    });
+    }
 
     function colorChangeHandler(id : string, color : any) { 
-        if(id === "--shapeButtonColor" || id === "--animationButtonColor")
+        if(id === "reset") {
+            setColors(defaultColors);
+        }
+        else if(id === "--shapeButtonColor" || id === "--animationButtonColor")
         {               
             let contrastColors = generateContrastColors({ colorKeys: [color.hex], base: color.hex, ratios: [2,4], colorspace: "RGB"});
 
@@ -71,17 +92,19 @@ function App() {
     }
 
     let canvasColorSettings: ShapeColors = {
-        triangle: colors["--triangleColor"],
-        rectangle: colors["--squareColor"],
-        circle: colors["--circleColor"],
+        triangle: document.documentElement.style.getPropertyValue("--triangleColor"),
+        rectangle: document.documentElement.style.getPropertyValue("--squareColor"),
+        circle: document.documentElement.style.getPropertyValue("--circleColor"),
     };
+
     return (
         <>
         { (settingState>0) && <Settings settingStateChangeHandler={settingStateChangeHandler} 
                                         settingState={settingState}
-                                        colorChangeHandler={colorChangeHandler}/> }
+                                        colorChangeHandler={colorChangeHandler}
+                                        resetColors={resetColors}/> }
 
-        { draw && <Draw colorSettings={canvasColorSettings} settingStateChangeHandler={settingStateChangeHandler}/> }
+        { draw && <Draw colorSettings={canvasColorSettings} settingStateChangeHandler={settingStateChangeHandler} settingState={settingState}/> }
         </>
     );
 }

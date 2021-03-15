@@ -104,6 +104,15 @@ export class CircleFigure extends AnimatedFigure {
     this.dim = d;
   }
 
+  toJSON() {
+      return {
+        type: 'circle',
+        x: this.pos.x,
+        y: this.pos.y,
+        d: this.dim,
+      }
+  }
+
   getShapeDescriptor() {
     return {
       type: "CIRCLE",
@@ -167,6 +176,15 @@ export class SquareFigure extends AnimatedFigure {
     this.dim = d;
   }
 
+  toJSON() {
+    return {
+        type: 'square',
+        x: this.pos.x,
+        y: this.pos.y,
+        d: this.dim,
+      }
+  }
+
   getShapeDescriptor() {
     return {
       type: "RECT",
@@ -227,7 +245,16 @@ export class TriangleFigure extends AnimatedFigure {
     super(x, y, c, p5);
     this.dim = d;
   }
-  
+
+  toJSON() {
+    return {
+        type: 'triangle',
+        x: this.pos.x,
+        y: this.pos.y,
+        d: this.dim,
+      }
+  }
+
   getShapeDescriptor() {
     let cornersObject = [];
     this.corners().forEach(pos => {

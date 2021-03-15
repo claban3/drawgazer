@@ -37,7 +37,8 @@ export type CanvasSettings = {
     selectedAnimation: SelectedAnimation, 
     colorSettings: ShapeColors,
     reset: Boolean,
-    resetInParent: voidFunc
+    resetInParent: voidFunc,
+    settingState: number
 };
 
 export type SketchData = {
