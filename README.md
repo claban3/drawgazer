@@ -33,9 +33,6 @@ Navigate to the local address which is automatically copied to your clipboard.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Eject
-If something goes wrong with the build, you can use `yarn eject` to delete the rebuild and hopefully try again. Note that this is an unnecessary and irreversible operation, so be careful when considering using it.
-
 # The Drawgazer Team
 
 ## Cory Laban
