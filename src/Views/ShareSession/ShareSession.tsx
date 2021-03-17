@@ -12,8 +12,41 @@ export default function ShareSession(props) {
 
     const [buttonSelection, setButtonSelection] = useState(null);
 
+    function randSign() {
+        return Math.random() < 0.5 ? -1 : 1;
+    }
+
+    function getRandomInt(max) {
+        return Math.floor(Math.random() * Math.floor(max));
+    }
+
+    function getRandomToken() {
+        
+        var unicode = getRandomInt(25);
+        unicode += 65;
+        var letter = String.fromCharCode(unicode);
+
+        unicode = getRandomInt(9);
+        unicode += 48;
+        var int = String.fromCharCode(unicode);
+
+        if (randSign() == 1) {
+            return letter;
+        } else {
+            return int;
+        }
+    }
+
     function generateLocalID() {
-        return 'ABCD';
+
+        var randID = "";
+
+        for (var i=0; i<4; ++i){
+
+            randID += getRandomToken();
+        }
+
+        return randID;
     }
 
     function tryFriendID(inputID) {
