@@ -1,46 +1,107 @@
-.shareSession-container {
+.shareSession-outer-container {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    background-color: #FFFFFF;
-
+    height: 100%;
+    width: 100%;
     display: flex;
-    flex-direction: row;
-
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     z-index: 2;
 }
 
-.shareSession-container.opening {
+.shareSession-container {
+    position: relative;
+    height: 25%;
+    width: 25%;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    font-family: Poppins;
+    letter-spacing: 0.1em;
+    flex-wrap: wrap;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.shareSession-outer-container.opening {
     animation: slideUp .2s linear;
 }
 
-.shareSession-container.closing{
+.shareSession-outer-container.closing{
     animation: slideDown .2s linear;
 }
 
-.shareSession-exit {
-    position: absolute;
-    top: 6px;
-    right: 6px;
+.shareSession-exit {    
+    margin-left: auto;
+    margin-bottom: auto;
+}
 
-    height: 30px;
-    width: 30px;
+.friend-ID-input-container {
+    position: absolute;
+    height: 50%;
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    /*align-items: center;*/
+    z-index: 2;
+    font-family: Poppins;
+    letter-spacing: 0.1em;
+    flex-wrap: wrap;
 }
 
 .friend-ID-input {
-    top: 100%;
-    width: 200px;
-    height: 20px;
-    padding-right: 50px;
+
+    /*height: 35px;*/
+    height: 32%;
+    width: 65%;
+    /*color: rgba(155, 155, 155, 0.5);*/
+    border: none;
+    flex-grow: 2;
+}
+
+.friend-ID-input::placeholder {
+
+    color: rgba(155, 155, 155, 0.5);
+    font-size: 0.8vw;
+    font-family: Poppins;
 }
 
 .friend-ID-submit {
-    background: url("../../Images/share_session.png");
     border: 0;
-    display: block;
-    margin-left: -50px;
-    height: 20px;
-    width: 50px;
+    margin-left: -15px;
+    border: 2px;
+}
+
+.friend-ID-local {
+    margin-left: auto;
+    margin-top: auto;
+    font-size: 1vw;
+}
+
+.spn {
+    color: #ff6868;
+    font-size: 120%;
+}
+
+.friend-ID-input-box {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 85%;
+    /*height: 35px;*/
+    height: 32%;
+    border: 2px solid;
+    border-color: #9B9B9B;
+    border-radius: 5px; 
+    padding: 2px;
+}
+
+.prompt{
+
+    font-size: 1vw;
 }
