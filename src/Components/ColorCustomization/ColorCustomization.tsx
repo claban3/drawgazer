@@ -2,17 +2,6 @@ import "./ColorCustomization.css";
 import { useEffect, useState } from "react";
 import { ChromePicker } from 'react-color';
 
-const defaultColors = {
-    "--triangleColor": "#FF0000",
-    "--squareColor": "#2B3990",
-    "--circleColor": "#008000",
-    "--shapeButtonColor": "#4A4A4A", 
-    "--shapeButtonHover": "#787878",
-    "--shapeButtonSelected": "#AFAFAF",
-    "--animationButtonColor": "#ACABAB",
-    "--animationButtonHover": "#767676",
-    "--animationButtonSelected": "#484848",
-}
 
 export default function ColorCustomization(props) {
     const [buttonSelection, setButtonSelection] = useState(null);

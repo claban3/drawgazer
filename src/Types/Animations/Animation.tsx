@@ -8,37 +8,44 @@ import { WobblySwarm } from './WobblySwarm';
 import { DraggedPainting } from './DraggedPainting';
 import { DraggedOut } from './DraggedOut';
 import { generateColorSpectrum } from './ColorSampling';
+import { FillScreenWithFigures } from './FillScreenWithFigures';
 
 export function pushNewFigure(selectedFigure, figs, p: p5) {
+    figs.push(newFigure(selectedFigure, p.mouseX, p.mouseY, p));
+}
+
+export function newFigure(selectedFigure, x: number, y:number, p: p5, color?:string) {
     let dimension = Math.random() * 50 + 20;
-    let color;
 
     switch(selectedFigure) {
         case SelectedShape.Circle:
-            color = Animation.circleColors[Math.floor(Math.random() * Animation.circleColors.length)];
-            let newCirc = new CircleFigure(p.mouseX, p.mouseY, dimension, color, p);
-            figs.push(newCirc);
-            break;
+            if (!color) color = Animation.circleColors[Math.floor(Math.random() * Animation.circleColors.length)];
+            return new CircleFigure(x, y, dimension, color, p);
             
         case SelectedShape.Rectangle:
-            color = Animation.rectColors[Math.floor(Math.random() * Animation.rectColors.length)];
-            let newSquare = new SquareFigure(p.mouseX, p.mouseY, dimension, color, p);
-            figs.push(newSquare);
-            break;
+            if (!color) color = Animation.rectColors[Math.floor(Math.random() * Animation.rectColors.length)];
+            return new SquareFigure(x, y, dimension, color, p);
 
         case SelectedShape.Triangle:
-            color = Animation.triangleColors[Math.floor(Math.random() * Animation.triangleColors.length)]
-            let newTriangle = new TriangleFigure(p.mouseX, p.mouseY, dimension, color, p);
-            figs.push(newTriangle);
-            break;
+            if (!color) color = Animation.triangleColors[Math.floor(Math.random() * Animation.triangleColors.length)]
+            return new TriangleFigure(x, y, dimension, color, p);
+        default:
     }
 }
-
+    
 export class Animation {
 
     static rectColors = [];
     static circleColors = [];
     static triangleColors = [];
+
+    static freeUndefinedFigures(sketchData: SketchData) {
+        for (let i = 0; i < sketchData.figs.length; i++) {
+            if (sketchData.figs[i] == undefined) {
+                sketchData.figs.splice(i, 1);
+            }
+        }
+    }
 
     static propsHandler(sketchData, p) {
         Animation.rectColors = generateColorSpectrum(sketchData.colorSettings.rectangle);
@@ -46,10 +53,22 @@ export class Animation {
         Animation.triangleColors = generateColorSpectrum(sketchData.colorSettings.triangle);
     }
 
-    static draw(sketchData: SketchData, p) {
+    static redraw(sketchData: SketchData, p: p5) {
         switch(sketchData.selectedAnimation) {
-            case SelectedAnimation.WobblySwarm:
-                WobblySwarm.draw(sketchData, p);
+            case SelectedAnimation.FillScreenWithFigures:
+                    FillScreenWithFigures.redraw(sketchData, p);
+                break;
+            default:
+                p.frameRate(60);
+        }
+    }
+
+    static draw(sketchData: SketchData, p) {
+        this.freeUndefinedFigures(sketchData); 
+
+        switch(sketchData.selectedAnimation) {
+            case SelectedAnimation.BubblePop:
+                BubblePop.draw(sketchData, p);
                 break;
             case SelectedAnimation.DownwardGravity:
                 DownwardGravity.draw(sketchData, p);
@@ -57,17 +76,20 @@ export class Animation {
             case SelectedAnimation.DraggedOut:
                 DraggedOut.draw(sketchData, p);
                 break;
-            case SelectedAnimation.WallBounce:
-                WallBounce.draw(sketchData, p);
-                break;
-            case SelectedAnimation.BubblePop:
-                BubblePop.draw(sketchData, p);
-                break;
             case SelectedAnimation.DraggedPainting:
                 DraggedPainting.draw(sketchData, p);
                 break;
+            case SelectedAnimation.FillScreenWithFigures:
+                FillScreenWithFigures.draw(sketchData, p);
+                break;
+            case SelectedAnimation.WallBounce:
+                WallBounce.draw(sketchData, p);
+                break;
+            case SelectedAnimation.WobblySwarm:
+                WobblySwarm.draw(sketchData, p);
+                break;
             case SelectedAnimation.None:
-                p.background(255);
+                p.background(255, 30);
                 sketchData.figs.forEach(fig => {
                     fig.update(sketchData.canvasWidth, sketchData.canvasHeight);
                     fig.display(sketchData);

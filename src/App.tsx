@@ -6,9 +6,9 @@ import { ShapeColors } from './Types/Figures';
 import { generateContrastColors } from '@adobe/leonardo-contrast-colors';
 
 const defaultColors = {
-    "--triangleColor": "#FF0000",
-    "--squareColor": "#2B3990",
-    "--circleColor": "#008000",
+    "--triangleColor": "#00429D",
+    "--squareColor": "#96ffea",
+    "--circleColor": "#ff005e",
     "--shapeButtonColor": "#4A4A4A", 
     "--shapeButtonHover": "#787878",
     "--shapeButtonSelected": "#AFAFAF",
@@ -92,9 +92,9 @@ function App() {
     }
 
     let canvasColorSettings: ShapeColors = {
-        triangle: document.documentElement.style.getPropertyValue("--triangleColor"),
-        rectangle: document.documentElement.style.getPropertyValue("--squareColor"),
-        circle: document.documentElement.style.getPropertyValue("--circleColor"),
+        triangle: colors["--triangleColor"],
+        rectangle: colors["--squareColor"],
+        circle: colors["--circleColor"],
     };
 
     return (

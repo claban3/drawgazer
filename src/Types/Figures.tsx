@@ -19,6 +19,7 @@ export enum SelectedAnimation {
     Stack,
     RadialForce,
     DraggedPainting,
+    FillScreenWithFigures,
     None,
 };
 
@@ -55,7 +56,6 @@ export type SketchData = {
 };
 
 export type CustomFigureStyles = {
-    randomFill: boolean, 
     stroke: boolean,
     opacity: number
 }
