@@ -2,8 +2,8 @@ import { SketchData } from '../Figures';
 
 export class WallBounce extends Animation {
     static draw(sketchData: SketchData, p) {
-        p.background(255);
-        p.fill(100);
+        p.background(sketchData.colorSettings.background);
+        
         sketchData.figs.forEach(fig => {
             let width = sketchData.canvasWidth;
             let height = sketchData.canvasHeight;
@@ -30,7 +30,7 @@ export class WallBounce extends Animation {
             }
         
             fig.pos.add(fig.velocity);
-            fig.display(sketchData);
+            fig.display();
         });
 
     }

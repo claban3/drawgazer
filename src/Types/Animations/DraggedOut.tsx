@@ -25,7 +25,7 @@ export class DraggedOut extends Animation {
             }
         
             fig.pos.add(fig.velocity);
-            fig.display(sketchData);
+            fig.display();
         });
 
     }

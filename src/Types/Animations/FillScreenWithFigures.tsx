@@ -33,7 +33,7 @@ export class FillScreenWithFigures extends Animation {
         }
     
         figs.forEach(fig => {
-            fig.display(sketchData);
+            fig.display();
         });
     }
 

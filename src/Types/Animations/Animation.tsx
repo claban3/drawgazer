@@ -91,10 +91,12 @@ export class Animation {
                 WobblySwarm.draw(sketchData, p);
                 break;
             case SelectedAnimation.None:
-                p.background(255, 30);
+                let color = p.color(sketchData.colorSettings.background);
+                color.setAlpha(30);
+                p.background(color);
                 sketchData.figs.forEach(fig => {
                     fig.update(sketchData.canvasWidth, sketchData.canvasHeight);
-                    fig.display(sketchData);
+                    fig.display();
                 });
                 break;
         }

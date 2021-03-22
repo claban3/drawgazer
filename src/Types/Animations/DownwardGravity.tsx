@@ -9,7 +9,9 @@ export class DownwardGravity extends Animation {
       stroke: false
     };
     
-    p.background(255, 30);
+    let color = p.color(sketchData.colorSettings.background);
+    color.setAlpha(30);
+    p.background(color);
 
     if (p.mouseX != p.pmouseX && p.mouseY != p.pmouseY && Math.round(Math.random() * 2) === 1) {
       pushNewFigure(sketchData.selectedFigure, sketchData.figs, p);
@@ -33,7 +35,7 @@ export class DownwardGravity extends Animation {
         fig.spin *= -1;
       }
 
-      fig.displayCustomStyles(sketchData, customStyles);
+      fig.displayCustomStyles(customStyles);
     });
 
     for (let i = 0; i < sketchData.figs.length; i++) {

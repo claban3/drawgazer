@@ -11,13 +11,13 @@
     z-index: 2;
 }
 
-/* .settings-container.opening {
+.settings-container.opening {
     animation: slideUp .2s linear;
 }
 
 .settings-container.closing{
     animation: slideDown .2s linear;
-} */
+}
 
 .settings-side-bar {
     width: calc(25% - 1px);

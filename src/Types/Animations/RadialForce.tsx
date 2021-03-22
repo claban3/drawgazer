@@ -88,7 +88,7 @@ export class RadialForce extends Animation {
                 fig.dead = false;
             }
             fig.pos.add(fig.velocity);
-            fig.display(sketchData);
+            fig.display();
         });
 
         // for (let i = 0; i < nodes.length; i++) {
