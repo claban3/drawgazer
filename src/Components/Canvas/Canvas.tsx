@@ -1,13 +1,14 @@
 import "./Canvas.css";
 import 'p5';
 import '../../Types/Figures';
-import { SelectedShape, SelectedAnimation, SketchData, ShapeColors } from '../../Types/Figures';
+import { SelectedShape, SelectedAnimation, SketchData, ColorSettings } from '../../Types/Figures';
 import P5Wrapper from 'react-p5-wrapper';
 import 'react-p5-wrapper';
 import { Animation } from '../../Types/Animations/Animation';
 import { CircleFigure, SquareFigure, TriangleFigure } from "../../Types/ProcessingFigures";
 
-let defaultColorSettings: ShapeColors = {
+let defaultColorSettings: ColorSettings = {
+    background: '#FFFFFF',
     triangle: '#ED1C24',
     rectangle: '#28306D',
     circle: '#36A533', 
@@ -62,6 +63,8 @@ function sketch (p) {
         renderer = p.createCanvas(sketchData.canvasWidth, sketchData.canvasHeight);
         renderer.parent("canvas");
         sketchData.points = [];
+        Animation.propsHandler(sketchData, p);
+
         settingState = 0;
     }
 
@@ -74,11 +77,13 @@ function sketch (p) {
     p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
         sketchData.selectedFigure = props.canvasSettings.selectedFigure;
         sketchData.selectedAnimation = props.canvasSettings.selectedAnimation;
-        if (props.canvasSettings.colorSettings) {
-            sketchData.colorSettings = props.canvasSettings.colorSettings;
-        } else {
-            sketchData.colorSettings = defaultColorSettings;
+        
+        if (props.canvasSettings.colorSettings && 
+            props.canvasSettings.colorSettings != sketchData.colorSettings) {
+                sketchData.colorSettings = props.canvasSettings.colorSettings;
+                Animation.propsHandler(sketchData, p);
         }
+
         reset = props.canvasSettings.reset;
         setClearCanvasInParent = props.canvasSettings.resetInParent;
         settingState = props.canvasSettings.settingState;
@@ -89,6 +94,7 @@ function sketch (p) {
             sketchData.figs = [];
             sketchData.points = [];
             reset = false;
+            p.background(sketchData.colorSettings.background);
             setClearCanvasInParent();
             localStorage.removeItem("savedFigs");
         }

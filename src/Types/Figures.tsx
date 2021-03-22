@@ -14,9 +14,11 @@ export enum SelectedAnimation {
     WobblySwarm,
     DownwardGravity,
     WallBounce,
+    DraggedOut,
     BubblePop,
     Stack,
     RadialForce,
+    DraggedPainting,
     None,
 };
 
@@ -24,16 +26,17 @@ interface voidFunc {
     (none: void): void
 };
 
-export type ShapeColors = {
+export type ColorSettings = {
     triangle: string,
     rectangle: string,
     circle: string,
+    background: string
 };
 
 export type CanvasSettings = {
     selectedFigure: SelectedShape,
     selectedAnimation: SelectedAnimation, 
-    colorSettings: ShapeColors,
+    colorSettings: ColorSettings,
     reset: Boolean,
     resetInParent: voidFunc,
     settingState: number
@@ -43,7 +46,7 @@ export type SketchData = {
     onPressed: Boolean,
     figs: AnimatedFigure[],
     points: P5Wrapper.Vector[],
-    colorSettings: ShapeColors,
+    colorSettings: ColorSettings,
     selectedFigure: SelectedShape,
     selectedAnimation: SelectedAnimation,
     bufferWidth: number,
@@ -51,3 +54,9 @@ export type SketchData = {
     canvasHeight: number,
     canvasWidth: number
 };
+
+export type CustomFigureStyles = {
+    randomFill: boolean, 
+    stroke: boolean,
+    opacity: number
+}

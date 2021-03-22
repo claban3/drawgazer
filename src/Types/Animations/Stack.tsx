@@ -34,7 +34,7 @@ export class Stack extends Animation {
             fig.thud.play();
           }
 
-          fig.display(sketchData);
+          fig.display();
         });
     }
  

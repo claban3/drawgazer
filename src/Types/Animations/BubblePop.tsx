@@ -16,6 +16,8 @@ export class BubblePop extends Animation {
     }
 
     static draw(sketchData: SketchData, p) {
+        p.background(sketchData.colorSettings.background);
+        
         let speedFactor = 0.1
         let rotFactor = 0.1
 
@@ -79,7 +81,7 @@ export class BubblePop extends Animation {
             let translation = P5.Vector.mult(fig.velocity, speedFactor);
         
             fig.pos.add(translation);
-            fig.display(sketchData);
+            fig.display();
         });
 
         for (let i = 0; i < to_burst.length; i++) {

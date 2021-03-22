@@ -4,6 +4,7 @@ import { pushNewFigure } from './Animation';
 
 export class WobblySwarm extends Animation {
     static draw(sketchData: SketchData, p) {
+        p.background(sketchData.colorSettings.background);
         let figs = sketchData.figs;
 
         for (let i = 0; i < figs.length; i++) {
@@ -58,13 +59,15 @@ export class WobblySwarm extends Animation {
             }
 
             fig.pos.add(fig.velocity);
-            fig.display(sketchData);
+            fig.display();
         });
     }
 
     static mousePressed(sketchData: SketchData, p) {
         if (AnimatedFigure.mouseOnCanvas(p, sketchData.canvasWidth, sketchData.canvasHeight)) {
-            pushNewFigure(sketchData.selectedFigure, sketchData.figs, p);
+            for (let i = 0; i < 2; i++) {
+                pushNewFigure(sketchData.selectedFigure, sketchData.figs, p);
+            }
         }
 
         return false;
