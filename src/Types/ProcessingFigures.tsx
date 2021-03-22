@@ -91,9 +91,9 @@ export class AnimatedFigure {
     this.timer -= 1;
   }
 
-  display(sketchData: SketchData) {}
+  display() {}
 
-  displayCustomStyles(sketchData: SketchData, customStyles: CustomFigureStyles) {}
+  displayCustomStyles(customStyles: CustomFigureStyles) {}
 
 }
 
@@ -140,7 +140,7 @@ export class CircleFigure extends AnimatedFigure {
     return Collides.collideLineCircle(canvasWidth - WALL_PADDING, 0, canvasWidth - WALL_PADDING, canvasHeight, this.pos.x, this.pos.y, this.dim);
   }
 
-  display(sketchData: SketchData) {
+  display() {
     this.p5.push();
     if (this.velocity.mag() > MAX_SPEED) {
       this.velocity.normalize().mult(MAX_SPEED);
@@ -151,7 +151,7 @@ export class CircleFigure extends AnimatedFigure {
     this.p5.pop();
   }
 
-  displayCustomStyles(sketchData: SketchData, customStyles: CustomFigureStyles) {
+  displayCustomStyles(customStyles: CustomFigureStyles) {
     this.p5.push();
     if (this.velocity.mag() > MAX_SPEED) {
       this.velocity.normalize().mult(MAX_SPEED);
@@ -212,7 +212,7 @@ export class SquareFigure extends AnimatedFigure {
     return Collides.collideLineRect(canvasWidth - WALL_PADDING, 0, canvasWidth - WALL_PADDING, canvasHeight, this.pos.x, this.pos.y, this.dim, this.dim);
   }
   
-  display(sketchData: SketchData) {
+  display() {
     this.p5.push();
     if (this.velocity.mag() > MAX_SPEED) {
       this.velocity.normalize().mult(MAX_SPEED);
@@ -223,7 +223,7 @@ export class SquareFigure extends AnimatedFigure {
     this.p5.pop();
   }
 
-  displayCustomStyles(sketchData: SketchData, customStyles: CustomFigureStyles) {
+  displayCustomStyles(customStyles: CustomFigureStyles) {
     this.p5.push();
     if (this.velocity.mag() > MAX_SPEED) {
       this.velocity.normalize().mult(MAX_SPEED);
@@ -303,7 +303,7 @@ export class TriangleFigure extends AnimatedFigure {
     return Collides.collideLinePoly(canvasWidth - WALL_PADDING, 0, canvasWidth - WALL_PADDING, canvasHeight, this.corners());
   }
 
-  display(sketchData: SketchData) {
+  display() {
     this.p5.push();
     if (this.velocity.mag() > MAX_SPEED) {
       this.velocity.normalize().mult(MAX_SPEED);
@@ -325,7 +325,7 @@ export class TriangleFigure extends AnimatedFigure {
     this.p5.pop();
   }
 
-  displayCustomStyles(sketchData: SketchData, customStyles: CustomFigureStyles) {
+  displayCustomStyles(customStyles: CustomFigureStyles) {
     this.p5.push();
     if (this.velocity.mag() > MAX_SPEED) {
       this.velocity.normalize().mult(MAX_SPEED);

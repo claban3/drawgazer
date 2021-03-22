@@ -35,7 +35,7 @@ export class DraggedPainting extends Animation {
             fig.velocity.mult(0.95);
             fig.dim *= dp;
             
-            fig.displayCustomStyles(sketchData, customStyles);
+            fig.displayCustomStyles(customStyles);
 
         });
 

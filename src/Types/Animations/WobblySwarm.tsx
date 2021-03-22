@@ -60,7 +60,7 @@ export class WobblySwarm extends Animation {
             }
 
             fig.pos.add(fig.velocity);
-            fig.display(sketchData);
+            fig.display();
         });
     }
 

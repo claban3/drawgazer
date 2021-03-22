@@ -70,7 +70,7 @@ export class Animation {
                 p.background(255);
                 sketchData.figs.forEach(fig => {
                     fig.update(sketchData.canvasWidth, sketchData.canvasHeight);
-                    fig.display(sketchData);
+                    fig.display();
                 });
                 break;
         }

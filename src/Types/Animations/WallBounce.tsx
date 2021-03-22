@@ -30,7 +30,7 @@ export class WallBounce extends Animation {
             }
         
             fig.pos.add(fig.velocity);
-            fig.display(sketchData);
+            fig.display();
         });
 
     }

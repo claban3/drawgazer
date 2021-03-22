@@ -82,7 +82,7 @@ export class BubblePop extends Animation {
             let translation = P5.Vector.mult(fig.velocity, speedFactor);
         
             fig.pos.add(translation);
-            fig.display(sketchData);
+            fig.display();
         });
 
         for (let i = 0; i < to_burst.length; i++) {
