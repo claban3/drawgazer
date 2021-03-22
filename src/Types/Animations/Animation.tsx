@@ -41,7 +41,7 @@ export class Animation {
 
     static freeUndefinedFigures(sketchData: SketchData) {
         for (let i = 0; i < sketchData.figs.length; i++) {
-            if (sketchData.figs[i] == undefined) {
+            if (sketchData.figs[i] === undefined) {
                 sketchData.figs.splice(i, 1);
             }
         }
@@ -64,6 +64,8 @@ export class Animation {
     }
 
     static draw(sketchData: SketchData, p) {
+
+        // This is still a problem sometimes ???? 
         this.freeUndefinedFigures(sketchData); 
 
         switch(sketchData.selectedAnimation) {
