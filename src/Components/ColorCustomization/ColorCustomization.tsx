@@ -46,7 +46,7 @@ export default function ColorCustomization(props) {
                         onClick={() => buttonSelectionHandler(buttons[0])}
                         onTouchEnd={() => buttonSelectionHandler(buttons[0])}>
 
-                        <polygon className="triangle "id="triangle" points="84.91 3 2.6 145.56 167.22 145.56 84.91 3" stroke="#231f20" stroke-miterlimit="10" stroke-width="3"/>
+                        <polygon className="triangle "id="triangle" points="84.91 3 2.6 145.56 167.22 145.56 84.91 3" stroke="#231f20" strokeMiterlimit="10" strokeWidth="3"/>
                     </svg>
 
 
@@ -54,7 +54,7 @@ export default function ColorCustomization(props) {
                         onClick={() => buttonSelectionHandler(buttons[1])}
                         onTouchEnd={() => buttonSelectionHandler(buttons[1])}>
             
-                        <rect className="square" id="square" x="1.5" y="1.5" width="144" height="144" stroke="#231f20" stroke-miterlimit="10" stroke-width="3"/>
+                        <rect className="square" id="square" x="1.5" y="1.5" width="144" height="144" stroke="#231f20" strokeMiterlimit="10" strokeWidth="3"/>
                     </svg>
 
                         
@@ -62,7 +62,7 @@ export default function ColorCustomization(props) {
                         onClick={() => buttonSelectionHandler(buttons[2])}
                         onTouchEnd={() => buttonSelectionHandler(buttons[2])}>
 
-                        <circle className="circle" id="circle" cx="73.5" cy="73.5" r="72" stroke="#231f20" stroke-miterlimit="10" stroke-width="3"/>
+                        <circle className="circle" id="circle" cx="73.5" cy="73.5" r="72" stroke="#231f20" strokeMiterlimit="10" strokeWidth="3"/>
                     </svg>
 
                 </div>
