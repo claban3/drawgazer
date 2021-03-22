@@ -92,9 +92,9 @@ function App() {
     }
 
     let canvasColorSettings: ShapeColors = {
-        triangle: document.documentElement.style.getPropertyValue("--triangleColor"),
-        rectangle: document.documentElement.style.getPropertyValue("--squareColor"),
-        circle: document.documentElement.style.getPropertyValue("--circleColor"),
+        triangle: colors["--triangleColor"],
+        rectangle: colors["--squareColor"],
+        circle: colors["--circleColor"],
     };
 
     return (
