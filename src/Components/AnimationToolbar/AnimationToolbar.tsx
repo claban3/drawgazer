@@ -8,6 +8,7 @@ import radial2 from '../../Images/radial-v2.png';
 import bubbles from '../../Images/bubbles.png';
 import draggedout from '../../Images/draggedout.png';
 import draggedPainting from '../../Images/draggedPainting.png';
+import fillScreenWithFigures from '../../Images/fillScreenWithShapes.png';
 
 export default function AnimationToolbar(props) 
 {
@@ -16,7 +17,8 @@ export default function AnimationToolbar(props)
     let bubblePopHighlight = (props.animationSelection === SelectedAnimation.BubblePop) ? "animation-selected" : "";
     let draggedPaintingHighlight = (props.animationSelection === SelectedAnimation.DraggedPainting) ? "animation-selected" : "";
     let draggedOutHighlight = (props.animationSelection === SelectedAnimation.DraggedOut) ? "animation-selected" : "";
-    
+    let fillScreenHighlight = (props.animationSelection === SelectedAnimation.FillScreenWithFigures) ? "animation-selected" : "";
+
     return (
         <div className="animation-toolbar-container">
             <div className={`animation-selection ${downwardGravityHighlight}`}
@@ -52,6 +54,13 @@ export default function AnimationToolbar(props)
                     <img className="animation-icon"
                          src={draggedPainting} 
                          alt="Dragged Painting"/>
+            </div>
+
+            <div className={`animation-selection ${fillScreenHighlight}`}
+                 onClick = { () => props.selectionHandler(SelectedAnimation.FillScreenWithFigures) }>
+                    <img className="animation-icon"
+                         src={fillScreenWithFigures} 
+                         alt="Fill Screen with Shapes"/>
             </div>
         </div>
     );
