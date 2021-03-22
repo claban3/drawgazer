@@ -2,7 +2,7 @@ import { SketchData } from '../Figures';
 
 export class WallBounce extends Animation {
     static draw(sketchData: SketchData, p) {
-        p.background(255);
+        p.background(sketchData.colorSettings.background);
         
         sketchData.figs.forEach(fig => {
             let width = sketchData.canvasWidth;

@@ -4,7 +4,7 @@ import { WallBounce } from './WallBounce';
 
 export class DownwardGravity extends Animation {
     static draw(sketchData: SketchData, p) {
-        p.background(255);
+        p.background(sketchData.colorSettings.background);
 
         sketchData.figs.forEach(fig => {
           if((fig.collideCanvasLeft(sketchData.canvasWidth, sketchData.canvasHeight) ||

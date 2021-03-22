@@ -67,7 +67,7 @@ export class Animation {
                 DraggedPainting.draw(sketchData, p);
                 break;
             case SelectedAnimation.None:
-                p.background(255);
+                p.background(sketchData.colorSettings.background);
                 sketchData.figs.forEach(fig => {
                     fig.update(sketchData.canvasWidth, sketchData.canvasHeight);
                     fig.display();

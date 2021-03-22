@@ -16,7 +16,7 @@ export class BubblePop extends Animation {
     }
 
     static draw(sketchData: SketchData, p) {
-        p.background(255);
+        p.background(sketchData.colorSettings.background);
         
         let speedFactor = 0.1
         let rotFactor = 0.1

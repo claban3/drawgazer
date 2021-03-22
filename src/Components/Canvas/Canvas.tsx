@@ -1,13 +1,14 @@
 import "./Canvas.css";
 import 'p5';
 import '../../Types/Figures';
-import { SelectedShape, SelectedAnimation, SketchData, ShapeColors } from '../../Types/Figures';
+import { SelectedShape, SelectedAnimation, SketchData, ColorSettings } from '../../Types/Figures';
 import P5Wrapper from 'react-p5-wrapper';
 import 'react-p5-wrapper';
 import { Animation } from '../../Types/Animations/Animation';
 import { CircleFigure, SquareFigure, TriangleFigure } from "../../Types/ProcessingFigures";
 
-let defaultColorSettings: ShapeColors = {
+let defaultColorSettings: ColorSettings = {
+    background: '#FFFFFF',
     triangle: '#ED1C24',
     rectangle: '#28306D',
     circle: '#36A533', 
@@ -93,7 +94,7 @@ function sketch (p) {
             sketchData.figs = [];
             sketchData.points = [];
             reset = false;
-            p.background(255);
+            p.background(sketchData.colorSettings.background);
             setClearCanvasInParent();
             localStorage.removeItem("savedFigs");
         }
