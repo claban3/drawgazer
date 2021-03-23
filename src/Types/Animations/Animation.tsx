@@ -41,14 +41,6 @@ export class Animation {
     static circleColors = [];
     static triangleColors = [];
 
-    static freeUndefinedFigures(sketchData: SketchData) {
-        for (let i = 0; i < sketchData.figs.length; i++) {
-            if (sketchData.figs[i] === undefined) {
-                sketchData.figs.splice(i, 1);
-            }
-        }
-    }
-
     static propsHandler(sketchData, p) {
         Animation.rectColors = generateColorSpectrum(sketchData.colorSettings.rectangle);
         Animation.circleColors = generateColorSpectrum(sketchData.colorSettings.circle);
@@ -66,9 +58,6 @@ export class Animation {
     }
 
     static draw(sketchData: SketchData, p) {
-
-        // This is still a problem sometimes ???? 
-        this.freeUndefinedFigures(sketchData); 
 
         switch(sketchData.selectedAnimation) {
             case SelectedAnimation.BubblePop:
