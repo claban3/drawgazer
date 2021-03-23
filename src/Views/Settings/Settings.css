@@ -33,12 +33,16 @@
 
     border-right: 1px solid black;
 } .settings-side-bar .options {
-    height: 15%;
+    height: 55%;
     width: 100%;
     
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.options:hover{
+    background-color: #ACABAB;
 }
 
 .tab-selection {
