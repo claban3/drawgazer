@@ -4,15 +4,16 @@ import P5 from 'p5';
 export class DraggedPainting extends Animation {
 
     static draw(sketchData: SketchData, p: P5) {
-        let customStyles : CustomFigureStyles = {
-            randomFill: true,
-            opacity: 0.2,
-            stroke: false
-        };
+        
 
         p.angleMode(p.DEGREES);
         sketchData.figs.forEach(fig => {
-        
+
+            let customStyles : CustomFigureStyles = {
+                opacity: fig.dim * 7,
+                stroke: false
+            };
+
             let width = sketchData.canvasWidth;
             let height = sketchData.canvasHeight;
             

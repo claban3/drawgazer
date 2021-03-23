@@ -11,7 +11,7 @@ import * as Collides from 'p5collide';
 import { SketchData, CustomFigureStyles } from './Figures';
 import './Animations/ColorSampling';
 
-const MAX_SPEED = 5;
+const MAX_SPEED = 15;
 const WALL_PADDING = 5;
 export class AnimatedFigure {
   p5: P5
@@ -30,6 +30,7 @@ export class AnimatedFigure {
   thud: HTMLAudioElement = new Audio(thudSFX)
   rotAngle: number
   color: string
+  opacity: number
   // Return -1 or 1 randomly
   randSign() {
     return Math.random() < 0.5 ? -1 : 1;
@@ -41,13 +42,14 @@ export class AnimatedFigure {
       this.velocity = p5.createVector(3 * this.randSign(), 3 * this.randSign());
       this.force = p5.createVector(0, 0); 
       this.mass = Math.random() * 0.03 + 0.003;
-      this.acceleration = p5.createVector(0,0);
+      this.acceleration = p5.createVector(0, 0.5);
       this.angle = 0.0;
       this.timer = 60;
       this.spin = 0.02*this.randSign();
       this.dead = false;
       this.rotAngle = 0.0;
       this.color = c;
+      this.opacity = 200;
   }
 
   static collidesWith(fig1: AnimatedFigure, fig2: AnimatedFigure) {
@@ -87,10 +89,6 @@ export class AnimatedFigure {
     );
   }
 
-  update(width, height) {
-    this.timer -= 1;
-  }
-
   display() {}
 
   displayCustomStyles(customStyles: CustomFigureStyles) {}
@@ -110,6 +108,7 @@ export class CircleFigure extends AnimatedFigure {
         x: this.pos.x,
         y: this.pos.y,
         d: this.dim,
+        color: this.color
       }
   }
 
@@ -142,11 +141,16 @@ export class CircleFigure extends AnimatedFigure {
 
   display() {
     this.p5.push();
+    
     if (this.velocity.mag() > MAX_SPEED) {
       this.velocity.normalize().mult(MAX_SPEED);
     }
     this.p5.stroke(255);
-    this.p5.fill(this.color);
+
+    let color = this.p5.color(this.color);
+    color.setAlpha(this.opacity);
+    this.p5.fill(color);
+
     this.p5.ellipse(this.pos.x, this.pos.y, this.dim, this.dim);
     this.p5.pop();
   }
@@ -156,13 +160,11 @@ export class CircleFigure extends AnimatedFigure {
     if (this.velocity.mag() > MAX_SPEED) {
       this.velocity.normalize().mult(MAX_SPEED);
     }
-    customStyles.stroke ? this.p5.stroke(1) : this.p5.noStroke();
     
-    if (customStyles.randomFill) {
-      let color = this.p5.color(this.color);
-      color.setAlpha((this.dim * 7));
-      this.p5.fill(color);
-    }
+    customStyles.stroke ? this.p5.stroke(1) : this.p5.noStroke();
+    let color = this.p5.color(this.color);
+    color.setAlpha(customStyles.opacity);
+    this.p5.fill(color);
 
     this.p5.ellipse(this.pos.x, this.pos.y, this.dim, this.dim);
     this.p5.pop();
@@ -182,6 +184,7 @@ export class SquareFigure extends AnimatedFigure {
         x: this.pos.x,
         y: this.pos.y,
         d: this.dim,
+        color: this.color
       }
   }
 
@@ -218,22 +221,28 @@ export class SquareFigure extends AnimatedFigure {
       this.velocity.normalize().mult(MAX_SPEED);
     }
     this.p5.stroke(255);
-    this.p5.fill(this.color);
+    
+    let color = this.p5.color(this.color);
+    color.setAlpha((this.opacity));
+
+    this.p5.fill(color);
     this.p5.square(this.pos.x, this.pos.y, this.dim);
     this.p5.pop();
   }
 
   displayCustomStyles(customStyles: CustomFigureStyles) {
     this.p5.push();
+    
     if (this.velocity.mag() > MAX_SPEED) {
       this.velocity.normalize().mult(MAX_SPEED);
     }
+    
     customStyles.stroke ? this.p5.stroke(1) : this.p5.noStroke();
-    if (customStyles.randomFill) {
-      let color = this.p5.color(this.color);
-      color.setAlpha((this.dim * 7));
-      this.p5.fill(color);
-    }
+    
+    let color = this.p5.color(this.color);
+    color.setAlpha(customStyles.opacity);
+    this.p5.fill(color);
+    
     this.p5.square(this.pos.x, this.pos.y, this.dim);
     this.p5.pop();
   }
@@ -252,6 +261,7 @@ export class TriangleFigure extends AnimatedFigure {
         x: this.pos.x,
         y: this.pos.y,
         d: this.dim,
+        color: this.color
       }
   }
 
@@ -308,8 +318,13 @@ export class TriangleFigure extends AnimatedFigure {
     if (this.velocity.mag() > MAX_SPEED) {
       this.velocity.normalize().mult(MAX_SPEED);
     }
+    
     this.p5.stroke(255);
-    this.p5.fill(this.color);
+    
+    let color = this.p5.color(this.color);
+    color.setAlpha(this.opacity);
+    this.p5.fill(color);
+
     this.p5.angleMode(this.p5.DEGREES);
     let base_half = (this.dim / 2) * this.p5.cos(15);
     let x1 = this.pos.x - base_half;
@@ -330,13 +345,15 @@ export class TriangleFigure extends AnimatedFigure {
     if (this.velocity.mag() > MAX_SPEED) {
       this.velocity.normalize().mult(MAX_SPEED);
     }
+    
     customStyles.stroke ? this.p5.stroke(1) : this.p5.noStroke();
-    if (customStyles.randomFill) {
-      let color = this.p5.color(this.color);
-      color.setAlpha((this.dim * 7));
-      this.p5.fill(color);
-    }
+    
+    let color = this.p5.color(this.color);
+    color.setAlpha(customStyles.opacity);
+    this.p5.fill(color);
+
     this.p5.angleMode(this.p5.DEGREES);
+    
     let base_half = (this.dim / 2) * this.p5.cos(15);
     let x1 = this.pos.x - base_half;
     let y1 = this.pos.y + (this.dim / 2);
