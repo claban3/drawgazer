@@ -86,7 +86,6 @@ export class Animation {
                 color.setAlpha(50);
                 p.background(color);
                 sketchData.figs.forEach(fig => {
-                    fig.update(sketchData.canvasWidth, sketchData.canvasHeight);
                     fig.display();
                 });
                 break;
