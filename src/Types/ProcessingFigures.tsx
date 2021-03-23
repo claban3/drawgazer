@@ -89,10 +89,6 @@ export class AnimatedFigure {
     );
   }
 
-  update(width, height) {
-    this.timer -= 1;
-  }
-
   display() {}
 
   displayCustomStyles(customStyles: CustomFigureStyles) {}
