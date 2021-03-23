@@ -10,7 +10,7 @@ export class DownwardGravity extends Animation {
     };
     
     let color = p.color(sketchData.colorSettings.background);
-    color.setAlpha(30);
+    color.setAlpha(50);
     p.background(color);
 
     if (p.mouseX != p.pmouseX && 

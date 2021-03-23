@@ -94,7 +94,7 @@ export class Animation {
                 break;
             case SelectedAnimation.None:
                 let color = p.color(sketchData.colorSettings.background);
-                color.setAlpha(30);
+                color.setAlpha(50);
                 p.background(color);
                 sketchData.figs.forEach(fig => {
                     fig.update(sketchData.canvasWidth, sketchData.canvasHeight);
