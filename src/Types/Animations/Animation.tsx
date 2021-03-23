@@ -11,7 +11,9 @@ import { generateColorSpectrum } from './ColorSampling';
 import { FillScreenWithFigures } from './FillScreenWithFigures';
 
 export function pushNewFigure(selectedFigure, figs, p: p5) {
-    figs.push(newFigure(selectedFigure, p.mouseX, p.mouseY, p));
+    if (selectedFigure != SelectedShape.None) {
+        figs.push(newFigure(selectedFigure, p.mouseX, p.mouseY, p));
+    }
 }
 
 export function newFigure(selectedFigure, x: number, y:number, p: p5, color?:string) {

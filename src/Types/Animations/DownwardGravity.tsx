@@ -13,12 +13,13 @@ export class DownwardGravity extends Animation {
     color.setAlpha(30);
     p.background(color);
 
-    if (p.mouseX != p.pmouseX && p.mouseY != p.pmouseY && Math.round(Math.random() * 2) === 1) {
+    if (p.mouseX != p.pmouseX && 
+        p.mouseY != p.pmouseY && 
+        Math.round(Math.random() * 2) === 1) {
       pushNewFigure(sketchData.selectedFigure, sketchData.figs, p);
     }
 
     sketchData.figs.forEach(fig => {
-
       fig.pos.add(fig.velocity);
       fig.velocity.y += fig.acceleration.y;
       fig.dim *= 0.99;
