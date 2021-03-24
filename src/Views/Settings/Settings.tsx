@@ -5,6 +5,7 @@ import './Settings.css';
 import '../../App.css';
 
 import exit from '../../Images/exit.png';
+import AnimationCustomization from "../../Components/AnimationCustomization/AnimationCustomization";
 
 export default function Settings(props) {
     const settingStates = ["closed", "opening", "open", "closing"];
@@ -60,9 +61,7 @@ export default function Settings(props) {
             }
 
             { tabSelection === tabs[1] &&
-                <div className="settings-content">
-                    {/* TODO: Animations Tab */}
-                </div>
+                <AnimationCustomization/>
             }
 
             { tabSelection === tabs[2] &&

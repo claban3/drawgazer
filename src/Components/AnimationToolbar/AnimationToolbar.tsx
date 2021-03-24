@@ -39,20 +39,6 @@ export default function AnimationToolbar(props)
                          src={bubbles} 
                          alt="Bubble Pop"/>
             </div>
-
-            <div className={`animation-selection ${draggedOutHighlight}`}
-                 onClick = { () => props.selectionHandler(SelectedAnimation.DraggedOut) }>
-                    <img className="animation-icon"
-                         src={draggedout} 
-                         alt="Dragged Out"/>
-            </div>
-
-            <div className={`animation-selection ${draggedPaintingHighlight}`}
-                 onClick = { () => props.selectionHandler(SelectedAnimation.DraggedPainting) }>
-                    <img className="animation-icon"
-                         src={draggedPainting} 
-                         alt="Dragged Painting"/>
-            </div>
         </div>
     );
 }
