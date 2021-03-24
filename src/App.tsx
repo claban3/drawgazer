@@ -17,6 +17,12 @@ const defaultColors = {
     "--animationButtonSelected": "#484848",
 }
 
+const defaultAnimations = {
+    "animation0": "radial",
+    "animation1": "wobblySwarm",
+    "animation2": "gravity",
+}
+
 function App() {
     const [draw, setDraw] = useState(true);
     const [settingState, setSettingState] = useState(0);
@@ -24,6 +30,8 @@ function App() {
     const [newSession, setNewSession] = useState(true);
     const [colors, setColors] = useState(defaultColors); 
     const [resetColors, setResetColors] = useState(false);
+
+    const [animations, setAnimations] = useState(defaultAnimations);
 
     useEffect(() => {
         if(newSession) {
@@ -83,6 +91,18 @@ function App() {
         }
     }
 
+    function animationAddHandler(name: String, spot: Number) {
+
+    }
+
+    function animationRemoveHandler(idx: Number) {
+        if (idx >= 0 && idx <= 2) {
+            setAnimations(prevState=> (
+                {...prevState, ["animation"+idx]: "none"}
+            ))
+        }
+    }
+
     function settingStateChangeHandler() {
         // 0: Closed
         // 1: Opening
@@ -103,7 +123,9 @@ function App() {
         { (settingState>0) && <Settings settingStateChangeHandler={settingStateChangeHandler} 
                                         settingState={settingState}
                                         colorChangeHandler={colorChangeHandler}
-                                        resetColors={resetColors}/> }
+                                        resetColors={resetColors}
+                                        animations={animations}
+                                        animationRemoveHandler={animationRemoveHandler}/> }
 
         { draw && <Draw colorSettings={canvasColorSettings} settingStateChangeHandler={settingStateChangeHandler} settingState={settingState}/> }
         </>

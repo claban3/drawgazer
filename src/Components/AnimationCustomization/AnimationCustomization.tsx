@@ -11,7 +11,9 @@ import freeDraw from '../../Images/free-draw.png';
 
 export default function AnimationCustomization(props) {
     
-
+    useEffect(() => {
+        console.log(props);
+    }, [props.animations])
 
     return (
         <div className="settings-content">
@@ -19,32 +21,32 @@ export default function AnimationCustomization(props) {
                 <div className="all-animations-container">
                     <div className="unused-animation-row">
                         <div className="unused-animation">
-                            <img className="animation-icon" src={gravity}/>
+                            <img className="animation-icon" src={gravity}alt="gravity" />
                         </div>
                         <div className="unused-animation">
-                            <img className="animation-icon" src={gravity2}/>
+                            <img className="animation-icon" src={gravity2}alt="gravity2" />
                         </div>
                         <div className="unused-animation">
-                            <img className="animation-icon" src={radial}/>
-                        </div>
-                    </div>
-                    <div className="unused-animation-row">
-                        <div className="unused-animation">
-                            <img className="animation-icon" src={radial2}/>
-                        </div>
-                        <div className="unused-animation">
-                            <img className="animation-icon" src={bubbles}/>
-                        </div>
-                        <div className="unused-animation">
-                            <img className="animation-icon" src={draggedOut}/>
+                            <img className="animation-icon" src={radial} alt="radial"/>
                         </div>
                     </div>
                     <div className="unused-animation-row">
                         <div className="unused-animation">
-                            <img className="animation-icon" src={draggedPainting}/>
+                            <img className="animation-icon" src={radial2} alt="radial2"/>
                         </div>
                         <div className="unused-animation">
-                            <img className="animation-icon" src={freeDraw}/>
+                            <img className="animation-icon" src={bubbles} alt="bubbles"/>
+                        </div>
+                        <div className="unused-animation">
+                            <img className="animation-icon" src={draggedOut} alt="draggedOut"/>
+                        </div>
+                    </div>
+                    <div className="unused-animation-row">
+                        <div className="unused-animation">
+                            <img className="animation-icon" src={draggedPainting} alt="draggedPainting"/>
+                        </div>
+                        <div className="unused-animation">
+                            <img className="animation-icon" src={freeDraw}alt="freeDraw"/>
                         </div>
                         <div className="unused-animation"></div>
                     </div>
@@ -55,9 +57,9 @@ export default function AnimationCustomization(props) {
                     </div>
                 </div>
                 <div className="selected-animations-container">
-                    <div className="selected-animation"></div>
-                    <div className="selected-animation"></div>
-                    <div className="selected-animation"></div>
+                    <div className="selected-animation" onClick={() => props.animationRemoveHandler(0)}>{props.animations["animation0"]}</div>
+                    <div className="selected-animation" onClick={() => props.animationRemoveHandler(1)}>{props.animations["animation1"]}</div>
+                    <div className="selected-animation" onClick={() => props.animationRemoveHandler(2)}>{props.animations["animation2"]}</div>
                 </div>
             </div>
         </div>

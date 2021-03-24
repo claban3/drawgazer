@@ -61,7 +61,7 @@ export default function Settings(props) {
             }
 
             { tabSelection === tabs[1] &&
-                <AnimationCustomization/>
+                <AnimationCustomization animations={props.animations} animationRemoveHandler={props.animationRemoveHandler}/>
             }
 
             { tabSelection === tabs[2] &&

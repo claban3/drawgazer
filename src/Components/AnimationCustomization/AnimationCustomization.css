@@ -47,3 +47,7 @@
     cursor: pointer;
     margin: 30px;
 }
+
+img {
+    transform: translateY(+10%); /*this is ugly*/
+}
