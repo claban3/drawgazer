@@ -37,7 +37,7 @@ export class Stack extends Animation {
           fig.display();
         });
     }
-
+ 
     static mousePressed(sketchData: SketchData, p) {
         
     }

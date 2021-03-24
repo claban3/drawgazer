@@ -16,6 +16,8 @@ export class BubblePop extends Animation {
     }
 
     static draw(sketchData: SketchData, p) {
+        p.background(sketchData.colorSettings.background);
+        
         let speedFactor = 0.1
         let rotFactor = 0.1
 
@@ -38,8 +40,6 @@ export class BubblePop extends Animation {
 
             for (let i = 0; i < nodes.length; i++) {
                 if (AnimatedFigure.collidesWith(nodes[i], fig) && nodes[i] != fig) {
-                        //this.checkAndApplyCollision(nodes[i], nodes[j], p);
-                    console.log("triangles collide");
                     if (!to_burst.includes(nodes[i])){
                             to_burst.push(nodes[i])
                     }
