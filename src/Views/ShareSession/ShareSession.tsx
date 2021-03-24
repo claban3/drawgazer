@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import './ShareSession.css';
 import '../../App.css';
 
@@ -8,9 +8,11 @@ import share_session from '../../Images/share_session.png';
 export default function ShareSession(props) {
     const shareSessionStates = ["closed", "opening", "open", "closing"];
     const buttons = ["--shareButton"]
-    const input = ["--friendIDInput"]
+    //const input = ["--friendIDInput"]
 
     const [buttonSelection, setButtonSelection] = useState(null);
+    const [text, setText] = useState(props.token);
+    const [submitState, setSubmitState] = useState("friendID-input");
 
     function randSign() {
         return Math.random() < 0.5 ? -1 : 1;
@@ -55,9 +57,27 @@ export default function ShareSession(props) {
         return true;
     }
 
+    function submitHandler(input) {
+
+        setSubmitState(input);
+    }
+    
+    function onChangeHandler(event) {
+        console.log('HERE');
+        props.inputChangeHandler(event.target.value);
+        setText(event.target.value);
+    }
+
+    useEffect(() => {
+        props.setToken(text);
+      }, [text]);
+
     return (
         <div className={"shareSession-outer-container " + (shareSessionStates[props.shareSessionState]) }
             onAnimationEnd={() => props.shareSessionStateChangeHandler()} >
+
+        <input type="text" id="name" name="name" required
+                minLength={4} maxLength={8} size={10}></input>
                 
             <div className={"shareSession-container"}>
 
@@ -78,10 +98,10 @@ export default function ShareSession(props) {
 
                     <div className="friend-ID-input-box">
 
-                        <input type="text" className="friend-ID-input" id="friend-ID-input" name="friend-ID-input" placeholder="Friend ID"></input>
+                        <input type="text" className="friend-ID-input" id="friend-ID-input" name="friend-ID-input" placeholder="Friend ID" onChange={onChangeHandler}/*defaultValue={text}*/></input>
 
                         <div className="friend-ID-submit">    
-                            <input type="image" src={share_session} alt="Submit" style={{width:25, height:30}}></input>
+                            <input type="image" src={share_session} alt="Submit" style={{width:25, height:30}} onClick={()=> submitHandler(text)}></input>
                         </div>
 
                     </div>

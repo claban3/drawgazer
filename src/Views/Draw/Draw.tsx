@@ -46,6 +46,7 @@ export default function Draw(props){
       selectedAnimation: animationSelection,
       reset: clearCanvas,
       resetInParent: setClearCanvasHandler,
+      shareSessionState: props.shareSessionState
     };
 
     // TODO: pull this out to the parent: App.tsx
@@ -63,9 +64,14 @@ export default function Draw(props){
             <ShapesToolbar      shapeSelection={shapeSelection}
                                 selectionHandler={shapeSelectionHandler}/>
 
-            <Canvas canvasSettings={canvasSettings}/>
+            <Canvas canvasSettings={canvasSettings}
+                    shareSessionStateChangeHandler={props.shareSessionStateChangeHandler}
+                    shareSessionState={props.shareSessionState}/>
             <Options settingStateChangeHandler={props.settingStateChangeHandler}
-                     shareSessionStateChangeHandler={props.shareSessionStateChangeHandler}/>
+                     shareSessionStateChangeHandler={props.shareSessionStateChangeHandler}
+                     shareSessionState={props.shareSessionState}
+                     token= {props.token}
+                     setToken = {props.setToken}/>
 
             <AnimationToolbar   animationSelection={animationSelection}
                                 selectionHandler={animationSelectionHandler}/>

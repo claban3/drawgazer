@@ -23,4 +23,5 @@ export type CanvasSettings = {
     selectedAnimation: SelectedAnimation, 
     reset: Boolean,
     resetInParent: voidFunc
+    shareSessionState: number
 };

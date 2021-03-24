@@ -5,6 +5,7 @@ import { AnimatedFigure, CircleFigure, SquareFigure, TriangleFigure } from '../.
 import { SelectedShape, SelectedAnimation } from '../../Types/Figures';
 import P5Wrapper from 'react-p5-wrapper';
 import 'react-p5-wrapper';
+import { PinDropSharp } from "@material-ui/icons";
 
 function sketch (p) {
     let reset = false;
@@ -20,6 +21,7 @@ function sketch (p) {
     let canvasHeight = window.innerHeight * 0.75 - bufferHeight;
     let canvasWidth = window.innerWidth * 0.85 - bufferWidth;
     let renderer;
+    let shareSessionState = 0;
 
     function inCanvas(mouseX, mouseY, width, height) {
 
@@ -44,12 +46,14 @@ function sketch (p) {
         selectedAnimation = props.canvasSettings.selectedAnimation;
         reset = props.canvasSettings.reset;
         setClearCanvasInParent = props.canvasSettings.resetInParent;
+        shareSessionState = props.canvasSettings.shareSessionState;
         // Uncomment the line below once animation toolbar is integrated, else
         // SelectedAnimation will get updated to None
         //selectedAnimation = props.canvasSettings.selectedAnimation;
     }
 
     p.draw = function () {
+
         p.background(220);
         if (reset) {
             figs = [];
@@ -62,33 +66,58 @@ function sketch (p) {
             fig.update(selectedAnimation, p.mouseX, p.mouseY, canvasWidth, canvasHeight);
             fig.display();
         });
-        p.mousePressed = function () {
-            start = true;
-            points = [];
-            if (!inCanvas(p.mouseX, p.mouseY, canvasWidth, canvasHeight)) {
+
+        if (shareSessionState != 2) {
+
+            p.mousePressed = function () {
+
+                console.log("HERE")
+                console.log(shareSessionState);
+
+                if (shareSessionState == 0) {
+                    console.log("HERE0")
+                }
+                
+                if (shareSessionState == 1) {
+                    console.log("HERE1")
+                }
+                
+                if (shareSessionState == 2) {
+                    console.log("HERE2")
+                }
+                
+                if (shareSessionState == 3) {
+                    console.log("HERE3")
+                }
+
+                start = true;
+                points = [];
+                if (!inCanvas(p.mouseX, p.mouseY, canvasWidth, canvasHeight)) {
+                    return false;
+                }
+                let s = Math.random() * 50 + 50;
+                switch(selectedFigure) {
+                    case SelectedShape.Circle:
+                        let newCirc = new CircleFigure(p.mouseX, p.mouseY, -0.02, s, p);
+                        figs.push(newCirc);
+                        break;
+                    case SelectedShape.Rectangle:
+                        let newSquare = new SquareFigure(p.mouseX, p.mouseY, -0.02, s, p);
+                        figs.push(newSquare);
+                        break;
+                    case SelectedShape.Triangle:
+                        let newTriangle = new TriangleFigure(p.mouseX, p.mouseY, -0.02, s, p);
+                        figs.push(newTriangle);
+                        break;
+                }
+                // prevent default
                 return false;
             }
-            let s = Math.random() * 50 + 50;
-            switch(selectedFigure) {
-                case SelectedShape.Circle:
-                    let newCirc = new CircleFigure(p.mouseX, p.mouseY, -0.02, s, p);
-                    figs.push(newCirc);
-                    break;
-                case SelectedShape.Rectangle:
-                    let newSquare = new SquareFigure(p.mouseX, p.mouseY, -0.02, s, p);
-                    figs.push(newSquare);
-                    break;
-                case SelectedShape.Triangle:
-                    let newTriangle = new TriangleFigure(p.mouseX, p.mouseY, -0.02, s, p);
-                    figs.push(newTriangle);
-                    break;
+    
+            p.mouseReleased = function () {
+    
+                start = false;
             }
-            // prevent default
-            return false;
-        }
-
-        p.mouseReleased = function () {
-            start = false;
         }
 
         if (selectedFigure === SelectedShape.FreeDraw && start) {
