@@ -103,7 +103,7 @@ function App() {
 
         { draw && <Draw settingStateChangeHandler={settingStateChangeHandler}
                         shareSessionStateChangeHandler={shareSessionStateChangeHandler}
-                        ShareSessionState={shareSessionState}/> }
+                        shareSessionState={shareSessionState}/> }
         </>
     );
 }

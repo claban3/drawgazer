@@ -7,7 +7,7 @@ import P5Wrapper from 'react-p5-wrapper';
 import 'react-p5-wrapper';
 import { PinDropSharp } from "@material-ui/icons";
 
-function sketch (p) {
+function sketch (p, props) {
     let reset = false;
     let figs: AnimatedFigure[] = [];
     let points: P5Wrapper.Vector[] = [];
@@ -46,7 +46,7 @@ function sketch (p) {
         selectedAnimation = props.canvasSettings.selectedAnimation;
         reset = props.canvasSettings.reset;
         setClearCanvasInParent = props.canvasSettings.resetInParent;
-        shareSessionState = props.canvasSettings.shareSessionState;
+        //shareSessionState = props.canvasSettings.shareSessionState;
         // Uncomment the line below once animation toolbar is integrated, else
         // SelectedAnimation will get updated to None
         //selectedAnimation = props.canvasSettings.selectedAnimation;

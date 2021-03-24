@@ -22,6 +22,6 @@ export type CanvasSettings = {
     selectedFigure: SelectedShape,
     selectedAnimation: SelectedAnimation, 
     reset: Boolean,
-    resetInParent: voidFunc
-    shareSessionState: number
+    resetInParent: voidFunc,
+    shareSessionState: number,
 };

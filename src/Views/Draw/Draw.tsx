@@ -16,6 +16,7 @@ export default function Draw(props){
     const [animationSelection, setAnimationSelection] = useState(SelectedAnimation.None);
     const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
     const [clearCanvas, setClearCanvas] = useState(false);
+    const [shareSessionState, setShareSessionState] = useState(props.shareSessionState);
 
     useEffect(() => {
         function handleResize() {
@@ -46,7 +47,7 @@ export default function Draw(props){
       selectedAnimation: animationSelection,
       reset: clearCanvas,
       resetInParent: setClearCanvasHandler,
-      shareSessionState: props.shareSessionState
+      shareSessionState: shareSessionState,
     };
 
     // TODO: pull this out to the parent: App.tsx
@@ -64,12 +65,11 @@ export default function Draw(props){
             <ShapesToolbar      shapeSelection={shapeSelection}
                                 selectionHandler={shapeSelectionHandler}/>
 
-            <Canvas canvasSettings={canvasSettings}
-                    shareSessionStateChangeHandler={props.shareSessionStateChangeHandler}
-                    shareSessionState={props.shareSessionState}/>
+            <Canvas canvasSettings={canvasSettings}/>
             <Options settingStateChangeHandler={props.settingStateChangeHandler}
                      shareSessionStateChangeHandler={props.shareSessionStateChangeHandler}
-                     shareSessionState={props.shareSessionState}
+                     setShareSessionState={setShareSessionState}
+                     shareSessionState={shareSessionState}
                      token= {props.token}
                      setToken = {props.setToken}/>
 

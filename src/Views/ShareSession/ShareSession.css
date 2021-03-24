@@ -59,7 +59,7 @@
     width: 65%;
     border: none;
     flex-grow: 2;
-    z-index: 6;
+    /*z-index: 4;*/
 }
 
 .friend-ID-input::placeholder {

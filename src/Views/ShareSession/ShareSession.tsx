@@ -75,9 +75,6 @@ export default function ShareSession(props) {
     return (
         <div className={"shareSession-outer-container " + (shareSessionStates[props.shareSessionState]) }
             onAnimationEnd={() => props.shareSessionStateChangeHandler()} >
-
-        <input type="text" id="name" name="name" required
-                minLength={4} maxLength={8} size={10}></input>
                 
             <div className={"shareSession-container"}>
 
