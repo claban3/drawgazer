@@ -91,8 +91,23 @@ function App() {
         }
     }
 
-    function animationAddHandler(name: String, spot: Number) {
-
+    function animationAddHandler(name: string) {
+        console.log(name);
+        if (animations["animation0"] === "none") {
+            setAnimations(prevState=> (
+                {...prevState, "animation0": name}
+            ))
+        }
+        else if (animations["animation1"] === "none") {
+            setAnimations(prevState=> (
+                {...prevState, "animation1": name}
+            ))
+        }
+        else if (animations["animation2"] === "none") {
+            setAnimations(prevState=> (
+                {...prevState, "animation2": name}
+            ))
+        }
     }
 
     function animationRemoveHandler(idx: Number) {
@@ -125,7 +140,8 @@ function App() {
                                         colorChangeHandler={colorChangeHandler}
                                         resetColors={resetColors}
                                         animations={animations}
-                                        animationRemoveHandler={animationRemoveHandler}/> }
+                                        animationRemoveHandler={animationRemoveHandler}
+                                        animationAddHandler={animationAddHandler}/> }
 
         { draw && <Draw colorSettings={canvasColorSettings} settingStateChangeHandler={settingStateChangeHandler} settingState={settingState}/> }
         </>
