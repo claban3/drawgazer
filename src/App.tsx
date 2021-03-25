@@ -96,17 +96,17 @@ function App() {
         if (animations["animation0"] === "none") {
             setAnimations(prevState=> (
                 {...prevState, "animation0": name}
-            ))
+            ));
         }
         else if (animations["animation1"] === "none") {
             setAnimations(prevState=> (
                 {...prevState, "animation1": name}
-            ))
+            ));
         }
         else if (animations["animation2"] === "none") {
             setAnimations(prevState=> (
                 {...prevState, "animation2": name}
-            ))
+            ));
         }
     }
 
@@ -114,7 +114,7 @@ function App() {
         if (idx >= 0 && idx <= 2) {
             setAnimations(prevState=> (
                 {...prevState, ["animation"+idx]: "none"}
-            ))
+            ));
         }
     }
 
@@ -143,7 +143,7 @@ function App() {
                                         animationRemoveHandler={animationRemoveHandler}
                                         animationAddHandler={animationAddHandler}/> }
 
-        { draw && <Draw colorSettings={canvasColorSettings} settingStateChangeHandler={settingStateChangeHandler} settingState={settingState}/> }
+        { draw && <Draw colorSettings={canvasColorSettings} settingStateChangeHandler={settingStateChangeHandler} settingState={settingState} animations={animations} /> }
         </>
     );
 }

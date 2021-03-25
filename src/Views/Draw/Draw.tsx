@@ -70,7 +70,8 @@ export default function Draw(props){
             <Options settingStateChangeHandler={props.settingStateChangeHandler} clearCanvas={setClearCanvasHandler}/>
 
             <AnimationToolbar   animationSelection={animationSelection}
-                                selectionHandler={animationSelectionHandler}/>
+                                selectionHandler={animationSelectionHandler}
+                                animations={props.animations}/>
         </div>
     );
 }
