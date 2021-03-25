@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ChromePicker } from 'react-color';
+import ColorCustomization from "../../Components/ColorCustomization/ColorCustomization";
 import './Settings.css';
 import '../../App.css';
 
@@ -14,25 +15,14 @@ export default function Settings(props) {
     const [buttonSelection, setButtonSelection] = useState(null);
     const [pickerColor, setPickerColor] = useState("#FFFFFF");
 
+    const [originalColors, setOriginalColors] = useState(props.colors);
+
     let colorSchemeUnderline = (tabSelection === tabs[0]) ? "tab-selection" : "";
     let animationsUnderline = (tabSelection === tabs[1]) ? "tab-selection" : "";
     let soundUnderline = (tabSelection === tabs[2]) ? "tab-selection" : "";
 
     function tabSelectionHandler(newTabSelection) {
         setTabSelection(newTabSelection)
-    }
-
-    function buttonSelectionHandler(newButtonSelection) {
-        setButtonSelection(newButtonSelection);
-        let buttonColor = document.documentElement.style.getPropertyValue(newButtonSelection);
-        setPickerColor(buttonColor);
-    }
-
-    function colorChangeHandler(color) {
-        if(buttonSelection) {
-            props.colorChangeHandler(buttonSelection, color);
-            setPickerColor(color);
-        }
     }
 
     return (
@@ -65,57 +55,8 @@ export default function Settings(props) {
             </div>
 
             { tabSelection === tabs[0] && 
-                <div className="settings-content">
-
-                    <div className="color-picker-container">
-                        <ChromePicker
-                            color={pickerColor}
-                            onChange={colorChangeHandler} />
-                    </div>
-
-                    <div className="buttons-container">
-                        <div className="buttons-row one">
-
-                            <svg  className="shape-icon-settings" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 169.82 147.06"
-                                onClick={() => buttonSelectionHandler(buttons[0])}
-                                onTouchEnd={() => buttonSelectionHandler(buttons[0])}>
-
-                                <polygon className="triangle "id="triangle" points="84.91 3 2.6 145.56 167.22 145.56 84.91 3" stroke="#231f20" stroke-miterlimit="10" stroke-width="3"/>
-                            </svg>
-
-
-                            <svg className="shape-icon-settings" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 147 147"
-                                onClick={() => buttonSelectionHandler(buttons[1])}
-                                onTouchEnd={() => buttonSelectionHandler(buttons[1])}>
-                    
-                                <rect className="square" id="square" x="1.5" y="1.5" width="144" height="144" stroke="#231f20" stroke-miterlimit="10" stroke-width="3"/>
-                            </svg>
-
-                                
-                            <svg className="shape-icon-settings" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 147 147"
-                                onClick={() => buttonSelectionHandler(buttons[2])}
-                                onTouchEnd={() => buttonSelectionHandler(buttons[2])}>
-
-                                <circle className="circle" id="circle" cx="73.5" cy="73.5" r="72" stroke="#231f20" stroke-miterlimit="10" stroke-width="3"/>
-                            </svg>
-
-                        </div>
-
-                        <div className="buttons-row two">
-                            <div className="shape-button"
-                                onClick={() => buttonSelectionHandler(buttons[3])}
-                                onTouchEnd={() => buttonSelectionHandler(buttons[3])}>
-                                    Shape
-                            </div>
-
-                            <div className="animation-button"
-                                onClick={() => buttonSelectionHandler(buttons[4])}
-                                onTouchEnd={() => buttonSelectionHandler(buttons[4])}>
-                                    Animation
-                            </div>
-                        </div>
-                    </div>
-                </div> 
+                <ColorCustomization colorChangeHandler={props.colorChangeHandler}
+                                    resetColors={props.resetColors}/>
             }
 
             { tabSelection === tabs[1] &&

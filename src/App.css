@@ -17,3 +17,23 @@
         transform: translateY(100%);
     }   
 }
+
+@keyframes  popIn {
+    from {
+        transform: scale(0);
+    }
+
+    to {
+        transform: scale(1.0);
+    }
+}
+
+@keyframes popOut {
+    from {
+        transform: scale(1.0);
+    }
+
+    to { 
+        transform: scale(0);
+    }
+}
