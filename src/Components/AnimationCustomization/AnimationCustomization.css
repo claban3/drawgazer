@@ -46,8 +46,17 @@
     border-radius: 10px;
     cursor: pointer;
     margin: 30px;
+    vertical-align: center;
+    position: relative;
 }
 
-img {
-    transform: translateY(+10%); /*this is ugly*/
+.unused-animation img{
+    width: auto;
+    height: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
 }

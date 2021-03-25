@@ -18,9 +18,9 @@ const defaultColors = {
 }
 
 const defaultAnimations = {
-    "animation0": "radial",
-    "animation1": "wobblySwarm",
-    "animation2": "gravity",
+    "animation0": "gravity",
+    "animation1": "radial",
+    "animation2": "bubbles",
 }
 
 function App() {
