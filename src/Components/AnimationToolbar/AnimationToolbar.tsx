@@ -18,6 +18,7 @@ export default function AnimationToolbar(props)
     let draggedPaintingHighlight = (props.animationSelection === SelectedAnimation.DraggedPainting) ? "animation-selected" : "";
     let draggedOutHighlight = (props.animationSelection === SelectedAnimation.DraggedOut) ? "animation-selected" : "";
     let fillScreenHighlight = (props.animationSelection === SelectedAnimation.FillScreenWithFigures) ? "animation-selected" : "";
+    let scurryHighlight = (props.animationSelection === SelectedAnimation.Scurry) ? "animation-selected" : "";
 
     return (
         <div className="animation-toolbar-container">
@@ -35,8 +36,8 @@ export default function AnimationToolbar(props)
                          alt="Wobbly Swarm"/>
             </div>
 
-            <div className={`animation-selection ${bubblePopHighlight}`}
-                 onClick = { () => props.selectionHandler(SelectedAnimation.BubblePop) }>
+            <div className={`animation-selection ${scurryHighlight}`}
+                 onClick = { () => props.selectionHandler(SelectedAnimation.Scurry) }>
                     <img className="animation-icon"
                          src={bubbles} 
                          alt="Bubble Pop"/>

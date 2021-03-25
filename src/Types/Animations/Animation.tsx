@@ -5,6 +5,7 @@ import { DownwardGravity } from './DownwardGravity';
 import { WallBounce } from './WallBounce';
 import { BubblePop } from './BubblePop';
 import { WobblySwarm } from './WobblySwarm';
+import { Scurry } from './Scurry';
 import { DraggedPainting } from './DraggedPainting';
 import { DraggedOut } from './DraggedOut';
 import { generateColorSpectrum } from './ColorSampling';
@@ -81,6 +82,9 @@ export class Animation {
             case SelectedAnimation.WobblySwarm:
                 WobblySwarm.draw(sketchData, p);
                 break;
+                case SelectedAnimation.Scurry:
+                    Scurry.draw(sketchData, p);
+                    break;
             case SelectedAnimation.None:
                 let color = p.color(sketchData.colorSettings.background);
                 color.setAlpha(50);
