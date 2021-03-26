@@ -1,0 +1,21 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "drawgazer server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "http": "0.0.1-security",
+    "nodemon": "^2.0.7",
+    "uuid": "^8.3.2",
+    "websocket": "^1.0.33"
+  },
+  "devDependencies": {
+    "@types/uuid": "^8.3.0"
+  }
+}

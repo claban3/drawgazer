@@ -11,7 +11,7 @@ export default function ShareSession(props) {
 
     function submitHandler() {
         console.log("submission handler text: " + text);
-        // props.submissionHandler(input);
+        props.submissionHandler(text);
     }
     
     function onChangeHandler(event) {
@@ -60,7 +60,7 @@ export default function ShareSession(props) {
                 <p className="friend-ID-local" 
                    id="friend-ID-local">
                         <b>Your Friend ID: 
-                        <span className="spn"> {"444444"} </span>
+                        <span className="spn"> {props.uniqueId} </span>
                         </b>
                 </p>
                 

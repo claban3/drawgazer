@@ -2,9 +2,12 @@ import './App.css';
 import Draw from './Views/Draw/Draw';
 import Settings from './Views/Settings/Settings';
 import ShareSession from './Views/ShareSession/ShareSession';
+import JoinRequest from './Views/JoinRequest/JoinRequest';
 import { useEffect, useState } from 'react';
 import { ColorSettings } from './Types/Figures';
 import { generateContrastColors } from '@adobe/leonardo-contrast-colors';
+
+import { io } from "socket.io-client";
 
 const defaultColors = {
     "--triangleColor": "#00429D",
@@ -22,12 +25,43 @@ function App() {
     const [draw, setDraw] = useState(true);
     const [settingState, setSettingState] = useState(0);
     const [shareSessionState, setShareSessionState] = useState(0);
+    const [joinRequestState, setJoinRequestState] = useState(0);
     const [token, setToken] = useState('');
 
     const [newSession, setNewSession] = useState(true);
     const [colors, setColors] = useState(defaultColors); 
     const [resetColors, setResetColors] = useState(false);
+    const [uniqueId, setUniqueId] = useState(null);
+    // var socket;
+    const socket = io("http://localhost:8000");
+    
+    useEffect(() => {
+        socket.on("connect", () => {console.log("Connected with sever");});
+        socket.on("uuid", (uuid) => {setUniqueId(uuid); console.log("new uuid: " + uuid);});
+        socket.on("shareCanvasRequest", (data) => shareCanvasRequestHandler(data));
+    },[]);
 
+    function shareCanvasRequestHandler(data) {
+        console.log("Received request from " + data.src + " to share canvas");
+        // Show popup to accept/decline share canvas request
+        // On accept/decline: 
+            // socket.emit("shareCanvasResponse", "accept/decline");
+
+        // joinRequestStateChangeHandler();
+        // joinRequestStateChangeHandler();
+    }
+    
+    function shareCanvasSubmissionHandler(friendId) {
+        let requestData = {
+            srcId : uniqueId,
+            destId : friendId
+        }
+        console.log("Requesting sync with " + friendId);
+        socket.emit("initiateShareCanvas", requestData, (data) => {
+            console.log("Recieved ack from server");
+        });
+    }
+    
     useEffect(() => {
         if(newSession) {
             setNewSession(false);
@@ -86,18 +120,6 @@ function App() {
         }
     }
 
-    function submissionHandler(input: any) {
-        //send current token to server for checking
-        /*
-
-        const tokenOptions = {
-            method: 'POST',
-
-        }
-
-        */
-    }
-
     function settingStateChangeHandler() {
         // 0: Closed
         // 1: Opening
@@ -112,6 +134,14 @@ function App() {
         // 2: Open
         // 3: Closing
         setShareSessionState( (shareSessionState + 1 ) % 4 );
+    }
+
+    function joinRequestStateChangeHandler() {
+        // 0: Closed
+        // 1: Opening
+        // 2: Open
+        // 3: Closing
+        setJoinRequestState( (joinRequestState + 1 ) % 4 );
     }
 
     let canvasColorSettings: ColorSettings = {
@@ -132,7 +162,12 @@ function App() {
                                                  shareSessionState={shareSessionState}
                                                  token= {token}
                                                  setToken = {setToken}
-                                                 submissionHandler={submissionHandler}/> }
+                                                 submissionHandler={shareCanvasSubmissionHandler}
+                                                 uniqueId={uniqueId}/> }
+
+
+        { (joinRequestState>0) && <JoinRequest joinRequestStateChangeHandler={shareSessionStateChangeHandler} 
+                                               joinRequestState={shareSessionState}/> }
 
         { draw && <Draw colorSettings={canvasColorSettings}
                         settingStateChangeHandler={settingStateChangeHandler}
