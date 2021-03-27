@@ -2,12 +2,13 @@ import './App.css';
 import Draw from './Views/Draw/Draw';
 import Settings from './Views/Settings/Settings';
 import ShareSession from './Views/ShareSession/ShareSession';
-import JoinRequest from './Views/JoinRequest/JoinRequest';
+import ShareSessionRequest from './Components/ShareSessionRequest/ShareSessionRequest';
 import { useEffect, useState } from 'react';
 import { ColorSettings } from './Types/Figures';
 import { generateContrastColors } from '@adobe/leonardo-contrast-colors';
-
-import { io } from "socket.io-client";
+import useSound from 'use-sound';
+import chime from "./Sounds/chime.mp3";
+import socket from "./socket.js"
 
 const defaultColors = {
     "--triangleColor": "#00429D",
@@ -25,30 +26,49 @@ function App() {
     const [draw, setDraw] = useState(true);
     const [settingState, setSettingState] = useState(0);
     const [shareSessionState, setShareSessionState] = useState(0);
-    const [joinRequestState, setJoinRequestState] = useState(0);
-    const [token, setToken] = useState('');
+    const [shareSessionRequestState, setShareSessionRequestState] = useState(0);
+    const [playChime] = useSound(chime);
 
     const [newSession, setNewSession] = useState(true);
     const [colors, setColors] = useState(defaultColors); 
     const [resetColors, setResetColors] = useState(false);
     const [uniqueId, setUniqueId] = useState(null);
-    // var socket;
-    const socket = io("http://localhost:8000");
-    
+
+    const [shareSessionCallback, setShareSessionCallback] = useState(() => {}); // TODO
+
     useEffect(() => {
         socket.on("connect", () => {console.log("Connected with sever");});
         socket.on("uuid", (uuid) => {setUniqueId(uuid); console.log("new uuid: " + uuid);});
-        socket.on("shareCanvasRequest", (data) => shareCanvasRequestHandler(data));
+        socket.on("shareCanvasRequest", (data, responseCallback) => shareCanvasRequestHandler(data, responseCallback));
     },[]);
 
-    function shareCanvasRequestHandler(data) {
-        console.log("Received request from " + data.src + " to share canvas");
-        // Show popup to accept/decline share canvas request
+    function shareCanvasResponseHandler(responseData) {
+        console.log("sharecanvasResponseHandler: " + responseData);
+        if(responseData) {
+            console.log(responseData.destId + " accepted invitation? " + responseData.response);
+        }
+
+    }
+    function shareCanvasRequestHandler(data, responseCallback) {
+        console.log("Received request from " + data.srcId + " to share canvas");
+
+        if(!shareSessionRequestState) {
+            shareSessionsRequestStateChangeHandler();
+        }
+        
         // On accept/decline: 
             // socket.emit("shareCanvasResponse", "accept/decline");
+    }
 
-        // joinRequestStateChangeHandler();
-        // joinRequestStateChangeHandler();
+    // TODO: callback from "shareCanvasRequest" isn't working correctly.
+    function sendShareCanvasResponse(response, requestId) {
+        let responseData = {
+            srcId: uniqueId,
+            destId: requestId,
+            response: response
+        }
+
+        socket.emit("")
     }
     
     function shareCanvasSubmissionHandler(friendId) {
@@ -56,12 +76,14 @@ function App() {
             srcId : uniqueId,
             destId : friendId
         }
+
         console.log("Requesting sync with " + friendId);
-        socket.emit("initiateShareCanvas", requestData, (data) => {
-            console.log("Recieved ack from server");
+        socket.emit("initiateShareCanvas", requestData, (responseData) => {
+            shareCanvasResponseHandler(responseData);
         });
     }
     
+
     useEffect(() => {
         if(newSession) {
             setNewSession(false);
@@ -78,7 +100,6 @@ function App() {
         setResetColors( !(JSON.stringify(colors) === JSON.stringify(defaultColors)) );
         setCSSProperties();
     }, [colors]);
-
 
     function setCSSProperties() {
         document.documentElement.style.setProperty("--triangleColor", colors["--triangleColor"]);
@@ -136,12 +157,13 @@ function App() {
         setShareSessionState( (shareSessionState + 1 ) % 4 );
     }
 
-    function joinRequestStateChangeHandler() {
+    function shareSessionsRequestStateChangeHandler() {
         // 0: Closed
         // 1: Opening
         // 2: Open
         // 3: Closing
-        setJoinRequestState( (joinRequestState + 1 ) % 4 );
+        if(shareSessionRequestState === 0) playChime(); // TODO: plays at wrong time
+        setShareSessionRequestState( (shareSessionRequestState + 1 ) % 4);
     }
 
     let canvasColorSettings: ColorSettings = {
@@ -160,14 +182,14 @@ function App() {
 
         { (shareSessionState>0) && <ShareSession shareSessionStateChangeHandler={shareSessionStateChangeHandler} 
                                                  shareSessionState={shareSessionState}
-                                                 token= {token}
-                                                 setToken = {setToken}
                                                  submissionHandler={shareCanvasSubmissionHandler}
                                                  uniqueId={uniqueId}/> }
 
 
-        { (joinRequestState>0) && <JoinRequest joinRequestStateChangeHandler={shareSessionStateChangeHandler} 
-                                               joinRequestState={shareSessionState}/> }
+        { (shareSessionRequestState>0) && <ShareSessionRequest 
+            shareSessionsRequestStateChangeHandler={shareSessionsRequestStateChangeHandler} 
+            shareSessionRequestState={shareSessionRequestState}
+            shareSessionCallback={sendShareCanvasResponse}/> }
 
         { draw && <Draw colorSettings={canvasColorSettings}
                         settingStateChangeHandler={settingStateChangeHandler}

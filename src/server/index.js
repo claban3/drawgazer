@@ -16,49 +16,38 @@ const {
 
 const clients = {};
 
-function initiateShareCanvas(data) {
-    var srcId = data.srcId;
-    var destId = data.destId;
+function initiateShareCanvas(requestData, responseCallback) {
+    var srcId = requestData.srcId;
+    var destId = requestData.destId;
     console.log("Client " + srcId + " attempting to join " + destId);
+
     // Check both clients exist and that neither are currently in a session
     if((srcId in clients) && (destId in clients)) {
-        clients[destId].emit("shareCanvasRequest", (response) => {
-          console.log("response: " + response.accept);
+
+        clients[destId].emit("shareCanvasRequest", requestData, (responseData) => {
+            console.log("responseCallBack");
+            // responseCallback(responseData);
         })
     } 
     else {
         console.log("could not find srcId or destId");
+        // responseCallback("Could not find user with the requested FriendID " + destId);
     }
 }
-/*
-function shareSessionResponse(data) {
-
-  if(data.response == "yes") {
-    
-    
-  }
-  
-  if(data.response == "no") {
-
-  }
-
-}
-*/
 
 io.on("connection", (socket) => {
   var uuid = uuidv1().slice(0,8);
   clients[uuid] = socket;
 
-    console.log("current state of clients:\n");
+    console.log("current state of clients:");
     for(const [key, value] of Object.entries(clients)) {
-      console.log("UUID: " + key);
-      console.log("Connected? " + socket.connected)
+      console.log("  UUID: " + key);
     }
-  
   
   socket.emit("uuid", uuid);
 
-  socket.on( "initiateShareCanvas", (data) => initiateShareCanvas(data));
+  socket.on( "initiateShareCanvas", (data, callback) => initiateShareCanvas(data));
+//   socket.on("shareCanvasResponse" (data,))
 
 
   socket.on("disconnect", () => {
