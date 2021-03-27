@@ -37,7 +37,7 @@ export class BubblePop extends Animation {
             case("CIRCLE"):
                 cache = this.circleCache;
                 shape = SelectedShape.Circle;
-                // color = Animation.getCircleColor();
+                // color = getCircleColor();
                 break;
             case("RECT"):
                 xpos += dim/2;
@@ -45,12 +45,12 @@ export class BubblePop extends Animation {
 
                 cache = this.squareCache;
                 shape = SelectedShape.Rectangle;
-                // color = this.getRectColor();
+                // color = getRectColor();
                 break;
             case("POLY"):
                 cache = this.triangleCache;
                 shape = SelectedShape.Triangle;
-                // color = this.getTriangleColor();
+                // color = getTriangleColor();
                 break;
         }
 
@@ -164,18 +164,6 @@ export class BubblePop extends Animation {
 
             fig.timer -= 1;
 
-            // prevent lag and sound spike
-
-            /*
-            for (let i = 0; i < nodes.length; i++) {
-                if (AnimatedFigure.collidesWith(nodes[i], fig) && nodes[i] != fig) {
-                    let directionVector = fig.pos.copy().sub(nodes[i].pos.copy()).normalize();
-                    fig.velocity.mult(p.createVector(directionVector.x,directionVector.y,0));
-                    nodes[i].velocity.mult(p.createVector(-1*directionVector.x, -1*directionVector.y, 0));
-                }
-            }
-            */
-
             if (fig.collideCanvasLeft(width, height) || fig.collideCanvasRight(width, height)) {
                 fig.velocity.x *= -1;
             }
@@ -199,15 +187,18 @@ export class BubblePop extends Animation {
             this.counter++;
         });
 
-        if(to_burst.length > 0) console.log("to burst length: " + to_burst.length);
+        if(to_burst.length > 0)
         for (let i = 0; i < to_burst.length; i++) {
             this.burst_cache(to_burst[i], sketchData,  p)
         }
     }
 
     static mousePressed(sketchData: SketchData, p) {
-        if(sketchData.figs.length >= this.NUM_FIGURES) {
-            this.burst(sketchData.figs[0], sketchData, p);
+        if (AnimatedFigure.mouseOnCanvas(p, sketchData.canvasWidth, sketchData.canvasHeight))
+        {
+            if(sketchData.figs.length >= this.NUM_FIGURES) {
+                this.burst_cache(sketchData.figs[0], sketchData, p);
+            }
         }
         return false;
     }

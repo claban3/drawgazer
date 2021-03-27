@@ -113,6 +113,9 @@ export class Animation {
             case SelectedAnimation.WobblySwarm:
                 WobblySwarm.mousePressed(sketchData, p);
                 break;
+            case SelectedAnimation.BubblePop:
+                BubblePop.mousePressed(sketchData, p);
+                break;
             case SelectedAnimation.None:
                 break; 
         }
