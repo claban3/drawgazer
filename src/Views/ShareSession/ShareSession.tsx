@@ -9,9 +9,15 @@ export default function ShareSession(props) {
     const shareSessionStates = ["closed", "opening", "open", "closing"];
     const [text, setText] = useState(props.token);
 
-    function submitHandler() {
-        console.log("submission handler text: " + text);
-        // props.submissionHandler(input);
+    function submitHandler(event) {
+        event.preventDefault();
+        if(text.length === 8) {
+            alert("Submitted: " + text);
+            // props.submissionHandler(input);
+        }
+        else {
+            alert("Please enter an 8 character friend ID");
+        }
     }
     
     function onChangeHandler(event) {
@@ -21,10 +27,12 @@ export default function ShareSession(props) {
     return (
         <div className="shareSession-outer-container"
              onAnimationEnd={() => props.shareSessionStateChangeHandler()}
-             /*onClick={() => props.shareSessionStateChangeHandler()}*/
-             /*onTouchEnd={() => props.shareSessionStateChangeHandler()}*/>
+             onClick={() => props.shareSessionStateChangeHandler()}
+             onTouchEnd={() => props.shareSessionStateChangeHandler()}>
                 
-            <div className={"shareSession-container " + (shareSessionStates[props.shareSessionState])}>
+            <div className={"shareSession-container " + (shareSessionStates[props.shareSessionState])}
+                 onClick={(event) => {event.stopPropagation();}}
+                 onTouchEnd={(event) => {event.stopPropagation();}}>
 
                 <img className="shareSession-exit"
                      src={exit}
@@ -38,22 +46,23 @@ export default function ShareSession(props) {
                         <b>Enter Friend ID to share canvas:</b>
                     </div>
 
-                    <div className="friend-ID-input-box">
+                    <form className="friend-ID-input-box" onSubmit={submitHandler}>
 
-                        <input  className="friend-ID-input" 
-                                type="text" 
-                                id="friend-ID-input"
-                                name="friend-ID-input" 
-                                placeholder="Friend ID" 
-                                onSubmit={submitHandler}
-                                onChange={onChangeHandler}>
-                        </input>
+                        <input
+                            className="friend-ID-input"
+                            type="text"
+                            placeholder="Friend ID"
+                            value={text}
+                            spellCheck="false"
+                            onChange={onChangeHandler}
+                        />
 
                         <img className="friend-ID-icon"
-                             src={share_session} 
-                             alt="Share Session"
-                             onClick={submitHandler}/>
-                    </div>
+                            src={share_session} 
+                            alt="Share Session"
+                            onClick={submitHandler}
+                            onTouchEnd={submitHandler}/>
+                    </form>
 
                 </div>
 
