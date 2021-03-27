@@ -86,16 +86,7 @@ function App() {
         }
     }
 
-    function submissionHandler(input: any) {
-        //send current token to server for checking
-        /*
-
-        const tokenOptions = {
-            method: 'POST',
-
-        }
-
-        */
+    function submissionHandler() {
     }
 
     function settingStateChangeHandler() {
