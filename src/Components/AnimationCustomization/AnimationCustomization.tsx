@@ -47,17 +47,6 @@ export default function AnimationCustomization(props) {
         console.log(img0, img1, img2);
     }, [props.animations]);
 
-    function createAnimationDiv(anim: SelectedAnimation) {
-        if (anim !== SelectedAnimation.None) {
-            return (
-                <div className="unused-animation" key={anim} onClick={() => props.animationAddHandler(anim)}>
-                                <img className="animation-icon" src={animationProperties(anim)["image"]} alt={animationProperties(anim)["name"]} />
-                </div>
-            )
-        }
-        else return <div className="unused-animation"></div>
-    }
-
     function createAnimationRow(anims) {
         return (
             <div className="unused-animation-row">
@@ -97,7 +86,16 @@ export default function AnimationCustomization(props) {
         <div className="animation-customization-container">
             <div className="all-animations-container">
                 {animationRows}
+                <div className="unused-animation-row">
+                    <div className="unused-animation">
+                    </div>
+                    <div className="unused-animation"><img/>
+                    </div>
+                    <div className="unused-animation"><img/>
+                    </div>
+                </div>
             </div>
+            <div className="selected-spacer"></div>
             <div className="selected-animations-container">
                 <div className="selected-animation" onClick={() => props.animationRemoveHandler(0)}>
                     <img className="animation-icon" src={animationProperties(props.animations["animation0"])["image"]} alt=""/>
