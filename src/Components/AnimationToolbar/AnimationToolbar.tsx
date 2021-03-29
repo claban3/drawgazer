@@ -66,7 +66,7 @@ export default function AnimationToolbar(props)
           "": "",
      }
 
-     console.log("!",animImages[props.animations["animation0"]]);
+     // console.log("!",animImages[props.animations["animation0"]]);
     
      return (
           <div className="animation-toolbar-container">

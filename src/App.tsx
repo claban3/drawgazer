@@ -2,8 +2,17 @@ import './App.css';
 import Draw from './Views/Draw/Draw';
 import Settings from './Views/Settings/Settings';
 import { useEffect, useState } from 'react';
-import { ColorSettings } from './Types/Figures';
+import { ColorSettings, SelectedAnimation } from './Types/Figures';
 import { generateContrastColors } from '@adobe/leonardo-contrast-colors';
+// Animation images 
+import gravity from './Images/gravity.png';
+import gravity2 from './Images/gravity-v2.png';
+import radial from './Images/radial.png';
+import radial2 from './Images/radial-v2.png';
+import bubbles from './Images/bubbles.png';
+import draggedOut from './Images/draggedout.png';
+import draggedPainting from './Images/draggedPainting.png';
+import freeDraw from './Images/free-draw.png';
 
 const defaultColors = {
     "--triangleColor": "#FF0000",
@@ -18,9 +27,9 @@ const defaultColors = {
 }
 
 const defaultAnimations = {
-    "animation0": "gravity",
-    "animation1": "radial",
-    "animation2": "bubbles",
+    "animation0": SelectedAnimation.DownwardGravity,
+    "animation1": SelectedAnimation.WobblySwarm,
+    "animation2": SelectedAnimation.BubblePop,
 }
 
 function App() {
@@ -91,31 +100,24 @@ function App() {
         }
     }
 
-    function animationAddHandler(name: string) {
-        console.log(name);
-        if (animations["animation0"] === "none") {
-            setAnimations(prevState=> (
-                {...prevState, "animation0": name}
-            ));
+    function animationAddHandler(anim: SelectedAnimation) {
+        for (let i = 0; i < 3; i ++) {
+            if (animations["animation"+i] === SelectedAnimation.None) {
+                console.log("Adding animation"+i+" ("+SelectedAnimation[anim]+")");
+                setAnimations(prevState=> (
+                    {...prevState, ["animation"+i]: anim}
+                ));
+                return; // Only set first unused animation slot
+            }
         }
-        else if (animations["animation1"] === "none") {
-            setAnimations(prevState=> (
-                {...prevState, "animation1": name}
-            ));
-        }
-        else if (animations["animation2"] === "none") {
-            setAnimations(prevState=> (
-                {...prevState, "animation2": name}
-            ));
-        }
+        console.log("animationAddHandler called with anim " + anim + " but no animation was set - all animations full?");
     }
 
     function animationRemoveHandler(idx: Number) {
-        if (idx >= 0 && idx <= 2) {
-            setAnimations(prevState=> (
-                {...prevState, ["animation"+idx]: "none"}
-            ));
-        }
+        console.log("Removing animation"+idx+" ("+animations["animation"+idx]+")");
+        setAnimations(prevState=> (
+            {...prevState, ["animation"+idx]: SelectedAnimation.None}
+        ));
     }
 
     function settingStateChangeHandler() {
