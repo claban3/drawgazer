@@ -1,5 +1,3 @@
-import 'p5';
-import p5 from 'p5';
 import P5 from 'p5';
 // import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
 //import useSound from 'use-sound';
@@ -8,7 +6,7 @@ import bounceSFX from '../Sounds/bounce.mp3';
 import popSFX from '../Sounds/pop.mp3';
 import thudSFX from '../Sounds/thud.mp3';
 import * as Collides from 'p5collide';
-import { SketchData, CustomFigureStyles } from './Figures';
+import { CustomFigureStyles } from './Figures';
 import './Animations/ColorSampling';
 
 const MAX_SPEED = 15;
