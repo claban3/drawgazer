@@ -82,6 +82,9 @@ export default function AnimationCustomization(props) {
         }
     }
 
+    // The empty unused-animation-row here is just for demonstration purposes,
+    // such that the unused animations overflow vertically behind the toolbar
+    
     return (
         <div className="animation-customization-container">
             <div className="all-animations-container">
@@ -89,16 +92,16 @@ export default function AnimationCustomization(props) {
                 <div className="unused-animation-row">
                     <div className="unused-animation">
                     </div>
-                    <div className="unused-animation"><img/>
+                    <div className="unused-animation">
                     </div>
-                    <div className="unused-animation"><img/>
+                    <div className="unused-animation">
                     </div>
                 </div>
             </div>
             <div className="selected-spacer"></div>
             <div className="selected-animations-container">
                 <div className="selected-animation" onClick={() => props.animationRemoveHandler(0)}>
-                    <img className="animation-icon" src={animationProperties(props.animations["animation0"])["image"]} alt=""/>
+                    <img className="animation-icon" src={img0} alt=""/>
                 </div>
                 <div className="selected-animation" onClick={() => props.animationRemoveHandler(1)}>
                     <img className="animation-icon" src={img1} alt=""/>
