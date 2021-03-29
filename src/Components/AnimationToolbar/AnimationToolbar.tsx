@@ -9,6 +9,7 @@ import bubbles from '../../Images/bubbles.png';
 import draggedout from '../../Images/draggedout.png';
 import draggedPainting from '../../Images/draggedPainting.png';
 import fillScreenWithFigures from '../../Images/fillScreenWithShapes.png';
+import drumLoop from '../../Images/Drumloop.png';
 
 export default function AnimationToolbar(props) 
 {
@@ -18,6 +19,7 @@ export default function AnimationToolbar(props)
     let draggedPaintingHighlight = (props.animationSelection === SelectedAnimation.DraggedPainting) ? "animation-selected" : "";
     let draggedOutHighlight = (props.animationSelection === SelectedAnimation.DraggedOut) ? "animation-selected" : "";
     let fillScreenHighlight = (props.animationSelection === SelectedAnimation.FillScreenWithFigures) ? "animation-selected" : "";
+    let drumLoopHighlight = (props.animationSelection === SelectedAnimation.DrumLoop) ? "animation-selected" : "";
 
     return (
         <div className="animation-toolbar-container">
@@ -60,6 +62,13 @@ export default function AnimationToolbar(props)
                  onClick = { () => props.selectionHandler(SelectedAnimation.FillScreenWithFigures) }>
                     <img className="animation-icon"
                          src={fillScreenWithFigures} 
+                         alt="Fill Screen with Shapes"/>
+            </div>
+
+            <div className={`animation-selection ${drumLoopHighlight}`}
+                 onClick = { () => props.selectionHandler(SelectedAnimation.DrumLoop) }>
+                    <img className="animation-icon"
+                         src={drumLoop} 
                          alt="Fill Screen with Shapes"/>
             </div>
         </div>
