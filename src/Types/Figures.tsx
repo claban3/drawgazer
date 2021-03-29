@@ -20,6 +20,7 @@ export enum SelectedAnimation {
     RadialForce,
     DraggedPainting,
     FillScreenWithFigures,
+    DrumLoop,
     None,
 };
 
