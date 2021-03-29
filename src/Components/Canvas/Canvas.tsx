@@ -81,24 +81,19 @@ function sketch (p) {
 
     p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
         sketchData.selectedFigure = props.canvasSettings.selectedFigure;
-        
+        sketchData.selectedAnimation = props.canvasSettings.selectedAnimation;
         
         if (props.canvasSettings.colorSettings && 
             props.canvasSettings.colorSettings != sketchData.colorSettings) {
             sketchData.colorSettings = props.canvasSettings.colorSettings;
             Animation.propsHandler(sketchData, p);
         }
-            
-        if (sketchData.selectedAnimation != props.canvasSettings.selectedAnimation) {
-            Animation.redrawTransition(sketchData, p);
-        }
-
-        sketchData.selectedAnimation = props.canvasSettings.selectedAnimation;
         
         reset = props.canvasSettings.reset;
         setClearCanvasInParent = props.canvasSettings.resetInParent;
         settingState = props.canvasSettings.settingState;
         
+        // Animation.redrawTransition(sketchData, p);
         Animation.redraw(sketchData, p);
     }
 
@@ -133,6 +128,7 @@ function sketch (p) {
 }
 
 export default function Canvas(props) {
+    console.log(props.canvasSettings);
     return (
          <div className="canvas-container" id="canvas">
                 <P5Wrapper 
