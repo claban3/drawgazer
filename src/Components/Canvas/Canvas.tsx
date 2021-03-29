@@ -1,12 +1,13 @@
 import "./Canvas.css";
 import 'p5';
-import P5 from 'p5';
 import '../../Types/Figures';
 import { SelectedShape, SelectedAnimation, SketchData, ColorSettings } from '../../Types/Figures';
 import P5Wrapper from 'react-p5-wrapper';
 import 'react-p5-wrapper';
 import { Animation, newFigure } from '../../Types/Animations/Animation';
-import { CircleFigure, SquareFigure, TriangleFigure } from "../../Types/ProcessingFigures";
+import GIF from "gif.js.optimized";
+import workerStr from "./gifWorker";
+import * as fileSaver from 'file-saver';
 
 let defaultColorSettings: ColorSettings = {
     background: '#FFFFFF',
@@ -14,6 +15,30 @@ let defaultColorSettings: ColorSettings = {
     rectangle: '#28306D',
     circle: '#36A533', 
 };
+
+var workerBlob = new Blob([workerStr], {
+    type: 'application/javascript'
+});
+
+var fps = 60;
+var frameCounter = 0;
+var seconds = 3;
+var gif;
+
+function setupGif() {
+    gif = new GIF({
+        workers: 6,
+        quality: 500,
+        workerScript: URL.createObjectURL(workerBlob),
+    });
+
+    gif.on('finished', function(blob) {
+        console.log("finished");
+        window.open(URL.createObjectURL(blob));
+        fileSaver.saveAs(blob, "drawgazer.gif");
+        setupGif();
+    })
+}
 
 function sketch (p) {
     let sketchData: SketchData = {
@@ -28,7 +53,6 @@ function sketch (p) {
         canvasHeight: window.innerHeight * 0.75 - 40 /* bufferWidth */,
         canvasWidth: window.innerWidth * 0.85 - 40 /* bufferHeight */,
     };
-
 
     let savedFigs = JSON.parse(localStorage.getItem("savedFigs"));
     if (savedFigs) {
@@ -60,7 +84,12 @@ function sketch (p) {
     }
 
     let reset = false;
+    let save = false;
+    let record = false;
     let setClearCanvasInParent = () => {};
+    let setSaveCanvasInParent = () => {};
+    let setRecordCanvasInParent = () => {};
+    
     let renderer;
     let settingState;
 
@@ -70,6 +99,7 @@ function sketch (p) {
         sketchData.points = [];
         Animation.propsHandler(sketchData, p);
 
+        setupGif();
         settingState = 0;
     }
 
@@ -90,7 +120,11 @@ function sketch (p) {
         }
 
         reset = props.canvasSettings.reset;
+        save = props.canvasSettings.save;
+        record = props.canvasSettings.record;
         setClearCanvasInParent = props.canvasSettings.resetInParent;
+        setSaveCanvasInParent = props.canvasSettings.saveInParent;
+        setRecordCanvasInParent = props.canvasSettings.recordInParent;
         settingState = props.canvasSettings.settingState;
         
         Animation.redraw(sketchData, p);
@@ -104,6 +138,27 @@ function sketch (p) {
             p.background(sketchData.colorSettings.background);
             setClearCanvasInParent();
             localStorage.removeItem("savedFigs");
+        }
+
+        if(save && renderer) {
+            p.save("drawgazer-screenshot");
+            save = false;
+            setSaveCanvasInParent();
+        }
+
+        if(record && renderer) {
+            if(frameCounter < fps*seconds) {
+                console.log("frame");
+                gif.addFrame(p.canvas, {delay: 1, copy: true});
+
+            }
+            else if(frameCounter === fps*seconds) {
+                gif.render();
+                record = false;
+                setRecordCanvasInParent();
+            }
+
+            frameCounter++;
         }
 
         p.mouseClicked = function (event) {

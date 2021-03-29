@@ -3,9 +3,13 @@ import './Options.css'
 import settings from "../../Images/settings.png";
 import shareSession from "../../Images/share_session.png";
 import camera from "../../Images/camera.png";
-import record from "../../Images/record.png";
+import record1 from "../../Images/record.png";
+import record2 from "../../Images/record-red.png";
+import record3 from "../../Images/spinner.gif";
 import trashcan from "../../Images/trashcan.png";
 
+
+const recordCanvasStates = [record1, record2, record3];
 export default function Options(props)
 {
     return (
@@ -44,7 +48,7 @@ export default function Options(props)
                      onTouchEnd = {() => props.recordCanvas()}> 
                 
                     <img className="icon"
-                         src={record}
+                        src={recordCanvasStates[props.recordCanvasState]}
                         alt=""/>
                 </div>
 

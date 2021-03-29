@@ -39,7 +39,11 @@ export type CanvasSettings = {
     selectedAnimation: SelectedAnimation, 
     colorSettings: ColorSettings,
     reset: Boolean,
+    save: Boolean,
+    record: number,
     resetInParent: voidFunc,
+    saveInParent: voidFunc,
+    recordInParent: voidFunc,
     settingState: number
 };
 

@@ -15,12 +15,15 @@ export default function Draw(props){
     const [shapeSelection, setShapeSelection] = useState(SelectedShape.None);
     const [animationSelection, setAnimationSelection] = useState(SelectedAnimation.None);
     const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+
     const [clearCanvas, setClearCanvas] = useState(false);
+    const [saveCanvas, setSaveCanvas] = useState(false);
+    const [recordCanvasState, setRecordCanvasState] = useState(0);
     // const [colorSettings, setColorSettings] = useState(defaultColorSettings);
 
     useEffect(() => {
         function handleResize() {
-        setWindowDimensions(getWindowDimensions());
+            setWindowDimensions(getWindowDimensions());
         }
 
         window.addEventListener('resize', handleResize);
@@ -41,13 +44,31 @@ export default function Draw(props){
     function setClearCanvasHandler() {
         setClearCanvas(!clearCanvas);
     }
+
+    function setSaveCanvasHandler() {
+        setSaveCanvas(!saveCanvas);
+    }
+
+    function setRecordCanvasHandler(reset) {
+        if(reset) {
+            setRecordCanvasState(0);
+        } 
+        else {
+            setRecordCanvasState( (recordCanvasState + 1 ) % 3);
+
+        }
+    }
     
     let canvasSettings: CanvasSettings = {
       selectedFigure: shapeSelection,
       selectedAnimation: animationSelection,
       colorSettings: props.colorSettings,
       reset: clearCanvas,
+      save: saveCanvas,
+      record: recordCanvasState,
       resetInParent: setClearCanvasHandler,
+      saveInParent: setSaveCanvasHandler,
+      recordInParent: setRecordCanvasHandler, 
       settingState: props.settingState
     };
     
@@ -67,7 +88,11 @@ export default function Draw(props){
                                 selectionHandler={shapeSelectionHandler}/>
 
             <Canvas canvasSettings={canvasSettings}/>
-            <Options settingStateChangeHandler={props.settingStateChangeHandler} clearCanvas={setClearCanvasHandler}/>
+            <Options settingStateChangeHandler={props.settingStateChangeHandler}            
+                     clearCanvas={setClearCanvasHandler}
+                     saveCanvas={setSaveCanvasHandler}
+                     recordCanvas={setRecordCanvasHandler}
+                     recordCanvasState={recordCanvasState}/>
 
             <AnimationToolbar   animationSelection={animationSelection}
                                 selectionHandler={animationSelectionHandler}/>
