@@ -4,15 +4,6 @@ import Settings from './Views/Settings/Settings';
 import { useEffect, useState } from 'react';
 import { ColorSettings, SelectedAnimation } from './Types/Figures';
 import { generateContrastColors } from '@adobe/leonardo-contrast-colors';
-// Animation images 
-import gravity from './Images/gravity.png';
-import gravity2 from './Images/gravity-v2.png';
-import radial from './Images/radial.png';
-import radial2 from './Images/radial-v2.png';
-import bubbles from './Images/bubbles.png';
-import draggedOut from './Images/draggedout.png';
-import draggedPainting from './Images/draggedPainting.png';
-import freeDraw from './Images/free-draw.png';
 
 const defaultColors = {
     "--triangleColor": "#FF0000",
