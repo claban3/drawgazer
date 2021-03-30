@@ -21,15 +21,15 @@ export function newFigure(selectedFigure, x: number, y: number, p: p5, color?: s
 
     switch (selectedFigure) {
         case SelectedShape.Circle:
-            if (!color) color = Animation.circleColors[Math.floor(Math.random() * Animation.circleColors.length)];
+            if (!color) color = Animation.getCircleColor();
             return new CircleFigure(x, y, dimension, color, p);
 
         case SelectedShape.Rectangle:
-            if (!color) color = Animation.rectColors[Math.floor(Math.random() * Animation.rectColors.length)];
+            if (!color) color = Animation.getRectColor();
             return new SquareFigure(x, y, dimension, color, p);
 
         case SelectedShape.Triangle:
-            if (!color) color = Animation.triangleColors[Math.floor(Math.random() * Animation.triangleColors.length)]
+            if (!color) color = Animation.getTriangleColor();
             return new TriangleFigure(x, y, dimension, color, p);
         default:
     }
@@ -46,6 +46,19 @@ export class Animation {
         Animation.circleColors = generateColorSpectrum(sketchData.colorSettings.circle);
         Animation.triangleColors = generateColorSpectrum(sketchData.colorSettings.triangle);
     }
+
+    static getRectColor() : string {
+        return Animation.rectColors[Math.floor(Math.random() * Animation.rectColors.length)];
+    }
+
+    static getCircleColor() : string {
+        return Animation.circleColors[Math.floor(Math.random() * Animation.circleColors.length)];
+    }
+
+    static getTriangleColor() : string {
+        return Animation.triangleColors[Math.floor(Math.random() * Animation.triangleColors.length)]
+    }
+
 
     static redraw(sketchData: SketchData, p: p5) {
         switch (sketchData.selectedAnimation) {
@@ -100,6 +113,9 @@ export class Animation {
         switch (sketchData.selectedAnimation) {
             case SelectedAnimation.WobblySwarm:
                 WobblySwarm.mousePressed(sketchData, p);
+                break;
+            case SelectedAnimation.BubblePop:
+                BubblePop.mousePressed(sketchData, p);
                 break;
             case SelectedAnimation.None:
                 break;
