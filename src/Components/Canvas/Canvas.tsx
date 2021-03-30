@@ -1,10 +1,11 @@
 import "./Canvas.css";
 import 'p5';
+import P5 from 'p5';
 import '../../Types/Figures';
 import { SelectedShape, SelectedAnimation, SketchData, ColorSettings } from '../../Types/Figures';
 import P5Wrapper from 'react-p5-wrapper';
 import 'react-p5-wrapper';
-import { Animation } from '../../Types/Animations/Animation';
+import { Animation, newFigure } from '../../Types/Animations/Animation';
 import { CircleFigure, SquareFigure, TriangleFigure } from "../../Types/ProcessingFigures";
 
 let defaultColorSettings: ColorSettings = {
@@ -30,19 +31,27 @@ function sketch (p) {
 
 
     let savedFigs = JSON.parse(localStorage.getItem("savedFigs"));
-    if(savedFigs)
-    {
-        for(let i=0; i < savedFigs.length; i++) {
+    if (savedFigs) {
+        for (let i = 0; i < savedFigs.length; i++) {
             let fig = savedFigs[i];
-            switch(fig.type) {
+            
+            // update colors in animation function
+            Animation.propsHandler(sketchData, p);
+            
+            if (!fig) {
+                console.log("Canvas received bad JSON from local storage");
+                return;
+            }
+            
+            switch (fig.type) {
                 case "circle":
-                    sketchData.figs.push(new CircleFigure(fig.x, fig.y, -0.02, fig.d, p));
+                    sketchData.figs.push(newFigure(SelectedShape.Circle, fig.x, fig.y, p, fig.color));
                     break;
                 case "square":
-                    sketchData.figs.push(new SquareFigure(fig.x, fig.y, -0.02, fig.d, p));
+                    sketchData.figs.push(newFigure(SelectedShape.Rectangle, fig.x, fig.y, p, fig.color));
                     break;
                 case "triangle":
-                    sketchData.figs.push(new TriangleFigure(fig.x, fig.y, -0.02, fig.d, p));
+                    sketchData.figs.push(newFigure(SelectedShape.Triangle, fig.x, fig.y, p, fig.color));
                     break;
                 default: 
                     console.log("Canvas received bad JSON from local storage")
@@ -54,10 +63,6 @@ function sketch (p) {
     let setClearCanvasInParent = () => {};
     let renderer;
     let settingState;
-
-    function inCanvas(mouseX, mouseY, width, height) {
-        return mouseX >= 0 && mouseX <= width && mouseY >= 0 && mouseY <= height;
-    }
 
     p.setup = function () {
         renderer = p.createCanvas(sketchData.canvasWidth, sketchData.canvasHeight);
@@ -87,6 +92,8 @@ function sketch (p) {
         reset = props.canvasSettings.reset;
         setClearCanvasInParent = props.canvasSettings.resetInParent;
         settingState = props.canvasSettings.settingState;
+        
+        Animation.redraw(sketchData, p);
     }
 
     p.draw = function () {
@@ -112,7 +119,7 @@ function sketch (p) {
             // return false;
         }
 
-        if (settingState===0){
+        if (settingState === 0){
             Animation.draw(sketchData, p);
             localStorage.setItem("savedFigs", JSON.stringify(sketchData.figs));
         }

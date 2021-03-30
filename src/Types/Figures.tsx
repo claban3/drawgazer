@@ -27,6 +27,7 @@ export enum SelectedAnimation {
     DraggedPainting,
     WallBounce,
     Stack,
+    FillScreenWithFigures,
     None,
 };
 
@@ -117,7 +118,6 @@ export type SketchData = {
 };
 
 export type CustomFigureStyles = {
-    randomFill: boolean, 
     stroke: boolean,
     opacity: number
 }
