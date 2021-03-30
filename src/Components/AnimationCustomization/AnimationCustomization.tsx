@@ -15,17 +15,6 @@ export default function AnimationCustomization(props) {
     const [img0, setImg0] = useState();
     const [img1, setImg1] = useState();
     const [img2, setImg2] = useState();
-    
-    // let animImages = {
-    //     "gravity": gravity,
-    //     "gravity2": gravity2,
-    //     "radial": radial,
-    //     "radial2": radial2,
-    //     "bubbles": bubbles,
-    //     "draggedOut": draggedOut,
-    //     "draggedPainting": draggedPainting,
-    //     "freeDraw": freeDraw,
-    // }
 
     let imgSetters = {
         "animation0": setImg0,
@@ -44,18 +33,19 @@ export default function AnimationCustomization(props) {
                 imgSetters[animation](null);
             }
         }
-        console.log(img0, img1, img2);
     }, [props.animations]);
 
     function createAnimationRow(anims) {
         return (
             <div className="unused-animation-row">
                 {
-                    anims.map((a) => (
-                        <div className="unused-animation" onClick={() => props.animationAddHandler(SelectedAnimation[a as keyof typeof SelectedAnimation])}>
-                                <img className="animation-icon" src={animationProperties(SelectedAnimation[a as keyof typeof SelectedAnimation])["image"]} alt={animationProperties(SelectedAnimation[a as keyof typeof SelectedAnimation])["name"]} />
+                    anims.map((a) => {
+                        let sa = SelectedAnimation[a as keyof typeof SelectedAnimation];
+                        let selected = Object.values(props.animations).includes(sa) ? "animation-selected" : "";
+                        return <div className={"unused-animation " + selected} onClick={() => props.animationAddHandler(sa)}>
+                                <img className="animation-icon" src={animationProperties(sa)["image"]} alt={animationProperties(sa)["name"]} />
                         </div>
-                    ))
+                    })
                 }
             </div>
         )
@@ -89,14 +79,14 @@ export default function AnimationCustomization(props) {
         <div className="animation-customization-container">
             <div className="all-animations-container">
                 {animationRows}
-                <div className="unused-animation-row">
+                {/* <div className="unused-animation-row">
                     <div className="unused-animation">
                     </div>
                     <div className="unused-animation">
                     </div>
                     <div className="unused-animation">
                     </div>
-                </div>
+                </div> */}
             </div>
             <div className="selected-spacer"></div>
             <div className="selected-animations-container">
