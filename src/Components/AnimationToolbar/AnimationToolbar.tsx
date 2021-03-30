@@ -1,8 +1,11 @@
 import './AnimationToolbar.css';
 import { SelectedAnimation } from '../../Types/Figures';
 
-import gravity from '../../Images/gravity.png';
-import gravity2 from '../../Images/gravity-v2.png';
+// import gravity from '../../Images/gravity.png';
+// import gravity2 from '../../Images/gravity-v2.png';
+import gravity3 from '../../Images/gravity-v3.png';
+
+
 import radial from '../../Images/radial.png';
 import radial2 from '../../Images/radial-v2.png';
 import bubbles from '../../Images/bubbles.png';
@@ -26,7 +29,7 @@ export default function AnimationToolbar(props)
             <div className={`animation-selection ${downwardGravityHighlight}`}
                  onClick = { () => props.selectionHandler(SelectedAnimation.DownwardGravity) }>
                     <img className="animation-icon"
-                         src={gravity2} 
+                         src={gravity3} 
                          alt="Downward Gravity"/>
             </div>
 
