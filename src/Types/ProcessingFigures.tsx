@@ -1,5 +1,3 @@
-import 'p5';
-import p5 from 'p5';
 import P5 from 'p5';
 // import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
 //import useSound from 'use-sound';
@@ -12,7 +10,7 @@ import snareSFX from '../Sounds/Drumset/Snare.wav';
 import highhatSFX from '../Sounds/Drumset/Highhat.wav';
 
 import * as Collides from 'p5collide';
-import { SketchData, CustomFigureStyles } from './Figures';
+import { CustomFigureStyles } from './Figures';
 import './Animations/ColorSampling';
 
 const MAX_SPEED = 40;
