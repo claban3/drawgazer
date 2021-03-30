@@ -54,8 +54,7 @@ export default function Draw(props){
             setRecordCanvasState(0);
         } 
         else {
-            setRecordCanvasState( (recordCanvasState + 1 ) % 3);
-
+            setRecordCanvasState((recordCanvasState + 1) % 3);
         }
     }
     
