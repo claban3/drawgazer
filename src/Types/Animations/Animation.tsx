@@ -158,7 +158,7 @@ export class Animation {
             case SelectedAnimation.BubblePop:
                 BubblePop.mousePressed(sketchData, p);
                 break;
-            case SelectedAnimation.None:
+            default:
                 if (AnimatedFigure.mouseOnCanvas(p, sketchData.canvasWidth, sketchData.canvasHeight)) {
                     pushNewFigure(sketchData.selectedFigure, sketchData.figs, p);
                 }
