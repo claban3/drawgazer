@@ -2,20 +2,26 @@ import './App.css';
 import Draw from './Views/Draw/Draw';
 import Settings from './Views/Settings/Settings';
 import { useEffect, useState } from 'react';
-import { ColorSettings } from './Types/Figures';
+import { ColorSettings, SelectedAnimation } from './Types/Figures';
 import { generateContrastColors } from '@adobe/leonardo-contrast-colors';
 
 const defaultColors = {
     "--triangleColor": "#00429D",
     "--squareColor": "#96ffea",
     "--circleColor": "#ff005e",
-    "--shapeButtonColor": "#4A4A4A", 
-    "--shapeButtonHover": "#787878",
-    "--shapeButtonSelected": "#AFAFAF",
+    "--shapeButtonColor": "#ACABAB", 
+    "--shapeButtonHover": "#767676",
+    "--shapeButtonSelected": "#484848",
     "--animationButtonColor": "#ACABAB",
     "--animationButtonHover": "#767676",
     "--animationButtonSelected": "#484848",
 }
+
+const defaultAnimations = [
+    SelectedAnimation.DownwardGravity,
+    SelectedAnimation.WobblySwarm,
+    SelectedAnimation.BubblePop,
+];
 
 function App() {
     const [draw, setDraw] = useState(true);
@@ -24,6 +30,8 @@ function App() {
     const [newSession, setNewSession] = useState(true);
     const [colors, setColors] = useState(defaultColors); 
     const [resetColors, setResetColors] = useState(false);
+
+    const [animations, setAnimations] = useState(defaultAnimations);
 
     useEffect(() => {
         if(newSession) {
@@ -83,6 +91,26 @@ function App() {
         }
     }
 
+    function animationAddHandler(anim: SelectedAnimation) {
+        for (let i = 0; i < 3; i ++) {
+            if (animations[i] === SelectedAnimation.None) {
+                console.log("Adding animation"+i+" ("+SelectedAnimation[anim]+")");
+                setAnimations(prevState=> (
+                    {...prevState, [i]: anim}
+                ));
+                return; // Only set first unused animation slot
+            }
+        }
+        console.log("animationAddHandler called with anim " + anim + " but no animation was set - all animations full?");
+    }
+
+    function animationRemoveHandler(idx: number) {
+        console.log("Removing animation"+idx+" ("+animations[idx]+")");
+        setAnimations(prevState=> (
+            {...prevState, [idx]: SelectedAnimation.None}
+        ));
+    }
+
     function settingStateChangeHandler() {
         // 0: Closed
         // 1: Opening
@@ -103,9 +131,12 @@ function App() {
         { (settingState>0) && <Settings settingStateChangeHandler={settingStateChangeHandler} 
                                         settingState={settingState}
                                         colorChangeHandler={colorChangeHandler}
-                                        resetColors={resetColors}/> }
+                                        resetColors={resetColors}
+                                        animations={animations}
+                                        animationRemoveHandler={animationRemoveHandler}
+                                        animationAddHandler={animationAddHandler}/> }
 
-        { draw && <Draw colorSettings={canvasColorSettings} settingStateChangeHandler={settingStateChangeHandler} settingState={settingState}/> }
+        { draw && <Draw colorSettings={canvasColorSettings} settingStateChangeHandler={settingStateChangeHandler} settingState={settingState} animations={animations} /> }
         </>
     );
 }
