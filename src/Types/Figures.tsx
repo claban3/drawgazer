@@ -43,6 +43,12 @@ export type CanvasSettings = {
     settingState: number
 };
 
+export type HawkeyeMouseEvent = {
+    mousePressed: Boolean,
+    mouseX: number,
+    mouseY: number
+};
+
 export type SketchData = {
     onPressed: Boolean,
     figs: AnimatedFigure[],
@@ -53,7 +59,8 @@ export type SketchData = {
     bufferWidth: number,
     bufferHeight: number,
     canvasHeight: number,
-    canvasWidth: number
+    canvasWidth: number,
+    hawkeyeMouseEvent: HawkeyeMouseEvent
 };
 
 export type CustomFigureStyles = {
