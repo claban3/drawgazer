@@ -101,6 +101,10 @@ function sketch(p) {
         settingState = props.canvasSettings.settingState;
 
         Animation.redraw(sketchData, p);
+
+        // if (props.canvasSettings.hawkeyeMouseEvent.mousePressed) {
+
+        // }
     }
 
     p.draw = function () {
@@ -144,8 +148,8 @@ export default function Canvas(props) {
     const [xpos, setXpos] = useState(0);
     const [ypos, setYpos] = useState(0);
 
-    function gridClickedHandler(e) {
-        let id = e.target.id;
+    function gridClickedHandler(id) {
+        // let id = e.target.id;
         let element = document.getElementById(id);
         let xpos = element.offsetTop + element.offsetHeight / 2;
         let ypos = element.offsetLeft + element.offsetWidth / 2;
@@ -161,8 +165,8 @@ export default function Canvas(props) {
         // setHawkeyeMouseEvent(mouseEvent);
     }
 
-    function mouseEnterHandler(e) {
-        let id = e.target.id;
+    function mouseEnterHandler(id) {
+        // let id = e.target.id;
         let element = document.getElementById(id);
         let xpos = element.offsetTop + element.offsetHeight / 2;
         let ypos = element.offsetLeft + element.offsetWidth / 2;
@@ -177,8 +181,8 @@ export default function Canvas(props) {
             let idStr : string = "cell".concat(i.toString());
             grid.push(
                 <a className="filth" id={idStr}
-                    onClick={(e) => gridClickedHandler(e)}
-                    onMouseEnter={(e) => mouseEnterHandler(e)}>
+                    onClick={() => gridClickedHandler(idStr)}
+                    onMouseEnter={() => mouseEnterHandler(idStr)}>
                 </a>
             )
         }
