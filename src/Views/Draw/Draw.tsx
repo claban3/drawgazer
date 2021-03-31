@@ -5,6 +5,7 @@ import ShapesToolbar from '../../Components/ShapesToolbar/ShapesToolbar';
 import AnimationToolbar from '../../Components/AnimationToolbar/AnimationToolbar';
 import Options from '../../Components/Options/Options';
 import { CanvasSettings, SelectedAnimation, SelectedShape, ColorSettings } from "../../Types/Figures";
+import { RecordingStates, nextRecordingState } from '../../Types/UITypes';
 
 function getWindowDimensions() {
     const { innerWidth: width, innerHeight: height } = window;
@@ -18,8 +19,7 @@ export default function Draw(props){
 
     const [clearCanvas, setClearCanvas] = useState(false);
     const [saveCanvas, setSaveCanvas] = useState(false);
-    const [recordCanvasState, setRecordCanvasState] = useState(0);
-    // const [colorSettings, setColorSettings] = useState(defaultColorSettings);
+    const [recordCanvasState, setRecordCanvasState] = useState(RecordingStates.Idle);
 
     useEffect(() => {
         function handleResize() {
@@ -51,10 +51,10 @@ export default function Draw(props){
 
     function setRecordCanvasHandler(reset) {
         if(reset) {
-            setRecordCanvasState(0);
+            setRecordCanvasState(RecordingStates.Idle);
         } 
         else {
-            setRecordCanvasState((recordCanvasState + 1) % 3);
+            setRecordCanvasState(nextRecordingState(recordCanvasState));
         }
     }
     
@@ -64,7 +64,7 @@ export default function Draw(props){
       colorSettings: props.colorSettings,
       reset: clearCanvas,
       save: saveCanvas,
-      record: recordCanvasState === 1 ? true : false,
+      record: recordCanvasState === RecordingStates.Recording,
       resetInParent: setClearCanvasHandler,
       saveInParent: setSaveCanvasHandler,
       recordInParent: setRecordCanvasHandler, 
