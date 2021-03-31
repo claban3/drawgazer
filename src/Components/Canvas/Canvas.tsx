@@ -7,6 +7,7 @@ import P5Wrapper from 'react-p5-wrapper';
 import 'react-p5-wrapper';
 import { Animation, newFigure } from '../../Types/Animations/Animation';
 import { CircleFigure, SquareFigure, TriangleFigure } from "../../Types/ProcessingFigures";
+import { useState } from "react";
 
 let defaultColorSettings: ColorSettings = {
     background: '#FFFFFF',
@@ -127,12 +128,28 @@ function sketch (p) {
 }
 
 export default function Canvas(props) {
+    const [xpos, setXpos] = useState(0);
+    const [ypos, setYpos] = useState(0);
+
+    function getCursorPosition(e) {
+        let xpos = e.clientX;
+        let ypos = e.clientY;
+        setXpos(xpos);
+        setYpos(ypos);
+        // console.log("xpos: ", xpos);
+        // console.log("ypos: ", ypos);
+    }
     return (
-         <div className="canvas-container" id="canvas">
+
+         <a className="canvas-container" id="canvas"
+            onClick={(e) => getCursorPosition(e)}
+            onMouseMove={(e) => getCursorPosition(e)}>
+                {xpos + " "}
+                {ypos}
                 <P5Wrapper 
                     className="p5Wrapper"
                     sketch={sketch}
                     canvasSettings={props.canvasSettings}/>
-        </div>
+        </a>
     ); 
 }
