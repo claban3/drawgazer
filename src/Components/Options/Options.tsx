@@ -13,10 +13,8 @@ export default function Options(props)
             <div className="icons-container">
                 
                 <div className="icon" title="Share Session"
-                     onClick = {() => {props.shareSessionStateChangeHandler();
-                                       props.setShareSessionState()}}
-                     onTouchEnd = {() => {props.shareSessionStateChangeHandler();
-                                          props.setShareSessionState()}}> 
+                     onClick = {() => {props.shareSessionStateChangeHandler()}}
+                     onTouchEnd = {() => {props.shareSessionStateChangeHandler()}}> 
 
                     <img className="icon"
                          src={shareSession}

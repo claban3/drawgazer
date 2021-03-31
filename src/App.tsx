@@ -3,14 +3,13 @@ import Draw from './Views/Draw/Draw';
 import Settings from './Views/Settings/Settings';
 import ShareSession from './Views/ShareSession/ShareSession';
 import { useEffect, useState } from 'react';
+import { ColorSettings } from './Types/Figures';
 import { generateContrastColors } from '@adobe/leonardo-contrast-colors';
-import { setTextRange, setTokenSourceMapRange } from 'typescript';
-
 
 const defaultColors = {
-    "--triangleColor": "#FF0000",
-    "--squareColor": "#2B3990",
-    "--circleColor": "#008000",
+    "--triangleColor": "#00429D",
+    "--squareColor": "#96ffea",
+    "--circleColor": "#ff005e",
     "--shapeButtonColor": "#4A4A4A", 
     "--shapeButtonHover": "#787878",
     "--shapeButtonSelected": "#AFAFAF",
@@ -25,11 +24,29 @@ function App() {
     const [shareSessionState, setShareSessionState] = useState(0);
     const [token, setToken] = useState('');
 
-    // TODO: On startup check for saved colors in cookies. If not, use default
+    const [newSession, setNewSession] = useState(true);
     const [colors, setColors] = useState(defaultColors); 
-
+    const [resetColors, setResetColors] = useState(false);
 
     useEffect(() => {
+        if(newSession) {
+            setNewSession(false);
+            let savedColors = JSON.parse(localStorage.getItem("savedColors"));
+            if(savedColors) {
+                setColors(savedColors);
+            }
+        }
+        setCSSProperties();
+    }, [newSession]);
+
+    useEffect(() => {
+        localStorage.setItem("savedColors", JSON.stringify(colors));
+        setResetColors( !(JSON.stringify(colors) === JSON.stringify(defaultColors)) );
+        setCSSProperties();
+    }, [colors]);
+
+
+    function setCSSProperties() {
         document.documentElement.style.setProperty("--triangleColor", colors["--triangleColor"]);
         document.documentElement.style.setProperty("--squareColor", colors["--squareColor"]);
         document.documentElement.style.setProperty("--circleColor", colors["--circleColor"]);
@@ -41,13 +58,13 @@ function App() {
         document.documentElement.style.setProperty("--animationButtonColor", colors["--animationButtonColor"]);
         document.documentElement.style.setProperty("--animationButtonHover", colors["--animationButtonHover"]);
         document.documentElement.style.setProperty("--animationButtonSelected", colors["--animationButtonSelected"]);
-        if (shareSessionState == 2) {
-            (document.getElementById("friend-ID-input") as HTMLInputElement).value = token;
-        }
-    });
+    }
 
     function colorChangeHandler(id : string, color : any) { 
-        if(id === "--shapeButtonColor" || id === "--animationButtonColor")
+        if(id === "reset") {
+            setColors(defaultColors);
+        }
+        else if(id === "--shapeButtonColor" || id === "--animationButtonColor")
         {               
             let contrastColors = generateContrastColors({ colorKeys: [color.hex], base: color.hex, ratios: [2,4], colorspace: "RGB"});
 
@@ -69,8 +86,7 @@ function App() {
         }
     }
 
-    function inputChangeHandler(input: any) {
-        setToken(input)
+    function submissionHandler() {
     }
 
     function settingStateChangeHandler() {
@@ -89,19 +105,29 @@ function App() {
         setShareSessionState( (shareSessionState + 1 ) % 4 );
     }
 
+    let canvasColorSettings: ColorSettings = {
+        background: "#FFFFFF",
+        triangle: colors["--triangleColor"],
+        rectangle: colors["--squareColor"],
+        circle: colors["--circleColor"],
+    };
+
     return (
         <>
         { (settingState>0) && <Settings settingStateChangeHandler={settingStateChangeHandler} 
                                         settingState={settingState}
-                                        colorChangeHandler={colorChangeHandler}/> }
+                                        colorChangeHandler={colorChangeHandler}
+                                        resetColors={resetColors}/> }
 
         { (shareSessionState>0) && <ShareSession shareSessionStateChangeHandler={shareSessionStateChangeHandler} 
                                                  shareSessionState={shareSessionState}
                                                  token= {token}
                                                  setToken = {setToken}
-                                                 inputChangeHandler={inputChangeHandler}/> }
+                                                 submissionHandler={submissionHandler}/> }
 
-        { draw && <Draw settingStateChangeHandler={settingStateChangeHandler}
+        { draw && <Draw colorSettings={canvasColorSettings}
+                        settingStateChangeHandler={settingStateChangeHandler}
+                        settingState={settingState}
                         shareSessionStateChangeHandler={shareSessionStateChangeHandler}
                         shareSessionState={shareSessionState}/> }
         </>

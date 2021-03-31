@@ -1,148 +1,145 @@
 import "./Canvas.css";
 import 'p5';
-import '../../Types/Figures';
-import { AnimatedFigure, CircleFigure, SquareFigure, TriangleFigure } from '../../Types/ProcessingFigures';
-import { SelectedShape, SelectedAnimation } from '../../Types/Figures';
 import P5Wrapper from 'react-p5-wrapper';
 import 'react-p5-wrapper';
-import { PinDropSharp } from "@material-ui/icons";
 
-function sketch (p, props) {
-    let reset = false;
-    let figs: AnimatedFigure[] = [];
-    let points: P5Wrapper.Vector[] = [];
-    let start = false;
-    let selectedFigure = SelectedShape.None;
-    let selectedAnimation = SelectedAnimation.WallBounce;
-    let setClearCanvasInParent = () => {};
-    // ^ Set to WallBounce instead of None for testing purposes
-    let bufferWidth = 40;
-    let bufferHeight = 40;
-    let canvasHeight = window.innerHeight * 0.75 - bufferHeight;
-    let canvasWidth = window.innerWidth * 0.85 - bufferWidth;
-    let renderer;
-    let shareSessionState = 0;
+import '../../Types/Figures';
+import { SelectedShape, SelectedAnimation, SketchData, ColorSettings } from '../../Types/Figures';
+// import { PinDropSharp } from "@material-ui/icons";
+import { Animation, newFigure } from '../../Types/Animations/Animation';
+import { CircleFigure, SquareFigure, TriangleFigure } from "../../Types/ProcessingFigures";
 
-    function inCanvas(mouseX, mouseY, width, height) {
+let defaultColorSettings: ColorSettings = {
+    background: '#FFFFFF',
+    triangle: '#ED1C24',
+    rectangle: '#28306D',
+    circle: '#36A533', 
+};
 
-        return mouseX >= 0 && mouseX <= width && mouseY >= 0 && mouseY <= height;
+// let setClearCanvasInParent = () => {};
+
+function sketch (p) {
+    let sketchData: SketchData = {
+        onPressed: false,
+        figs: [],
+        points: [],
+        colorSettings: defaultColorSettings,
+        selectedFigure: SelectedShape.None,
+        selectedAnimation: SelectedAnimation.None, 
+        bufferWidth: 40,
+        bufferHeight: 40,
+        canvasHeight: window.innerHeight * 0.75 - 40 /* bufferWidth */,
+        canvasWidth: window.innerWidth * 0.85 - 40 /* bufferHeight */,
+    };
+
+    let savedFigs = JSON.parse(localStorage.getItem("savedFigs"));
+    if (savedFigs) {
+        for (let i = 0; i < savedFigs.length; i++) {
+            let fig = savedFigs[i];
+            
+            // update colors in animation function
+            Animation.propsHandler(sketchData, p);
+            
+            if (!fig) {
+                console.log("Canvas received bad JSON from local storage");
+                return;
+            }
+            
+            switch (fig.type) {
+                case "circle":
+                    sketchData.figs.push(newFigure(SelectedShape.Circle, fig.x, fig.y, p, fig.color));
+                    break;
+                case "square":
+                    sketchData.figs.push(newFigure(SelectedShape.Rectangle, fig.x, fig.y, p, fig.color));
+                    break;
+                case "triangle":
+                    sketchData.figs.push(newFigure(SelectedShape.Triangle, fig.x, fig.y, p, fig.color));
+                    break;
+                default: 
+                    console.log("Canvas received bad JSON from local storage")
+            }
+        }
     }
 
+    let reset = false;
+    let setClearCanvasInParent = () => {};
+    let renderer;
+    let settingState;
+    let shareSessionState;
+    let start = false;
+
     p.setup = function () {
-        renderer = p.createCanvas(canvasWidth, canvasHeight);
+        renderer = p.createCanvas(sketchData.canvasWidth, sketchData.canvasHeight);
         renderer.parent("canvas");
-        figs = [];
-        points = [];
+        sketchData.points = [];
+        Animation.propsHandler(sketchData, p);
+        settingState = 0;
+        shareSessionState = 0;
     }
 
     p.windowResized = function () {
-        canvasHeight = window.innerHeight * 0.75 - bufferHeight;
-        canvasWidth = window.innerWidth * 0.85 - bufferWidth;
-        p.resizeCanvas(canvasWidth, canvasHeight);
+        sketchData.canvasHeight = window.innerHeight * 0.75 -  sketchData.bufferHeight;
+        sketchData.canvasWidth = window.innerWidth * 0.85 - sketchData.bufferWidth;
+        p.resizeCanvas(sketchData.canvasWidth, sketchData.canvasHeight);
     }
 
     p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
-        selectedFigure = props.canvasSettings.selectedFigure;
-        selectedAnimation = props.canvasSettings.selectedAnimation;
+        sketchData.selectedFigure = props.canvasSettings.selectedFigure;
+        sketchData.selectedAnimation = props.canvasSettings.selectedAnimation;
+        
+        if (props.canvasSettings.colorSettings && 
+            props.canvasSettings.colorSettings != sketchData.colorSettings) {
+                sketchData.colorSettings = props.canvasSettings.colorSettings;
+                Animation.propsHandler(sketchData, p);
+        }
+
         reset = props.canvasSettings.reset;
         setClearCanvasInParent = props.canvasSettings.resetInParent;
-        //shareSessionState = props.canvasSettings.shareSessionState;
+        shareSessionState = props.canvasSettings.shareSessionState;
+        settingState = props.canvasSettings.settingState;
+
+        Animation.redraw(sketchData, p);
         // Uncomment the line below once animation toolbar is integrated, else
         // SelectedAnimation will get updated to None
         //selectedAnimation = props.canvasSettings.selectedAnimation;
     }
 
     p.draw = function () {
-
-        p.background(220);
         if (reset) {
-            figs = [];
-            points = [];
+            sketchData.figs = [];
+            sketchData.points = [];
             reset = false;
+            p.background(sketchData.colorSettings.background);
             setClearCanvasInParent();
+            localStorage.removeItem("savedFigs");
         }
-        p.fill(100);
-        figs.forEach(fig => {
-            fig.update(selectedAnimation, p.mouseX, p.mouseY, canvasWidth, canvasHeight);
-            fig.display();
-        });
 
-        if (shareSessionState != 2) {
-
-            p.mousePressed = function () {
-
-                console.log("HERE")
-                console.log(shareSessionState);
-
-                if (shareSessionState == 0) {
-                    console.log("HERE0")
-                }
-                
-                if (shareSessionState == 1) {
-                    console.log("HERE1")
-                }
-                
-                if (shareSessionState == 2) {
-                    console.log("HERE2")
-                }
-                
-                if (shareSessionState == 3) {
-                    console.log("HERE3")
-                }
-
-                start = true;
-                points = [];
-                if (!inCanvas(p.mouseX, p.mouseY, canvasWidth, canvasHeight)) {
-                    return false;
-                }
-                let s = Math.random() * 50 + 50;
-                switch(selectedFigure) {
-                    case SelectedShape.Circle:
-                        let newCirc = new CircleFigure(p.mouseX, p.mouseY, -0.02, s, p);
-                        figs.push(newCirc);
-                        break;
-                    case SelectedShape.Rectangle:
-                        let newSquare = new SquareFigure(p.mouseX, p.mouseY, -0.02, s, p);
-                        figs.push(newSquare);
-                        break;
-                    case SelectedShape.Triangle:
-                        let newTriangle = new TriangleFigure(p.mouseX, p.mouseY, -0.02, s, p);
-                        figs.push(newTriangle);
-                        break;
-                }
-                // prevent default
-                return false;
-            }
-    
-            p.mouseReleased = function () {
-    
-                start = false;
+        p.mouseClicked = function (event) {
+            if (settingState===0 && shareSessionState===0){
+                return Animation.mousePressed(sketchData, p);
             }
         }
-
-        if (selectedFigure === SelectedShape.FreeDraw && start) {
-            points.push(p.createVector(p.mouseX, p.mouseY));
+        
+        p.mouseReleased = function() {
+            if (settingState===0 && shareSessionState===0){
+                Animation.mouseReleased(sketchData, p);
+            }
+            // return false;
         }
 
-        p.stroke(255);
-        p.noFill();
-        p.beginShape();
-        for (let i = 0; i<points.length; i++){
-            let x = points[i].x;
-            let y = points[i].y;
-
-            p.vertex(x, y)
+        if (settingState === 0 && shareSessionState===0){
+            Animation.draw(sketchData, p);
+            localStorage.setItem("savedFigs", JSON.stringify(sketchData.figs));
         }
-        p.endShape();
     }
 }
 
 export default function Canvas(props) {
     return (
-        <div className="canvas-container" id="canvas">
+         <div className="canvas-container" id="canvas">
                 <P5Wrapper 
                     className="p5Wrapper"
-                    sketch={sketch}     
+                    sketch={sketch}
                     canvasSettings={props.canvasSettings}/>
         </div>
     ); 

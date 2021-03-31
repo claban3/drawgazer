@@ -4,7 +4,7 @@ import Canvas from '../../Components/Canvas/Canvas';
 import ShapesToolbar from '../../Components/ShapesToolbar/ShapesToolbar';
 import AnimationToolbar from '../../Components/AnimationToolbar/AnimationToolbar';
 import Options from '../../Components/Options/Options';
-import { CanvasSettings, SelectedAnimation, SelectedShape } from "../../Types/Figures";
+import { CanvasSettings, SelectedAnimation, SelectedShape, ColorSettings } from "../../Types/Figures";
 
 function getWindowDimensions() {
     const { innerWidth: width, innerHeight: height } = window;
@@ -16,7 +16,7 @@ export default function Draw(props){
     const [animationSelection, setAnimationSelection] = useState(SelectedAnimation.None);
     const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
     const [clearCanvas, setClearCanvas] = useState(false);
-    const [shareSessionState, setShareSessionState] = useState(props.shareSessionState);
+    // const [colorSettings, setColorSettings] = useState(defaultColorSettings);
 
     useEffect(() => {
         function handleResize() {
@@ -45,11 +45,13 @@ export default function Draw(props){
     let canvasSettings: CanvasSettings = {
       selectedFigure: shapeSelection,
       selectedAnimation: animationSelection,
+      colorSettings: props.colorSettings,
       reset: clearCanvas,
       resetInParent: setClearCanvasHandler,
-      shareSessionState: shareSessionState,
+      shareSessionState: props.shareSessionState,
+      settingState: props.settingState
     };
-
+    
     // TODO: pull this out to the parent: App.tsx
     if(windowDimensions.height > windowDimensions.width) return ( 
         <h1 id="msg">
@@ -66,12 +68,10 @@ export default function Draw(props){
                                 selectionHandler={shapeSelectionHandler}/>
 
             <Canvas canvasSettings={canvasSettings}/>
+
             <Options settingStateChangeHandler={props.settingStateChangeHandler}
                      shareSessionStateChangeHandler={props.shareSessionStateChangeHandler}
-                     setShareSessionState={setShareSessionState}
-                     shareSessionState={shareSessionState}
-                     token= {props.token}
-                     setToken = {props.setToken}/>
+                     clearCanvas={setClearCanvasHandler}/>
 
             <AnimationToolbar   animationSelection={animationSelection}
                                 selectionHandler={animationSelectionHandler}/>
