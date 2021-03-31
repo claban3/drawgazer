@@ -34,7 +34,6 @@ export default function AnimationCustomization(props) {
     }, [props.animations]);
 
     function createAnimationRow(anims) {
-        console.log("Row: ", anims);
         while (anims.length < 3) {
             anims.push(SelectedAnimation.None);
         }
@@ -43,10 +42,15 @@ export default function AnimationCustomization(props) {
                 {
                     anims.map((a, i) => {
                         let sa = SelectedAnimation[a as keyof typeof SelectedAnimation];
-                        console.log(a, sa, SelectedAnimation.None, sa === SelectedAnimation.None);
                         if (a !== SelectedAnimation.None && sa !== SelectedAnimation.None) {
-                            let selected = Object.values(props.animations).includes(sa) ? "animation-selected" : "";
-                            return <div className={"unused-animation " + selected} key={animationProperties(sa)["classname"]+i} onClick={() => props.animationAddHandler(sa)}>
+                            let selected = Object.values(props.animations).includes(sa);
+                            return <div className={"unused-animation " + (selected ? "animation-selected" : "")} key={animationProperties(sa)["classname"]+i} onClick={() => {
+                                if (!selected) {
+                                    props.animationAddHandler(sa);
+                                } else {
+                                    props.animationRemoveHandler(Object.values(props.animations).indexOf(sa));
+                                }
+                            }}>
                                 <img className="animation-icon" src={animationProperties(sa)["image"]} alt={animationProperties(sa)["name"]} />
                             </div>
                         } else return <div className="unused-animation" key={"none "+i}></div>
