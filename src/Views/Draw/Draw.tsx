@@ -64,7 +64,7 @@ export default function Draw(props){
       colorSettings: props.colorSettings,
       reset: clearCanvas,
       save: saveCanvas,
-      record: recordCanvasState,
+      record: recordCanvasState === 1 ? true : false,
       resetInParent: setClearCanvasHandler,
       saveInParent: setSaveCanvasHandler,
       recordInParent: setRecordCanvasHandler, 

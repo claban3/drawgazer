@@ -77,7 +77,7 @@ function sketch(p) {
 
     let reset = false; // toggles reseting the canvas
     let save = false; // toggles saving a screenshot of the canvas
-    let record = false; // toggles recording a gif of the canvas
+    let record : boolean = false; // toggles recording a gif of the canvas
 
     let setClearCanvasInParent = () => { };
     let setSaveCanvasInParent = () => { };
@@ -94,7 +94,6 @@ function sketch(p) {
         });
 
         gif.on('finished', function (blob) {
-            console.log("finished");
             window.open(URL.createObjectURL(blob));
             fileSaver.saveAs(blob, "drawgazer.gif");
             setupGif(setRecordCanvasInParent);
@@ -159,9 +158,8 @@ function sketch(p) {
         settingState = props.canvasSettings.settingState;
 
         if (record != props.canvasSettings.record) {
-
             // this case means that the recording was turned off
-            if (record == true) {
+            if (record === true) {
                 record = false;
                 if (gif) gif.render();
                 frameCounter = 0;

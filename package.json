@@ -16,8 +16,6 @@
     "@types/node": "^14.14.34",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.2",
-    "ccapture.js": "^1.1.0",
-    "ccapture.js-npmfixed": "^1.1.0",
     "file-loader": "^6.2.0",
     "file-saver": "^2.0.5",
     "gif.js.optimized": "^1.0.1",

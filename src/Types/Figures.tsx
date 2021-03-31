@@ -40,7 +40,7 @@ export type CanvasSettings = {
     colorSettings: ColorSettings,
     reset: Boolean,
     save: Boolean,
-    record: number,
+    record: Boolean,
     resetInParent: voidFunc,
     saveInParent: voidFunc,
     recordInParent: voidFunc,
