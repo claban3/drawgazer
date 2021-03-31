@@ -136,20 +136,41 @@ export default function Canvas(props) {
         let ypos = e.clientY;
         setXpos(xpos);
         setYpos(ypos);
-        // console.log("xpos: ", xpos);
-        // console.log("ypos: ", ypos);
+
     }
+
+    function mouseEnterHandler(e) {
+        let xpos = e.clientX;
+        let ypos = e.clientY;
+        setXpos(xpos);
+        setYpos(ypos);
+    }
+
+    let grid = []
+    hawkeyeAccessGrid();
+    function hawkeyeAccessGrid() {
+        for(let i = 0; i < 200; i++) {
+            grid.push(
+                <a  className="filth"
+                onClick={(e) => getCursorPosition(e)}
+                onMouseEnter = {(e) => mouseEnterHandler(e)}>
+            </a>
+            )
+        }
+    }   
+
     return (
 
-         <a className="canvas-container" id="canvas"
-            onClick={(e) => getCursorPosition(e)}
-            onMouseMove={(e) => getCursorPosition(e)}>
+         <div className="canvas-container" id="canvas">
                 {xpos + " "}
                 {ypos}
                 <P5Wrapper 
                     className="p5Wrapper"
                     sketch={sketch}
                     canvasSettings={props.canvasSettings}/>
-        </a>
+            <div className="gross">
+                {grid}
+            </div>
+        </div>
     ); 
 }
