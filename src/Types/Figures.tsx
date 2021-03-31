@@ -9,6 +9,7 @@ import bubbles from '../Images/bubbles.png';
 import draggedOut from '../Images/draggedout.png';
 import draggedPainting from '../Images/draggedPainting.png';
 import freeDraw from '../Images/free-draw.png';
+import fillScreenWithShapes from '../Images/fillScreenWithShapes.png'
 
 export enum SelectedShape {
     None,
@@ -25,9 +26,9 @@ export enum SelectedAnimation {
     BubblePop,
     RadialForce,
     DraggedPainting,
+    FillScreenWithFigures,
     WallBounce,
     Stack,
-    FillScreenWithFigures,
     None,
 };
 
@@ -68,6 +69,12 @@ export function animationProperties(anim: SelectedAnimation) {
                 "name": "Dragged Painting",
                 "classname": "draggedPainting",
                 "image": draggedPainting,
+            }
+        case SelectedAnimation.FillScreenWithFigures:
+            return {
+                "name": "Fill Screen With Shapes",
+                "classname": "fillScreenWithFigures",
+                "image": fillScreenWithShapes,
             }
         case SelectedAnimation.None:
             return {

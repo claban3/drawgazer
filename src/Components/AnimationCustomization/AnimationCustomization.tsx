@@ -34,15 +34,22 @@ export default function AnimationCustomization(props) {
     }, [props.animations]);
 
     function createAnimationRow(anims) {
+        console.log("Row: ", anims);
+        while (anims.length < 3) {
+            anims.push(SelectedAnimation.None);
+        }
         return (
             <div className="unused-animation-row">
                 {
-                    anims.map((a) => {
+                    anims.map((a, i) => {
                         let sa = SelectedAnimation[a as keyof typeof SelectedAnimation];
-                        let selected = Object.values(props.animations).includes(sa) ? "animation-selected" : "";
-                        return <div className={"unused-animation " + selected} onClick={() => props.animationAddHandler(sa)}>
+                        console.log(a, sa, SelectedAnimation.None, sa === SelectedAnimation.None);
+                        if (a !== SelectedAnimation.None && sa !== SelectedAnimation.None) {
+                            let selected = Object.values(props.animations).includes(sa) ? "animation-selected" : "";
+                            return <div className={"unused-animation " + selected} key={animationProperties(sa)["classname"]+i} onClick={() => props.animationAddHandler(sa)}>
                                 <img className="animation-icon" src={animationProperties(sa)["image"]} alt={animationProperties(sa)["name"]} />
-                        </div>
+                            </div>
+                        } else return <div className="unused-animation" key={"none "+i}></div>
                     })
                 }
             </div>
@@ -58,6 +65,7 @@ export default function AnimationCustomization(props) {
         SelectedAnimation.BubblePop,
         SelectedAnimation.RadialForce,
         SelectedAnimation.DraggedPainting,
+        SelectedAnimation.FillScreenWithFigures,
         // SelectedAnimation.WallBounce,
         // SelectedAnimation.Stack,
     ]
@@ -68,6 +76,9 @@ export default function AnimationCustomization(props) {
             animationRows.push(createAnimationRow(animationDivs));
             animationDivs = [];
         }
+    }
+    if (animationDivs.length !== 0) {
+        animationRows.push(createAnimationRow(animationDivs));
     }
 
     // The empty unused-animation-row here is just for demonstration purposes,
