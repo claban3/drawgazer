@@ -17,11 +17,11 @@ const defaultColors = {
     "--animationButtonSelected": "#484848",
 }
 
-const defaultAnimations = {
-    "animation0": SelectedAnimation.DownwardGravity,
-    "animation1": SelectedAnimation.WobblySwarm,
-    "animation2": SelectedAnimation.BubblePop,
-}
+const defaultAnimations = [
+    SelectedAnimation.DownwardGravity,
+    SelectedAnimation.WobblySwarm,
+    SelectedAnimation.BubblePop,
+];
 
 function App() {
     const [draw, setDraw] = useState(true);
@@ -93,10 +93,10 @@ function App() {
 
     function animationAddHandler(anim: SelectedAnimation) {
         for (let i = 0; i < 3; i ++) {
-            if (animations["animation"+i] === SelectedAnimation.None) {
+            if (animations[i] === SelectedAnimation.None) {
                 console.log("Adding animation"+i+" ("+SelectedAnimation[anim]+")");
                 setAnimations(prevState=> (
-                    {...prevState, ["animation"+i]: anim}
+                    {...prevState, [i]: anim}
                 ));
                 return; // Only set first unused animation slot
             }
@@ -104,10 +104,10 @@ function App() {
         console.log("animationAddHandler called with anim " + anim + " but no animation was set - all animations full?");
     }
 
-    function animationRemoveHandler(idx: Number) {
-        console.log("Removing animation"+idx+" ("+animations["animation"+idx]+")");
+    function animationRemoveHandler(idx: number) {
+        console.log("Removing animation"+idx+" ("+animations[idx]+")");
         setAnimations(prevState=> (
-            {...prevState, ["animation"+idx]: SelectedAnimation.None}
+            {...prevState, [idx]: SelectedAnimation.None}
         ));
     }
 

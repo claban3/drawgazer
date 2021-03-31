@@ -16,11 +16,9 @@ export default function AnimationCustomization(props) {
     const [img1, setImg1] = useState();
     const [img2, setImg2] = useState();
 
-    let imgSetters = {
-        "animation0": setImg0,
-        "animation1": setImg1,
-        "animation2": setImg2,
-    }
+    let imgSetters = [
+        setImg0, setImg1, setImg2
+    ];
 
     useEffect(() => {
         for (let animation in props.animations) {
