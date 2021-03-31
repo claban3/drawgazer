@@ -44,7 +44,8 @@ export default function AnimationCustomization(props) {
                         let sa = SelectedAnimation[a as keyof typeof SelectedAnimation];
                         if (a !== SelectedAnimation.None && sa !== SelectedAnimation.None) {
                             let selected = Object.values(props.animations).includes(sa);
-                            return <div className={"unused-animation " + (selected ? "animation-selected" : "")} key={animationProperties(sa)["classname"]+i} onClick={() => {
+                            let button = selected ? "-" : "+";
+                            return <div className={"unused-animation " + (selected ? "animation-selected" : "")} key={animationProperties(sa)["classname"]+" "+i} onClick={() => {
                                 if (!selected) {
                                     props.animationAddHandler(sa);
                                 } else {
@@ -52,6 +53,7 @@ export default function AnimationCustomization(props) {
                                 }
                             }}>
                                 <img className="animation-icon" src={animationProperties(sa)["image"]} alt={animationProperties(sa)["name"]} />
+                                <span>{button}</span>
                             </div>
                         } else return <div className="unused-animation" key={"none "+i}></div>
                     })
@@ -87,6 +89,10 @@ export default function AnimationCustomization(props) {
 
     // The empty unused-animation-row here is just for demonstration purposes,
     // such that the unused animations overflow vertically behind the toolbar
+
+    let button0 = props.animations[0] === SelectedAnimation.None ? "" : "-";
+    let button1 = props.animations[1] === SelectedAnimation.None ? "" : "-";
+    let button2 = props.animations[2] === SelectedAnimation.None ? "" : "-";
     
     return (
         <div className="animation-customization-container">
@@ -105,12 +111,15 @@ export default function AnimationCustomization(props) {
             <div className="selected-animations-container">
                 <div className="selected-animation" onClick={() => props.animationRemoveHandler(0)}>
                     <img className="animation-icon" src={img0} alt=""/>
+                    <span>{button0}</span>
                 </div>
                 <div className="selected-animation" onClick={() => props.animationRemoveHandler(1)}>
                     <img className="animation-icon" src={img1} alt=""/>
+                    <span>{button1}</span>
                 </div>
                 <div className="selected-animation" onClick={() => props.animationRemoveHandler(2)}>
                     <img className="animation-icon" src={img2} alt=""/>
+                    <span>{button2}</span>
                 </div>
             </div>
         </div>
