@@ -46,13 +46,6 @@ export default function Settings(props) {
 
                     Animations
                 </div>
-
-                <div className={"options " + soundUnderline} 
-                     id="sound"
-                     onClick={() => tabSelectionHandler(tabs[2])}
-                     onTouchEnd={() => tabSelectionHandler(tabs[2])}>
-                    Sound
-                </div>
             </div>
 
             { tabSelection === tabs[0] && 
@@ -62,12 +55,6 @@ export default function Settings(props) {
 
             { tabSelection === tabs[1] &&
                 <AnimationCustomization animations={props.animations} animationRemoveHandler={props.animationRemoveHandler} animationAddHandler={props.animationAddHandler}/>
-            }
-
-            { tabSelection === tabs[2] &&
-                <div className="settings-content">
-                    {/* TODO: Sound Tab */}
-                </div>
             }
 
             <img className="settings-exit"
