@@ -5,6 +5,7 @@ import ShareSession from './Views/ShareSession/ShareSession';
 import { useEffect, useState } from 'react';
 import { ColorSettings } from './Types/Figures';
 import { generateContrastColors } from '@adobe/leonardo-contrast-colors';
+import { UIStateTypes } from './Types/UIStateTypes';
 
 const defaultColors = {
     "--triangleColor": "#00429D",
@@ -20,8 +21,8 @@ const defaultColors = {
 
 function App() {
     const [draw, setDraw] = useState(true);
-    const [settingState, setSettingState] = useState(0);
-    const [shareSessionState, setShareSessionState] = useState(0);
+    const [settingState, setSettingState] = useState(UIStateTypes.Closed);
+    const [shareSessionState, setShareSessionState] = useState(UIStateTypes.Closed);
     const [token, setToken] = useState('');
 
     const [newSession, setNewSession] = useState(true);
@@ -90,18 +91,18 @@ function App() {
     }
 
     function settingStateChangeHandler() {
-        // 0: Closed
-        // 1: Opening
-        // 2: Open
-        // 3: Closing
+        // Closed = 0
+        // Opening = 1
+        // Open = 2
+        // Closing = 3
         setSettingState( (settingState + 1 ) % 4 );
     }
 
     function shareSessionStateChangeHandler() {
-        // 0: Closed
-        // 1: Opening
-        // 2: Open
-        // 3: Closing
+        // Closed = 0
+        // Opening = 1
+        // Open = 2
+        // Closing = 3
         setShareSessionState( (shareSessionState + 1 ) % 4 );
     }
 
@@ -114,12 +115,12 @@ function App() {
 
     return (
         <>
-        { (settingState>0) && <Settings settingStateChangeHandler={settingStateChangeHandler} 
+        { (settingState!=UIStateTypes.Closed) && <Settings settingStateChangeHandler={settingStateChangeHandler} 
                                         settingState={settingState}
                                         colorChangeHandler={colorChangeHandler}
                                         resetColors={resetColors}/> }
 
-        { (shareSessionState>0) && <ShareSession shareSessionStateChangeHandler={shareSessionStateChangeHandler} 
+        { (shareSessionState!=UIStateTypes.Closed) && <ShareSession shareSessionStateChangeHandler={shareSessionStateChangeHandler} 
                                                  shareSessionState={shareSessionState}
                                                  token= {token}
                                                  setToken = {setToken}

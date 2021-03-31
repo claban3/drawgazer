@@ -107,7 +107,7 @@
     border: none;
     flex-grow: 2;
     outline: none;
-    cursor: pointer;
+    cursor: text;
 }
 
 .friend-ID-icon {
