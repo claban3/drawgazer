@@ -38,7 +38,7 @@ export default function Options(props) {
                  onTouchEnd = {() => props.settingStateChangeHandler()}/>
 
             <img className="icon" title="Record Canvas"
-                 src={record}
+                 src={recordCanvasStates[props.recordCanvasState]}
                  alt=""
                  onClick = {() => props.recordCanvas()}
                  onTouchEnd = {() => props.recordCanvas()}/>
