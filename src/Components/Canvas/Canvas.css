@@ -14,7 +14,7 @@
     border-radius: 10px;
 }
 
-.gross {
+.hawkeyeGrid {
     position: absolute;
     height: 75%;
     width: 85%;
@@ -27,7 +27,7 @@
     align-items: center;
 }
 
-.filth {
+.hawkeyeCell {
     display: block;
     height: 5%;
     width: 5%;

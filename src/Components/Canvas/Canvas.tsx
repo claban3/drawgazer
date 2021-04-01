@@ -101,10 +101,11 @@ function sketch(p) {
         settingState = props.canvasSettings.settingState;
 
         Animation.redraw(sketchData, p);
-
-        // if (props.canvasSettings.hawkeyeMouseEvent.mousePressed) {
-
-        // }
+        
+        if (props.canvasSettings.hawkeyeMouseEvent.mousePressed) {
+            let mouseEvent = props.canvasSettings.hawkeyeMouseEvent;
+            Animation.hawkeyeMousePressed(sketchData, p, mouseEvent, renderer);
+        }
     }
 
     p.draw = function () {
@@ -138,41 +139,39 @@ function sketch(p) {
 }
 
 export default function Canvas(props) {
-    // const defaultMouseEvent = hawkeyeMouseEvent: {
-    //     mousePressed: false,
-    //     mouseX: 0,
-    //     mouseY: 0
-    // };
+    const defaultMouseEvent : HawkeyeMouseEvent = {
+        mousePressed: false,
+        mouseX: 0,
+        mouseY: 0
+    };
 
-    // const [hawkeyeMouseEvent, setHawkeyeMouseEvent] = useState(defaultMouseEvent);
+    const [hawkeyeMouseEvent, setHawkeyeMouseEvent] = useState(defaultMouseEvent);
     const [xpos, setXpos] = useState(0);
     const [ypos, setYpos] = useState(0);
 
     function gridClickedHandler(id) {
-        // let id = e.target.id;
         let element = document.getElementById(id);
-        let xpos = element.offsetTop + element.offsetHeight / 2;
-        let ypos = element.offsetLeft + element.offsetWidth / 2;
+        let xpos = element.offsetLeft - 10;
+        let ypos = element.offsetTop;
         setXpos(xpos);
         setYpos(ypos);
 
-        // let mouseEvent: HawkeyeMouseEvent = {
-        //     mousePressed: true,
-        //     mouseX: xpos,
-        //     mouseY: ypos
-        // };
+        let mouseEvent: HawkeyeMouseEvent = {
+            mousePressed: true,
+            mouseX: xpos,
+            mouseY: ypos
+        };
 
-        // setHawkeyeMouseEvent(mouseEvent);
+        setHawkeyeMouseEvent(mouseEvent);
     }
 
-    function mouseEnterHandler(id) {
-        // let id = e.target.id;
-        let element = document.getElementById(id);
-        let xpos = element.offsetTop + element.offsetHeight / 2;
-        let ypos = element.offsetLeft + element.offsetWidth / 2;
-        setXpos(xpos);
-        setYpos(ypos);
-    }
+    // function mouseEnterHandler(id) {
+    //     let element = document.getElementById(id);
+    //     let xpos = element.offsetTop + element.offsetHeight / 2;
+    //     let ypos = element.offsetLeft + element.offsetWidth / 2;
+    //     setXpos(xpos);
+    //     setYpos(ypos);
+    // }
 
     let grid = []
     hawkeyeAccessGrid();
@@ -180,26 +179,24 @@ export default function Canvas(props) {
         for (let i = 0; i < 200; i++) {
             let idStr : string = "cell".concat(i.toString());
             grid.push(
-                <a className="filth" id={idStr}
-                    onClick={() => gridClickedHandler(idStr)}
-                    onMouseEnter={() => mouseEnterHandler(idStr)}>
+                <a className="hawkeyeCell" id={idStr}
+                    onClick={() => gridClickedHandler(idStr)}>
+                    {/* onMouseEnter={() => mouseEnterHandler(idStr)}> */}
                 </a>
             )
         }
     }
 
-    // props.canvasSettings.hawkeyeMouseEvent = hawkeyeMouseEvent;
+    props.canvasSettings.hawkeyeMouseEvent = hawkeyeMouseEvent;
 
     return (
 
         <div className="canvas-container" id="canvas">
-            {xpos + " "}
-            {ypos}
             <P5Wrapper
                 className="p5Wrapper"
                 sketch={sketch}
                 canvasSettings={props.canvasSettings} />
-            <div className="gross">
+            <div className="hawkeyeGrid">
                 {grid}
             </div>
         </div>

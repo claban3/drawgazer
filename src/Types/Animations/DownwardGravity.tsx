@@ -16,7 +16,7 @@ export class DownwardGravity extends Animation {
     if (p.mouseX != p.pmouseX && 
         p.mouseY != p.pmouseY && 
         Math.round(Math.random() * 2) === 1) {
-      pushNewFigure(sketchData.selectedFigure, sketchData.figs, p);
+      pushNewFigure(sketchData.selectedFigure, sketchData.figs, p.mouseX, p.mouseY, p);
     }
 
     sketchData.figs.forEach(fig => {

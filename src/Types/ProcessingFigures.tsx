@@ -6,7 +6,7 @@ import bounceSFX from '../Sounds/bounce.mp3';
 import popSFX from '../Sounds/pop.mp3';
 import thudSFX from '../Sounds/thud.mp3';
 import * as Collides from 'p5collide';
-import { CustomFigureStyles } from './Figures';
+import { CustomFigureStyles, SketchData } from './Figures';
 import './Animations/ColorSampling';
 
 const MAX_SPEED = 15;
@@ -84,6 +84,22 @@ export class AnimatedFigure {
     return (
       p.mouseX <= canvasWidth && p.mouseX >= 0 && 
       p.mouseY <= canvasHeight && p.mouseY >= 0
+    );
+  }
+
+  static mouseOnCanvasHawkeye(mouseX, mouseY, p: P5, renderer, canvasWidth, canvasHeight) {
+    let left = renderer.position().x;
+    let right = renderer.position().x + canvasWidth;
+    let bottom = renderer.position().y + canvasHeight;
+    let top = renderer.position().y;
+
+    console.log(left);
+    console.log(right);
+    console.log(mouseX);
+    
+    return (
+      mouseX >= left && mouseX <= right && 
+      mouseY >= top && mouseY <= bottom
     );
   }
 
