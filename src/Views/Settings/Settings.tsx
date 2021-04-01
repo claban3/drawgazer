@@ -5,6 +5,7 @@ import './Settings.css';
 import '../../App.css';
 
 import exit from '../../Images/exit.png';
+import AnimationCustomization from "../../Components/AnimationCustomization/AnimationCustomization";
 
 export default function Settings(props) {
     const settingStates = ["closed", "opening", "open", "closing"];
@@ -45,13 +46,6 @@ export default function Settings(props) {
 
                     Animations
                 </div>
-
-                <div className={"options " + soundUnderline} 
-                     id="sound"
-                     onClick={() => tabSelectionHandler(tabs[2])}
-                     onTouchEnd={() => tabSelectionHandler(tabs[2])}>
-                    Sound
-                </div>
             </div>
 
             { tabSelection === tabs[0] && 
@@ -60,15 +54,7 @@ export default function Settings(props) {
             }
 
             { tabSelection === tabs[1] &&
-                <div className="settings-content">
-                    {/* TODO: Animations Tab */}
-                </div>
-            }
-
-            { tabSelection === tabs[2] &&
-                <div className="settings-content">
-                    {/* TODO: Sound Tab */}
-                </div>
+                <AnimationCustomization animations={props.animations} animationRemoveHandler={props.animationRemoveHandler} animationAddHandler={props.animationAddHandler}/>
             }
 
             <img className="settings-exit"

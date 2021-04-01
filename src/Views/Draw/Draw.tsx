@@ -4,8 +4,9 @@ import Canvas from '../../Components/Canvas/Canvas';
 import ShapesToolbar from '../../Components/ShapesToolbar/ShapesToolbar';
 import AnimationToolbar from '../../Components/AnimationToolbar/AnimationToolbar';
 import Options from '../../Components/Options/Options';
-import { CanvasSettings, SelectedAnimation, SelectedShape, ColorSettings } from "../../Types/Figures";
+import { CanvasSettings, SelectedAnimation, SelectedShape } from "../../Types/Figures";
 import { RecordingStates, nextRecordingState } from '../../Types/UITypes';
+
 
 function getWindowDimensions() {
     const { innerWidth: width, innerHeight: height } = window;
@@ -94,7 +95,8 @@ export default function Draw(props){
                      recordCanvasState={recordCanvasState}/>
 
             <AnimationToolbar   animationSelection={animationSelection}
-                                selectionHandler={animationSelectionHandler}/>
+                                selectionHandler={animationSelectionHandler}
+                                animations={props.animations}/>
         </div>
     );
 }
