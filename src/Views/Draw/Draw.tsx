@@ -42,13 +42,13 @@ export default function Draw(props){
 
 
     function shapeSelectionHandler(selection : SelectedShape) {
-        if(shapeSelection === selection) setShapeSelection(SelectedShape.None);
+        if (shapeSelection === selection) setShapeSelection(SelectedShape.None);
         else setShapeSelection(selection);
     }
 
     function animationSelectionHandler(selection : SelectedAnimation) {
-        if(animationSelection === selection) setAnimationSelection(SelectedAnimation.None);
-        else setAnimationSelection(selection);
+        if (animationSelection === selection) setAnimationSelection(SelectedAnimation.None);
+        else if (selection !== SelectedAnimation.None) setAnimationSelection(selection);
     }
     
     function setClearCanvasHandler() {
