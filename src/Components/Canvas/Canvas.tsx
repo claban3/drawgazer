@@ -125,21 +125,21 @@ function sketch (p) {
                 let width = sketchData.canvasWidth;
                 let height = sketchData.canvasHeight;
 
-                if (fig.pos.x < 40) {
-                    fig.pos.x = 50;
-                    fig.velocity.x *= -1;
+                if (fig.pos.x < 0) {
+                    fig.pos.x = 1;
+                    //fig.velocity.x *= -1;
                 }
                 if (fig.pos.x > width) {
-                    fig.pos.x = width - 50;
-                    fig.velocity.x *= -1;
+                    fig.pos.x = width - 1;
+                    //fig.velocity.x *= -1;
                 }
-                if (fig.pos.y < 40) {
-                    fig.pos.y = 50;
-                    fig.velocity.y *= -1;
+                if (fig.pos.y < 0) {
+                    fig.pos.y = 1;
+                   // fig.velocity.y *= -1;
                 }
                 if (fig.pos.y > height) {
-                    fig.pos.y = height - 50;
-                    fig.velocity.y *= -1;
+                    fig.pos.y = height - 1;
+                    //fig.velocity.y *= -1;
                 }
             });
 
