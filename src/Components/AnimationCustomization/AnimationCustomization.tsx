@@ -1,14 +1,6 @@
 import "./AnimationCustomization.css";
 import { useEffect, useState } from "react";
 import { animationProperties, SelectedAnimation } from '../../Types/Figures';
-import gravity from '../../Images/gravity.png';
-import gravity2 from '../../Images/gravity-v2.png';
-import radial from '../../Images/radial.png';
-import radial2 from '../../Images/radial-v2.png';
-import bubbles from '../../Images/bubbles.png';
-import draggedOut from '../../Images/draggedout.png';
-import draggedPainting from '../../Images/draggedPainting.png';
-import freeDraw from '../../Images/free-draw.png';
 
 export default function AnimationCustomization(props) {
 
@@ -87,9 +79,6 @@ export default function AnimationCustomization(props) {
         animationRows.push(createAnimationRow(animationDivs));
     }
 
-    // The empty unused-animation-row here is just for demonstration purposes,
-    // such that the unused animations overflow vertically behind the toolbar
-
     let button0 = props.animations[0] === SelectedAnimation.None ? "" : "-";
     let button1 = props.animations[1] === SelectedAnimation.None ? "" : "-";
     let button2 = props.animations[2] === SelectedAnimation.None ? "" : "-";
@@ -98,14 +87,6 @@ export default function AnimationCustomization(props) {
         <div className="animation-customization-container">
             <div className="all-animations-container">
                 {animationRows}
-                {/* <div className="unused-animation-row">
-                    <div className="unused-animation">
-                    </div>
-                    <div className="unused-animation">
-                    </div>
-                    <div className="unused-animation">
-                    </div>
-                </div> */}
             </div>
             <div className="selected-spacer"></div>
             <div className="selected-animations-container">
