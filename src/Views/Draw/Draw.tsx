@@ -31,6 +31,15 @@ export default function Draw(props){
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
+    useEffect(() => {
+        if (animationSelection !== SelectedAnimation.None && 
+            props.animations[0] !== animationSelection && 
+            props.animations[1] !== animationSelection && 
+            props.animations[2] !== animationSelection) {
+                setAnimationSelection(SelectedAnimation.None);
+            }
+    }, [props.animations]);
+
 
     function shapeSelectionHandler(selection : SelectedShape) {
         if(shapeSelection === selection) setShapeSelection(SelectedShape.None);
