@@ -102,12 +102,16 @@ export type ColorSettings = {
     background: string
 };
 
-export type CanvasSettings = {
+  export type CanvasSettings = {
     selectedFigure: SelectedShape,
     selectedAnimation: SelectedAnimation, 
     colorSettings: ColorSettings,
     reset: Boolean,
+    save: Boolean,
+    record: Boolean,
     resetInParent: voidFunc,
+    saveInParent: voidFunc,
+    recordInParent: voidFunc,
     settingState: number
 };
 
