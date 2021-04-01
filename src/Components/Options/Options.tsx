@@ -13,55 +13,37 @@ const recordCanvasStates = [record1, record2, record3];
 export default function Options(props) {
     return (
         <div className="options-container">
-            <div className="icons-container">
 
-                <div className="icon" title="Share Session"
-                    onClick={() => props.toggleShareSessions()}
-                    onTouchEnd={() => props.toggleShareSession()}>
+            <img className="icon" title="Share Session"
+                 src={shareSession}
+                 alt=""
+                 onClick = {() => props.toggleShareSessions()}
+                 onTouchEnd = {() => props.toggleShareSession()}/>
 
-                    <img className="icon"
-                        src={shareSession}
-                        alt="" />
-                </div>
+            <img className="icon" title="Save Canvas"
+                 src={camera}
+                 alt="" onClick = {() => props.saveCanvas()}
+                 onTouchEnd = {() => props.saveCanvas()}/> 
 
-                <div className="icon" title="Settings"
-                    onClick={() => props.settingStateChangeHandler()}
-                    onTouchEnd={() => props.settingStateChangeHandler()}>
+            <img className="icon" title="Clear Canvas"
+                 src={trashcan}
+                 alt=""
+                 onClick = {() => props.clearCanvas()}
+                 onTouchEnd = {() => props.clearCanvas()}/>
 
-                    <img className="icon"
-                        src={settings}
-                        alt="" />
-                </div>
+            <img className="icon" title="Settings"
+                 src={settings}
+                 alt=""
+                 onClick = {() => props.settingStateChangeHandler()}
+                 onTouchEnd = {() => props.settingStateChangeHandler()}/>
 
-                <div className="icon" title="Save Canvas"
-                    onClick={() => props.saveCanvas()}
-                    onTouchEnd={() => props.saveCanvas()}>
+            <img className="icon" title="Record Canvas"
+                 src={recordCanvasStates[props.recordCanvasState]}
+                 alt=""
+                 onClick = {() => props.recordCanvas()}
+                 onTouchEnd = {() => props.recordCanvas()}/>
 
-                    <img className="icon"
-                        src={camera}
-                        alt="" />
-                </div>
-
-                <div className="icon" title="Record Canvas"
-                    onClick={() => props.recordCanvas()}
-                    onTouchEnd={() => props.recordCanvas()}>
-
-                    <img className="icon"
-                        src={recordCanvasStates[props.recordCanvasState]}
-                        alt="" />
-                </div>
-
-                <div className="icon" title="Clear Canvas"
-                    onClick={() => props.clearCanvas()}
-                    onTouchEnd={() => props.clearCanvas()}>
-
-                    <img className="icon"
-                        src={trashcan}
-                        alt="" />
-                </div>
-            </div>
-
-            <div className="title">drawgazer</div>
+            {/*  <div className="title">drawgazer</div> */}
         </div>
     );
 }
