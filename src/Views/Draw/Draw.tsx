@@ -31,15 +31,24 @@ export default function Draw(props){
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
+    useEffect(() => {
+        if (animationSelection !== SelectedAnimation.None && 
+            props.animations[0] !== animationSelection && 
+            props.animations[1] !== animationSelection && 
+            props.animations[2] !== animationSelection) {
+                setAnimationSelection(SelectedAnimation.None);
+            }
+    }, [props.animations]);
+
 
     function shapeSelectionHandler(selection : SelectedShape) {
-        if(shapeSelection === selection) setShapeSelection(SelectedShape.None);
+        if (shapeSelection === selection) setShapeSelection(SelectedShape.None);
         else setShapeSelection(selection);
     }
 
     function animationSelectionHandler(selection : SelectedAnimation) {
-        if(animationSelection === selection) setAnimationSelection(SelectedAnimation.None);
-        else setAnimationSelection(selection);
+        if (animationSelection === selection) setAnimationSelection(SelectedAnimation.None);
+        else if (selection !== SelectedAnimation.None) setAnimationSelection(selection);
     }
     
     function setClearCanvasHandler() {
