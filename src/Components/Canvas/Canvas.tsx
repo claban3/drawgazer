@@ -120,6 +120,29 @@ function sketch (p) {
         }
 
         if (settingState === 0){
+
+            sketchData.figs.forEach(fig => {
+                let width = sketchData.canvasWidth;
+                let height = sketchData.canvasHeight;
+
+                if (fig.pos.x < 40) {
+                    fig.pos.x = 50;
+                    fig.velocity.x *= -1;
+                }
+                if (fig.pos.x > width) {
+                    fig.pos.x = width - 50;
+                    fig.velocity.x *= -1;
+                }
+                if (fig.pos.y < 40) {
+                    fig.pos.y = 50;
+                    fig.velocity.y *= -1;
+                }
+                if (fig.pos.y > height) {
+                    fig.pos.y = height - 50;
+                    fig.velocity.y *= -1;
+                }
+            });
+
             Animation.draw(sketchData, p);
             localStorage.setItem("savedFigs", JSON.stringify(sketchData.figs));
         }
