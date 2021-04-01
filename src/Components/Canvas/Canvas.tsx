@@ -1,14 +1,11 @@
 import "./Canvas.css";
 import 'p5';
-import P5 from 'p5';
 import '../../Types/Figures';
 import { SelectedShape, SelectedAnimation, SketchData, ColorSettings, HawkeyeMouseEvent } from '../../Types/Figures';
 import P5Wrapper from 'react-p5-wrapper';
 import 'react-p5-wrapper';
 import { Animation, newFigure } from '../../Types/Animations/Animation';
-import { CircleFigure, SquareFigure, TriangleFigure } from "../../Types/ProcessingFigures";
 import { useState } from "react";
-import { useEffect } from "react";
 
 let defaultColorSettings: ColorSettings = {
     background: '#FFFFFF',
@@ -103,8 +100,11 @@ function sketch(p) {
         Animation.redraw(sketchData, p);
         
         if (props.canvasSettings.hawkeyeMouseEvent.mousePressed) {
-            let mouseEvent = props.canvasSettings.hawkeyeMouseEvent;
-            Animation.hawkeyeMousePressed(sketchData, p, mouseEvent, renderer);
+            if(settingState === 0) {
+                let mouseEvent = props.canvasSettings.hawkeyeMouseEvent;
+                Animation.hawkeyeMousePressed(sketchData, p, mouseEvent, renderer);
+                props.canvasSettings.hawkeyeMouseEvent.mousePressed = false;
+            }
         }
     }
 
@@ -120,7 +120,7 @@ function sketch(p) {
 
         p.mouseClicked = function (event) {
             if (settingState === 0) {
-                return Animation.mousePressed(sketchData, p);
+                // return Animation.mousePressed(sketchData, p);
             }
         }
 
@@ -176,7 +176,8 @@ export default function Canvas(props) {
     let grid = []
     hawkeyeAccessGrid();
     function hawkeyeAccessGrid() {
-        for (let i = 0; i < 200; i++) {
+        let numCells = 50*50; // height and width are 2%
+        for (let i = 0; i <numCells; i++) {
             let idStr : string = "cell".concat(i.toString());
             grid.push(
                 <a className="hawkeyeCell" id={idStr}
@@ -196,6 +197,7 @@ export default function Canvas(props) {
                 className="p5Wrapper"
                 sketch={sketch}
                 canvasSettings={props.canvasSettings} />
+
             <div className="hawkeyeGrid">
                 {grid}
             </div>
