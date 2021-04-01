@@ -6,6 +6,7 @@ import gravity2 from '../../Images/gravity-v2.png';
 import radial from '../../Images/radial.png';
 import radial2 from '../../Images/radial-v2.png';
 import bubbles from '../../Images/bubbles.png';
+import scurry from '../../Images/scurry.png';
 import draggedout from '../../Images/draggedout.png';
 import draggedPainting from '../../Images/draggedPainting.png';
 import fillScreenWithFigures from '../../Images/fillScreenWithShapes.png';
@@ -36,8 +37,8 @@ export default function AnimationToolbar(props)
                          alt="Wobbly Swarm"/>
             </div>
 
-            <div className={`animation-selection ${scurryHighlight}`}
-                 onClick = { () => props.selectionHandler(SelectedAnimation.Scurry) }>
+            <div className={`animation-selection ${bubblePopHighlight}`}
+                 onClick = { () => props.selectionHandler(SelectedAnimation.BubblePop) }>
                     <img className="animation-icon"
                          src={bubbles} 
                          alt="Bubble Pop"/>
