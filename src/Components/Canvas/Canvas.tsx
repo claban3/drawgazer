@@ -196,7 +196,30 @@ function sketch(p) {
             }
         }
 
-        if (settingState === 0) {
+        if (settingState === 0){
+
+            sketchData.figs.forEach(fig => {
+                let width = sketchData.canvasWidth;
+                let height = sketchData.canvasHeight;
+
+                if (fig.pos.x < 0) {
+                    fig.pos.x = 20;
+                    //fig.velocity.x *= -1;
+                }
+                if (fig.pos.x > width) {
+                    fig.pos.x = width - 20;
+                    //fig.velocity.x *= -1;
+                }
+                if (fig.pos.y < 0) {
+                    fig.pos.y = 20;
+                   // fig.velocity.y *= -1;
+                }
+                if (fig.pos.y > height) {
+                    fig.pos.y = height - 20;
+                    //fig.velocity.y *= -1;
+                }
+            });
+
             Animation.draw(sketchData, p);
             localStorage.setItem("savedFigs", JSON.stringify(sketchData.figs));
         }

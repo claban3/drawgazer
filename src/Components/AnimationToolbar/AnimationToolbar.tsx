@@ -12,6 +12,7 @@ export default function AnimationToolbar(props)
                <div className={`animation-selection ${highlight0}`}
                onClick = { () => props.selectionHandler(props.animations[0]) }>
                     {props.animations[0] !== SelectedAnimation.None &&
+                   
                     <img className="animation-icon"
                     src={animationProperties(props.animations[0])["image"]} 
                     alt={props.animations[0]}/>

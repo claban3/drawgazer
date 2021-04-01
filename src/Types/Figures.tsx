@@ -6,6 +6,7 @@ import gravity2 from '../Images/gravity-v2.png';
 import radial from '../Images/radial.png';
 import radial2 from '../Images/radial-v2.png';
 import bubbles from '../Images/bubbles.png';
+import scurry from '../Images/scurry.png';
 import draggedOut from '../Images/draggedout.png';
 import draggedPainting from '../Images/draggedPainting.png';
 import freeDraw from '../Images/free-draw.png';
@@ -29,6 +30,7 @@ export enum SelectedAnimation {
     FillScreenWithFigures,
     WallBounce,
     Stack,
+    Scurry,
     None,
 };
 
@@ -76,6 +78,12 @@ export function animationProperties(anim: SelectedAnimation) {
                 "classname": "fillScreenWithFigures",
                 "image": fillScreenWithShapes,
             }
+        case SelectedAnimation.Scurry:
+            return {
+                "name": "Scurry",
+                "classname": "scurry",
+                "image": scurry,
+            }        
         case SelectedAnimation.None:
             return {
                 "name": "None",
