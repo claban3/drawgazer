@@ -7,6 +7,7 @@ import P5 from 'p5';
 import bounceSFX from '../Sounds/bounce.mp3';
 import popSFX from '../Sounds/pop.mp3';
 import thudSFX from '../Sounds/thud.mp3';
+import scurrySFX from '../Sounds/scurry.mp3';
 import * as Collides from 'p5collide';
 import { SketchData, CustomFigureStyles } from './Figures';
 import './Animations/ColorSampling';
@@ -28,6 +29,7 @@ export class AnimatedFigure {
   bounce: HTMLAudioElement = new Audio(bounceSFX)
   pop: HTMLAudioElement = new Audio(popSFX)
   thud: HTMLAudioElement = new Audio(thudSFX)
+  scurry: HTMLAudioElement = new Audio(scurrySFX)
   rotAngle: number
   color: string
   opacity: number

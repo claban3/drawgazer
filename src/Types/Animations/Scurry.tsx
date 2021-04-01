@@ -15,6 +15,8 @@ export class Scurry extends Animation {
         sketchData.figs.forEach(fig => {
             let width = sketchData.canvasWidth;
             let height = sketchData.canvasHeight;
+
+            fig.timer -= 1;
             
             let mouseOrigin = p.createVector(p.mouseX, p.mouseY);
 
@@ -29,18 +31,26 @@ export class Scurry extends Animation {
             }
 
             let diff = P5.Vector.sub(fig.pos, mouseOrigin);
+            let diff_val = diff.mag();
             let reverse_diff = P5.Vector.sub(mouseOrigin, fig.pos);
 
-            if (diff.mag() < 250 && (mouseOrigin.x != fig.pos.x && mouseOrigin.y != fig.pos.y)) {
+            if (diff_val < 300 && (mouseOrigin.x != fig.pos.x && mouseOrigin.y != fig.pos.y)) {
 
                 let dir = diff;
                 dir.normalize();
 
                 let new_vel = dir;
-                new_vel.setMag(fig.velocity.mag() + 0.25);
+                new_vel.setMag(fig.velocity.mag() + 0.3);
                 //new_vel.setMag(1.5);
 
                 fig.velocity = new_vel;
+
+                if (diff_val < 100 && fig.timer <= 30) {
+                    fig.velocity.setMag(fig.velocity.mag() * 1.3)
+                    fig.scurry.play();
+                    fig.timer = 30;
+                }
+                
                 //fig.velocity.add(new_vel)
             }
 
