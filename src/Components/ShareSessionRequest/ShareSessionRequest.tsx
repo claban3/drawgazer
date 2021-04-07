@@ -5,9 +5,9 @@ import { useEffect } from 'react';
 
 export default function ShareSessionRequest(props) {
     const shareSessionRequestStates = ["closed", "opening", "open", "closing"];
-    function responseHandler(response) {
+    async function responseHandler(response) {
         props.shareSessionsRequestStateChangeHandler();
-        props.shareSessionCallback(response);
+        await props.shareSessionCallback(response);
         // props.shareSessionRequestHandler();
         // props.requestHandler(response)
     }

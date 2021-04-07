@@ -22,6 +22,8 @@ const defaultColors = {
     "--animationButtonSelected": "#484848",
 }
 
+var acceptOrDecline = 0; // 0 is none, 1 is accept, 2 is decline
+
 function App() {
     const [draw, setDraw] = useState(true);
     const [settingState, setSettingState] = useState(0);
@@ -34,43 +36,38 @@ function App() {
     const [resetColors, setResetColors] = useState(false);
     const [uniqueId, setUniqueId] = useState(null);
 
-    const [shareSessionCallback, setShareSessionCallback] = useState(() => {}); // TODO
+    // const [shareSessionResponseValue, setShareSessionResponseValue] = useState(0);
+    // 0 = none, 1 = accept, 2 = decline
+    const timeout = async ms => new Promise(res => setTimeout(res, ms));
+    
+    async function shareSessionCallback(response) {
+        response ? acceptOrDecline = 1 : acceptOrDecline = 2;
+    }
+
+    async function waitSessionResponse() {
+        while (acceptOrDecline === 0) {
+            await timeout(100); // pauses script
+        }
+    }
 
     useEffect(() => {
         socket.on("connect", () => {console.log("Connected with sever");});
         socket.on("uuid", (uuid) => {setUniqueId(uuid); console.log("new uuid: " + uuid);});
-        socket.on("shareCanvasRequest", (data, responseCallback) => shareCanvasRequestHandler(data, responseCallback));
+        socket.on("shareCanvasRequest", (data, callback) => shareCanvasRequestHandler(data, callback));
     },[]);
-
-    function shareCanvasResponseHandler(responseData) {
-        console.log("sharecanvasResponseHandler: " + responseData);
-        if(responseData) {
-            console.log(responseData.destId + " accepted invitation? " + responseData.response);
-        }
-
-    }
-    function shareCanvasRequestHandler(data, responseCallback) {
+    
+    async function shareCanvasRequestHandler(data, responseCallback) {
         console.log("Received request from " + data.srcId + " to share canvas");
 
         if(!shareSessionRequestState) {
             shareSessionsRequestStateChangeHandler();
         }
         
-        // On accept/decline: 
-            // socket.emit("shareCanvasResponse", "accept/decline");
+        await waitSessionResponse();
+        responseCallback(acceptOrDecline);
+        acceptOrDecline = 0; // 0 is reset to unselected
     }
 
-    // TODO: callback from "shareCanvasRequest" isn't working correctly.
-    function sendShareCanvasResponse(response, requestId) {
-        let responseData = {
-            srcId: uniqueId,
-            destId: requestId,
-            response: response
-        }
-
-        socket.emit("")
-    }
-    
     function shareCanvasSubmissionHandler(friendId) {
         let requestData = {
             srcId : uniqueId,
@@ -79,7 +76,7 @@ function App() {
 
         console.log("Requesting sync with " + friendId);
         socket.emit("initiateShareCanvas", requestData, (responseData) => {
-            shareCanvasResponseHandler(responseData);
+            // shareCanvasResponseHandler(responseData);
         });
     }
     
@@ -189,7 +186,7 @@ function App() {
         { (shareSessionRequestState>0) && <ShareSessionRequest 
             shareSessionsRequestStateChangeHandler={shareSessionsRequestStateChangeHandler} 
             shareSessionRequestState={shareSessionRequestState}
-            shareSessionCallback={sendShareCanvasResponse}/> }
+            shareSessionCallback={shareSessionCallback}/> }
 
         { draw && <Draw colorSettings={canvasColorSettings}
                         settingStateChangeHandler={settingStateChangeHandler}

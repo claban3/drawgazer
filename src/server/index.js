@@ -26,6 +26,7 @@ function initiateShareCanvas(requestData, responseCallback) {
 
         clients[destId].emit("shareCanvasRequest", requestData, (responseData) => {
             console.log("responseCallBack");
+            console.log(responseData);
             // responseCallback(responseData);
         })
     } 
