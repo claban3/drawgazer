@@ -22,7 +22,7 @@ function initiateShareCanvas(requestData, responseCallback) {
     console.log("Client " + srcId + " attempting to join " + destId);
 
     // Check both clients exist and that neither are currently in a session
-    if((srcId in clients) && (destId in clients)) {
+    if((srcId in clients) && (destId in clients) && (srcId !== destId)) {
 
         clients[destId].emit("shareCanvasRequest", requestData, (responseData) => {
             console.log("responseCallBack");
