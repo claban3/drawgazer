@@ -1,23 +1,21 @@
 import './ShareSessionRequest.css';
 import '../../App.css';
 
-import { useEffect } from 'react';
 
 export default function ShareSessionRequest(props) {
     const shareSessionRequestStates = ["closed", "opening", "open", "closing"];
+    
     async function responseHandler(response) {
         props.shareSessionsRequestStateChangeHandler();
         await props.shareSessionCallback(response);
-        // props.shareSessionRequestHandler();
-        // props.requestHandler(response)
     }
 
     return (
-        <div className={"share-session-request-container " }
+        <div className={"share-session-request-container " + shareSessionRequestStates[props.shareSessionRequestState] }
              onAnimationEnd={() => props.shareSessionsRequestStateChangeHandler()}>
 
             <div className="share-session-request-msg">
-                <span className="requestId">{props.requestId} ac54fdh0 </span>
+                <span className="requestId">{props.requestId} </span>
                 has requested to join your draw session
             </div>
 
