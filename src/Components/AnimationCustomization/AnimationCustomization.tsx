@@ -37,17 +37,20 @@ export default function AnimationCustomization(props) {
                         if (a !== SelectedAnimation.None && sa !== SelectedAnimation.None) {
                             let selected = Object.values(props.animations).includes(sa);
                             let button = selected ? "-" : "+";
-                            return <div className={"unused-animation " + (selected ? "animation-selected" : "")} key={animationProperties(sa)["classname"]+" "+i} onClick={() => {
-                                if (!selected) {
-                                    props.animationAddHandler(sa);
-                                } else {
-                                    props.animationRemoveHandler(Object.values(props.animations).indexOf(sa));
-                                }
-                            }}>
-                                <img className="animation-icon" src={animationProperties(sa)["image"]} alt={animationProperties(sa)["name"]} />
-                                <span>{button}</span>
-                            </div>
-                        } else return <div className="unused-animation" key={"none "+i}></div>
+                            return <>
+                                <a  className={"unused-animation " + (selected ? "animation-selected" : "")} 
+                                    key={animationProperties(sa)["classname"]+" "+i} 
+                            
+                                    onClick={() => {
+                                        if (!selected) props.animationAddHandler(sa);
+                                        else props.animationRemoveHandler(Object.values(props.animations).indexOf(sa));
+                                    }}>
+
+                                    <img className="animation-icon" src={animationProperties(sa)["image"]} alt={animationProperties(sa)["name"]} />
+                                    <span>{button}</span>
+                                </a>
+                            </>
+                        } else return <a className="unused-animation" key={"none "+i}></a>
                     })
                 }
             </div>
@@ -85,24 +88,31 @@ export default function AnimationCustomization(props) {
     
     return (
         <div className="animation-customization-container">
+
             <div className="all-animations-container">
                 {animationRows}
             </div>
+
             <div className="selected-spacer"></div>
             <div className="selected-animations-container">
-                <div className="selected-animation" onClick={() => props.animationRemoveHandler(0)}>
+
+                <a className="selected-animation" onClick={() => props.animationRemoveHandler(0)}>
                     <img className="animation-icon" src={img0} alt=""/>
                     <span>{button0}</span>
-                </div>
-                <div className="selected-animation" onClick={() => props.animationRemoveHandler(1)}>
+                </a>
+
+                <a className="selected-animation" onClick={() => props.animationRemoveHandler(1)}>
                     <img className="animation-icon" src={img1} alt=""/>
                     <span>{button1}</span>
-                </div>
-                <div className="selected-animation" onClick={() => props.animationRemoveHandler(2)}>
+                </a>
+
+                <a className="selected-animation" onClick={() => props.animationRemoveHandler(2)}>
                     <img className="animation-icon" src={img2} alt=""/>
                     <span>{button2}</span>
-                </div>
+                </a>
+
             </div>
+
         </div>
     )
 }
