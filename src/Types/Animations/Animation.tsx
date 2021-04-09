@@ -5,6 +5,7 @@ import { DownwardGravity } from './DownwardGravity';
 import { WallBounce } from './WallBounce';
 import { BubblePop } from './BubblePop';
 import { WobblySwarm } from './WobblySwarm';
+import { Scurry } from './Scurry';
 import { DraggedPainting } from './DraggedPainting';
 import { DraggedOut } from './DraggedOut';
 import { generateColorSpectrum } from './ColorSampling';
@@ -39,14 +40,14 @@ export function outsideCanvasWall(fig: AnimatedFigure, width, height) {
         || fig.pos.y > height || fig.pos.y < 0; 
 }
 
-export function newFigure(selectedFigure, x: number, y:number, p: p5, randomSize = true) {
-    let dimension = randomSize ? Math.random() * 50 + 60 : 100;
-    let color;
-    switch(selectedFigure) {
+export function newFigure(selectedFigure, x: number, y: number, p: p5, dimension?: number, color?: string, velocity?:number) {
+    if(!dimension) dimension = Math.random() * 50 + 20;
+
+    switch (selectedFigure) {
         case SelectedShape.Circle:
             if (!color) color = Animation.getCircleColor();
             return new CircleFigure(x, y, dimension, color, p);
-            
+
         case SelectedShape.Rectangle:
             if (!color) color = Animation.getRectColor();
             return new SquareFigure(x, y, dimension, color, p);
@@ -57,7 +58,7 @@ export function newFigure(selectedFigure, x: number, y:number, p: p5, randomSize
         default:
     }
 }
-    
+
 export class Animation {
 
     static rectColors = [];
@@ -93,7 +94,7 @@ export class Animation {
 
 
     static redraw(sketchData: SketchData, p: p5) {
-        switch(sketchData.selectedAnimation) {
+        switch (sketchData.selectedAnimation) {
             case SelectedAnimation.FillScreenWithFigures:
                 FillScreenWithFigures.redraw(sketchData, p);
                 break;
@@ -111,7 +112,8 @@ export class Animation {
     // }
 
     static draw(sketchData: SketchData, p) {
-        switch(sketchData.selectedAnimation) {
+
+        switch (sketchData.selectedAnimation) {
             case SelectedAnimation.BubblePop:
                 BubblePop.draw(sketchData, p);
                 break;
@@ -136,6 +138,9 @@ export class Animation {
             case SelectedAnimation.WobblySwarm:
                 WobblySwarm.draw(sketchData, p);
                 break;
+                case SelectedAnimation.Scurry:
+                    Scurry.draw(sketchData, p);
+                    break;
             case SelectedAnimation.None:
                 let color = p.color(sketchData.colorSettings.background);
                 color.setAlpha(50);
@@ -148,7 +153,11 @@ export class Animation {
     }
 
     static mousePressed(sketchData: SketchData, p: p5) {
-        switch(sketchData.selectedAnimation) {
+        if (AnimatedFigure.mouseOnCanvas(p, sketchData.canvasWidth, sketchData.canvasHeight)) {
+            pushNewFigure(sketchData.selectedFigure, sketchData.figs, p);
+        }
+
+        switch (sketchData.selectedAnimation) {
             case SelectedAnimation.WobblySwarm:
                 WobblySwarm.mousePressed(sketchData, p);
                 break;
@@ -158,11 +167,8 @@ export class Animation {
             case SelectedAnimation.BubblePop:
                 BubblePop.mousePressed(sketchData, p);
                 break;
-            default:
-                if (AnimatedFigure.mouseOnCanvas(p, sketchData.canvasWidth, sketchData.canvasHeight)) {
-                    pushNewFigure(sketchData.selectedFigure, sketchData.figs, p);
-                }
-                break; 
+            case SelectedAnimation.None:
+                break;
         }
 
         return false;

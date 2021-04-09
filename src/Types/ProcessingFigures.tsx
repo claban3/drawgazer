@@ -8,7 +8,7 @@ import thudSFX from '../Sounds/thud.mp3';
 import kickSFX from '../Sounds/Drumset/Kick.wav';
 import snareSFX from '../Sounds/Drumset/Snare.wav';
 import highhatSFX from '../Sounds/Drumset/Highhat.wav';
-
+import scurrySFX from '../Sounds/scurry.mp3';
 import * as Collides from 'p5collide';
 import { CustomFigureStyles } from './Figures';
 import './Animations/ColorSampling';
@@ -31,6 +31,7 @@ export class AnimatedFigure {
   pop: HTMLAudioElement = new Audio(popSFX)
   thud: HTMLAudioElement = new Audio(thudSFX)
   drumBeat: HTMLAudioElement
+  scurry: HTMLAudioElement = new Audio(scurrySFX)
   rotAngle: number
   color: string
   opacity: number

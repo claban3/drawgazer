@@ -64,9 +64,14 @@
     align-items: flex-start;
 }
 
-.shape-icon-settings {
+.shape-icon-wrapper {
     width: 25%;
     height: 11.25vw; /* .75*.60*.25: Height == Width*/
+}
+
+.shape-icon-settings {
+    width: 100%;
+    height: 100%;
     cursor: pointer;
 } 
 

@@ -12,11 +12,11 @@
 }
 
 .settings-container.opening {
-    animation: slideUp .2s linear;
+    animation: slideUp 200ms ease-in;
 }
 
 .settings-container.closing{
-    animation: slideDown .2s linear;
+    animation: slideDown 200ms ease-out;
 }
 
 .settings-side-bar {
@@ -47,7 +47,7 @@
 
 .tab-selection {
     text-decoration-line: underline;
-    box-shadow: inset -3px 0 0px 0px #FF6868;
+    box-shadow: inset -8px 0 0px 0px #FF6868;
 }
 
 .settings-content {
@@ -59,8 +59,10 @@
 .settings-exit {
     position: absolute;
     top: 6px;
-    right: 6px;
+    right: 16px;
 
     height: 30px;
     width: 30px;
+
+    cursor: pointer;
 }

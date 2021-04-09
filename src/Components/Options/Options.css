@@ -2,28 +2,19 @@
     height: 25%;
     width: 15%;
     
-    /* Is there a better way to float them to the bottom */
     display: flex;
-    flex-direction: column;
-    justify-content: space-around;
+    flex-wrap: wrap-reverse;
+    flex-direction: row;
+    align-content: flex-start;
 }
 
-.icons-container {
-    height: calc(42px*2);
-
-    margin-left: 4px;
-
-    display: flex;
-    flex-direction: column-reverse;
-    flex-wrap: wrap;
-    align-content: flex-start;
-    /* align-content: stretch; */
+.wrapper {
+    width: 31%;
+    margin: 1px;
 }
 
 .icon {
-    height: 40px;
-    width: 40px;
-    margin: 1px;
+    width: 100%;
     cursor: pointer;
 }
 

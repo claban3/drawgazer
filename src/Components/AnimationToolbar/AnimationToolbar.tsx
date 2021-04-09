@@ -1,79 +1,46 @@
 import './AnimationToolbar.css';
-import { SelectedAnimation } from '../../Types/Figures';
-
-// import gravity from '../../Images/gravity.png';
-// import gravity2 from '../../Images/gravity-v2.png';
-import gravity3 from '../../Images/gravity-v3.png';
-
-
-import radial from '../../Images/radial.png';
-import radial2 from '../../Images/radial-v2.png';
-import bubbles from '../../Images/bubbles.png';
-import draggedout from '../../Images/draggedout.png';
-import draggedPainting from '../../Images/draggedPainting.png';
-import fillScreenWithFigures from '../../Images/fillScreenWithShapes.png';
-import drumLoop from '../../Images/Drumloop.png';
+import { animationProperties, SelectedAnimation } from '../../Types/Figures';
 
 export default function AnimationToolbar(props) 
 {
-    let wobblySwarmHighlight = (props.animationSelection === SelectedAnimation.WobblySwarm) ? "animation-selected" : "";
-    let downwardGravityHighlight = (props.animationSelection === SelectedAnimation.DownwardGravity) ? "animation-selected" : "";
-    let bubblePopHighlight = (props.animationSelection === SelectedAnimation.BubblePop) ? "animation-selected" : "";
-    let draggedPaintingHighlight = (props.animationSelection === SelectedAnimation.DraggedPainting) ? "animation-selected" : "";
-    let draggedOutHighlight = (props.animationSelection === SelectedAnimation.DraggedOut) ? "animation-selected" : "";
-    let fillScreenHighlight = (props.animationSelection === SelectedAnimation.FillScreenWithFigures) ? "animation-selected" : "";
-    let drumLoopHighlight = (props.animationSelection === SelectedAnimation.DrumLoop) ? "animation-selected" : "";
+     let highlight0 = props.animationSelection === props.animations[0] && props.animations[0] !== SelectedAnimation.None ? "animation-selected" : "";
+     let highlight1 = props.animationSelection === props.animations[1] && props.animations[1] !== SelectedAnimation.None ? "animation-selected" : "";
+     let highlight2 = props.animationSelection === props.animations[2] && props.animations[2] !== SelectedAnimation.None ? "animation-selected" : "";
+    
+     return (
+          <div className="animation-toolbar-container">
+               <a className={`animation-selection ${highlight0}`}
+               onClick = { () => props.selectionHandler(props.animations[0]) }>
 
-    return (
-        <div className="animation-toolbar-container">
-            <div className={`animation-selection ${downwardGravityHighlight}`}
-                 onClick = { () => props.selectionHandler(SelectedAnimation.DownwardGravity) }>
-                    <img className="animation-icon"
-                         src={gravity3} 
-                         alt="Downward Gravity"/>
-            </div>
+                    {   props.animations[0] !== SelectedAnimation.None &&
+                        <img className="animation-icon"
+                        src={animationProperties(props.animations[0])["image"]} 
+                        alt={props.animations[0]}/>
+                    }
 
-            <div className={`animation-selection ${wobblySwarmHighlight}`}
-                 onClick = { () => props.selectionHandler(SelectedAnimation.WobblySwarm) }>
-                    <img className="animation-icon"
-                         src={radial2} 
-                         alt="Wobbly Swarm"/>
-            </div>
+               </a>
 
-            <div className={`animation-selection ${bubblePopHighlight}`}
-                 onClick = { () => props.selectionHandler(SelectedAnimation.BubblePop) }>
-                    <img className="animation-icon"
-                         src={bubbles} 
-                         alt="Bubble Pop"/>
-            </div>
+               <a className={`animation-selection ${highlight1}`}
+               onClick = { () => props.selectionHandler(props.animations[1]) }>
 
-            <div className={`animation-selection ${draggedOutHighlight}`}
-                 onClick = { () => props.selectionHandler(SelectedAnimation.DraggedOut) }>
-                    <img className="animation-icon"
-                         src={draggedout} 
-                         alt="Dragged Out"/>
-            </div>
+                    {   props.animations[1] !== SelectedAnimation.None &&
+                        <img className="animation-icon"
+                        src={animationProperties(props.animations[1])["image"]} 
+                        alt={props.animations[1]}/>
+                    }
 
-            <div className={`animation-selection ${draggedPaintingHighlight}`}
-                 onClick = { () => props.selectionHandler(SelectedAnimation.DraggedPainting) }>
-                    <img className="animation-icon"
-                         src={draggedPainting} 
-                         alt="Dragged Painting"/>
-            </div>
+               </a>
 
-            <div className={`animation-selection ${fillScreenHighlight}`}
-                 onClick = { () => props.selectionHandler(SelectedAnimation.FillScreenWithFigures) }>
-                    <img className="animation-icon"
-                         src={fillScreenWithFigures} 
-                         alt="Fill Screen with Shapes"/>
-            </div>
+               <a className={`animation-selection ${highlight2}`}
+               onClick = { () => props.selectionHandler(props.animations[2]) }>
 
-            <div className={`animation-selection ${drumLoopHighlight}`}
-                 onClick = { () => props.selectionHandler(SelectedAnimation.DrumLoop) }>
-                    <img className="animation-icon"
-                         src={drumLoop} 
-                         alt="Fill Screen with Shapes"/>
-            </div>
-        </div>
-    );
+                    {   props.animations[2] !== SelectedAnimation.None &&
+                        <img className="animation-icon"
+                        src={animationProperties(props.animations[2])["image"]} 
+                        alt={props.animations[2]}/>
+                    }
+
+               </a>
+          </div>
+     );
 }
