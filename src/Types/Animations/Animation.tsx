@@ -17,8 +17,8 @@ export function pushNewFigure(selectedFigure, figs, p: p5) {
     }
 }
 
-export function newFigure(selectedFigure, x: number, y: number, p: p5, color?: string) {
-    let dimension = Math.random() * 50 + 20;
+export function newFigure(selectedFigure, x: number, y: number, p: p5, dimension?: number, color?: string) {
+    if(!dimension) dimension = Math.random() * 50 + 20;
 
     switch (selectedFigure) {
         case SelectedShape.Circle:

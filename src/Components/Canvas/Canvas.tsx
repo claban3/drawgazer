@@ -46,13 +46,13 @@ function sketch(p) {
 
                 switch (fig.type) {
                     case "circle":
-                        sketchData.figs.push(newFigure(SelectedShape.Circle, fig.x, fig.y, p, fig.color));
+                        sketchData.figs.push(newFigure(SelectedShape.Circle, fig.x, fig.y, p, fig.d, fig.color));
                         break;
                     case "square":
-                        sketchData.figs.push(newFigure(SelectedShape.Rectangle, fig.x, fig.y, p, fig.color));
+                        sketchData.figs.push(newFigure(SelectedShape.Rectangle, fig.x, fig.y, p, fig.d, fig.color));
                         break;
                     case "triangle":
-                        sketchData.figs.push(newFigure(SelectedShape.Triangle, fig.x, fig.y, p, fig.color));
+                        sketchData.figs.push(newFigure(SelectedShape.Triangle, fig.x, fig.y, p, fig.d, fig.color));
                         break;
                     default:
                         console.log("Canvas received bad JSON from local storage")

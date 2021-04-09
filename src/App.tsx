@@ -40,6 +40,11 @@ function App() {
             if(savedColors) {
                 setColors(savedColors);
             }
+
+            let savedAnimations = JSON.parse(localStorage.getItem("savedAnimations")); 
+            if(savedAnimations) {
+                setAnimations(savedAnimations);
+            }
         }
         setCSSProperties();
     }, [newSession]);
@@ -49,6 +54,10 @@ function App() {
         setResetColors( !(JSON.stringify(colors) === JSON.stringify(defaultColors)) );
         setCSSProperties();
     }, [colors]);
+
+    useEffect(() => {
+        localStorage.setItem("savedAnimations", JSON.stringify(animations));
+    }, [animations])
 
 
     function setCSSProperties() {
