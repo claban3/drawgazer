@@ -8,9 +8,13 @@
     align-content: flex-start;
 }
 
-.icon {
+.wrapper {
     width: 31%;
     margin: 1px;
+}
+
+.icon {
+    width: 100%;
     cursor: pointer;
 }
 
