@@ -24,6 +24,7 @@ export enum SelectedAnimation {
     WobblySwarm,
     DownwardGravity,
     DraggedOut,
+    DrumLoop,
     BubblePop,
     RadialForce,
     DraggedPainting,
