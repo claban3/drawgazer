@@ -18,9 +18,16 @@ export default function Settings(props) {
         setTabSelection(newTabSelection)
     }
 
+    function onAnimationEnd(event) {
+        if(event.target.className.includes("opening")) 
+            setTimeout(props.settingStateChangeHandler, 20);    
+        else 
+            props.settingStateChangeHandler();
+    }
+
     return (
         <div className={"settings-container " + (settingStates[props.settingState]) }
-             onAnimationEnd={() => props.settingStateChangeHandler()} >
+             onAnimationEnd={onAnimationEnd} >
 
             <div className="settings-side-bar">
                 <a  className={"options " + colorSchemeUnderline} 
