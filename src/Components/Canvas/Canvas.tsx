@@ -28,11 +28,11 @@ function sketch(p) {
         bufferHeight: 40,
         canvasHeight: window.innerHeight * 0.75 - 40 /* bufferWidth */,
         canvasWidth: window.innerWidth * 0.85 - 40 /* bufferHeight */,
-        hawkeyeMouseEvent: {
-            mousePressed: false,
-            mouseX: 0,
-            mouseY: 0
-        }
+        // hawkeyeMouseEvent: {
+        //     mousePressed: false,
+        //     mouseX: 0,
+        //     mouseY: 0
+        // }
     };
 
     function loadSavedFigures() {

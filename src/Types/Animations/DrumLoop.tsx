@@ -64,7 +64,7 @@ export class DrumLoop extends Animation {
 
         if (AnimatedFigure.mouseOnCanvas(p, sketchData.canvasWidth, sketchData.canvasHeight)
             && sketchData.selectedFigure != SelectedShape.None) {
-            sketchData.figs.push(newFigure(sketchData.selectedFigure, p.mouseX, p.mouseY, p, false));
+            sketchData.figs.push(newFigure(sketchData.selectedFigure, p.mouseX, p.mouseY, p, 100));
         }
         return false;
     }

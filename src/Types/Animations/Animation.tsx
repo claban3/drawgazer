@@ -41,7 +41,7 @@ export function outsideCanvasWall(fig: AnimatedFigure, width, height) {
 }
 
 export function newFigure(selectedFigure, x: number, y: number, p: p5, dimension?: number, color?: string, velocity?:number) {
-    if(!dimension) dimension = Math.random() * 50 + 20;
+    if(!dimension) dimension = Math.random() * 50 + 60;
 
     switch (selectedFigure) {
         case SelectedShape.Circle:

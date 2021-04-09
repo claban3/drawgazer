@@ -9,6 +9,7 @@ import bubbles from '../Images/bubbles.png';
 import scurry from '../Images/scurry.png';
 import draggedOut from '../Images/draggedout.png';
 import draggedPainting from '../Images/draggedPainting.png';
+import drumLoop from '../Images/Drumloop.png';
 import freeDraw from '../Images/free-draw.png';
 import fillScreenWithShapes from '../Images/fillScreenWithShapes.png'
 
@@ -54,6 +55,12 @@ export function animationProperties(anim: SelectedAnimation) {
                 "name": "Dragged Out",
                 "classname": "draggedOut",
                 "image": draggedOut,
+            }
+        case SelectedAnimation.DrumLoop:
+            return {
+                "name": "Drum Loop",
+                "classname": "drumloop",
+                "image": drumLoop,
             }
         case SelectedAnimation.BubblePop:
             return {
