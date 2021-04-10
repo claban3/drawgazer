@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import './ShareSession.css';
 import '../../App.css';
 
@@ -27,18 +27,17 @@ export default function ShareSession(props) {
     return (
         <div className="shareSession-outer-container"
              onAnimationEnd={() => props.shareSessionStateChangeHandler()}
-             onClick={() => props.shareSessionStateChangeHandler()}
-             onTouchEnd={() => props.shareSessionStateChangeHandler()}>
+             onClick={() => props.shareSessionStateChangeHandler()}>
                 
             <div className={"shareSession-container " + (shareSessionStates[props.shareSessionState])}
-                 onClick={(event) => {event.stopPropagation();}}
-                 onTouchEnd={(event) => {event.stopPropagation();}}>
+                 onClick={(event) => {event.stopPropagation();}}>
 
-                <img className="shareSession-exit"
-                     src={exit}
-                     alt="Exit Share Session"
-                     onClick={() => props.shareSessionStateChangeHandler()}
-                     onTouchEnd={() => props.shareSessionStateChangeHandler()}/>
+                <a onClick={() => props.shareSessionStateChangeHandler()}>
+                    <img className="shareSession-exit"
+                        src={exit}
+                        alt="Exit Share Session"
+                        />
+                </a>
 
                 <div className="friend-ID-input-container">
 
@@ -48,6 +47,7 @@ export default function ShareSession(props) {
 
                     <form className="friend-ID-input-box" onSubmit={submitHandler}>
 
+                        {/* TODO: Unsure if input tags are selectable in hawkeye */}
                         <input
                             className="friend-ID-input"
                             type="text"
@@ -57,11 +57,12 @@ export default function ShareSession(props) {
                             onChange={onChangeHandler}
                         />
 
-                        <img className="friend-ID-icon"
-                            src={share_session} 
-                            alt="Share Session"
-                            onClick={submitHandler}
-                            onTouchEnd={submitHandler}/>
+                        <a className="friend-ID-icon-wrapper" onClick={submitHandler}>
+                            <img className="friend-ID-icon"
+                                 src={share_session}
+                                 alt="Share Session"/>
+                        </a>
+
                     </form>
 
                 </div>

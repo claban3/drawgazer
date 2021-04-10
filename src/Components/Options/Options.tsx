@@ -14,38 +14,39 @@ export default function Options(props) {
     return (
         <div className="options-container">
 
-            <a className="wrapper">
+            <a className="wrapper"
+               onClick = {() => props.shareSessionStateChangeHandler()}>
                 <img className="icon" title="Share Session"
                      src={shareSession}
-                     alt=""
-                     onClick = {() => props.shareSessionStateChangeHandler()}/>
+                     alt=""/>
             </a>
 
-            <a className="wrapper">
+            <a className="wrapper"
+               onClick = {() => props.saveCanvas()}>
                 <img className="icon" title="Save Canvas"
                      src={camera}
-                     alt="" onClick = {() => props.saveCanvas()}/> 
+                     alt=""/> 
             </a>
 
-            <a className="wrapper">
+            <a className="wrapper"
+               onClick = {() => props.clearCanvas()}>
                 <img className="icon" title="Clear Canvas"
                      src={trashcan}
-                     alt=""
-                     onClick = {() => props.clearCanvas()}/>
+                     alt=""/>
             </a>
 
-            <a className="wrapper">
+            <a className="wrapper"
+               onClick = {() => props.settingStateChangeHandler()}>
                 <img className="icon" title="Settings"
                      src={settings}
-                     alt=""
-                     onClick = {() => props.settingStateChangeHandler()}/>
+                     alt=""/>
             </a>
 
-            <a className="wrapper">
+            <a className="wrapper"
+               onClick = {() => props.recordCanvas()}>
                 <img className="icon" title="Record Canvas"
                      src={recordCanvasStates[props.recordCanvasState]}
-                     alt=""
-                     onClick = {() => props.recordCanvas()}/>
+                     alt=""/>
             </a>
 
             {/*  <div className="title">drawgazer</div> */}
