@@ -18,7 +18,7 @@ export default function Options(props) {
                 <img className="icon" title="Share Session"
                      src={shareSession}
                      alt=""
-                     onClick = {() => props.toggleShareSessions()}/>
+                     onClick = {() => props.shareSessionStateChangeHandler()}/>
             </a>
 
             <a className="wrapper">
