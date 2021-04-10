@@ -14,34 +14,39 @@ export default function Options(props) {
     return (
         <div className="options-container">
 
-            <img className="icon" title="Share Session"
-                 src={shareSession}
-                 alt=""
-                 onClick = {() => props.shareSessionStateChangeHandler()}
-                 onTouchEnd = {() => props.shareSessionStateChangeHandler()}/>
+            <a className="wrapper">
+                <img className="icon" title="Share Session"
+                     src={shareSession}
+                     alt=""
+                     onClick = {() => props.shareSessionStateChangeHandler()}/>
+            </a>
 
-            <img className="icon" title="Save Canvas"
-                 src={camera}
-                 alt="" onClick = {() => props.saveCanvas()}
-                 onTouchEnd = {() => props.saveCanvas()}/> 
+            <a className="wrapper">
+                <img className="icon" title="Save Canvas"
+                     src={camera}
+                     alt="" onClick = {() => props.saveCanvas()}/> 
+            </a>
 
-            <img className="icon" title="Clear Canvas"
-                 src={trashcan}
-                 alt=""
-                 onClick = {() => props.clearCanvas()}
-                 onTouchEnd = {() => props.clearCanvas()}/>
+            <a className="wrapper">
+                <img className="icon" title="Clear Canvas"
+                     src={trashcan}
+                     alt=""
+                     onClick = {() => props.clearCanvas()}/>
+            </a>
 
-            <img className="icon" title="Settings"
-                 src={settings}
-                 alt=""
-                 onClick = {() => props.settingStateChangeHandler()}
-                 onTouchEnd = {() => props.settingStateChangeHandler()}/>
+            <a className="wrapper">
+                <img className="icon" title="Settings"
+                     src={settings}
+                     alt=""
+                     onClick = {() => props.settingStateChangeHandler()}/>
+            </a>
 
-            <img className="icon" title="Record Canvas"
-                 src={recordCanvasStates[props.recordCanvasState]}
-                 alt=""
-                 onClick = {() => props.recordCanvas()}
-                 onTouchEnd = {() => props.recordCanvas()}/>
+            <a className="wrapper">
+                <img className="icon" title="Record Canvas"
+                     src={recordCanvasStates[props.recordCanvasState]}
+                     alt=""
+                     onClick = {() => props.recordCanvas()}/>
+            </a>
 
             {/*  <div className="title">drawgazer</div> */}
         </div>

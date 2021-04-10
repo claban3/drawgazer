@@ -12,11 +12,11 @@
 }
 
 .settings-container.opening {
-    animation: slideUp .2s linear;
+    animation: slideUp 200ms ease-in;
 }
 
 .settings-container.closing{
-    animation: slideDown .2s linear;
+    animation: slideDown 200ms ease-out;
 }
 
 .settings-side-bar {
@@ -63,4 +63,6 @@
 
     height: 30px;
     width: 30px;
+
+    cursor: pointer;
 }
