@@ -17,25 +17,25 @@ export function pushNewFigure(selectedFigure, figs, p: p5) {
     }
 }
 
-export function newFigure(selectedFigure, x: number, y:number, p: p5, color?:string) {
-    let dimension = Math.random() * 50 + 20;
+export function newFigure(selectedFigure, x: number, y: number, p: p5, dimension?: number, color?: string) {
+    if(!dimension) dimension = Math.random() * 50 + 20;
 
-    switch(selectedFigure) {
+    switch (selectedFigure) {
         case SelectedShape.Circle:
-            if (!color) color = Animation.circleColors[Math.floor(Math.random() * Animation.circleColors.length)];
+            if (!color) color = Animation.getCircleColor();
             return new CircleFigure(x, y, dimension, color, p);
-            
+
         case SelectedShape.Rectangle:
-            if (!color) color = Animation.rectColors[Math.floor(Math.random() * Animation.rectColors.length)];
+            if (!color) color = Animation.getRectColor();
             return new SquareFigure(x, y, dimension, color, p);
 
         case SelectedShape.Triangle:
-            if (!color) color = Animation.triangleColors[Math.floor(Math.random() * Animation.triangleColors.length)]
+            if (!color) color = Animation.getTriangleColor();
             return new TriangleFigure(x, y, dimension, color, p);
         default:
     }
 }
-    
+
 export class Animation {
 
     static rectColors = [];
@@ -48,10 +48,23 @@ export class Animation {
         Animation.triangleColors = generateColorSpectrum(sketchData.colorSettings.triangle);
     }
 
+    static getRectColor() : string {
+        return Animation.rectColors[Math.floor(Math.random() * Animation.rectColors.length)];
+    }
+
+    static getCircleColor() : string {
+        return Animation.circleColors[Math.floor(Math.random() * Animation.circleColors.length)];
+    }
+
+    static getTriangleColor() : string {
+        return Animation.triangleColors[Math.floor(Math.random() * Animation.triangleColors.length)]
+    }
+
+
     static redraw(sketchData: SketchData, p: p5) {
-        switch(sketchData.selectedAnimation) {
+        switch (sketchData.selectedAnimation) {
             case SelectedAnimation.FillScreenWithFigures:
-                    FillScreenWithFigures.redraw(sketchData, p);
+                FillScreenWithFigures.redraw(sketchData, p);
                 break;
             default:
                 p.frameRate(60);
@@ -60,7 +73,7 @@ export class Animation {
 
     static draw(sketchData: SketchData, p) {
 
-        switch(sketchData.selectedAnimation) {
+        switch (sketchData.selectedAnimation) {
             case SelectedAnimation.BubblePop:
                 BubblePop.draw(sketchData, p);
                 break;
@@ -101,12 +114,15 @@ export class Animation {
             pushNewFigure(sketchData.selectedFigure, sketchData.figs, p);
         }
 
-        switch(sketchData.selectedAnimation) {
+        switch (sketchData.selectedAnimation) {
             case SelectedAnimation.WobblySwarm:
                 WobblySwarm.mousePressed(sketchData, p);
                 break;
+            case SelectedAnimation.BubblePop:
+                BubblePop.mousePressed(sketchData, p);
+                break;
             case SelectedAnimation.None:
-                break; 
+                break;
         }
 
         return false;

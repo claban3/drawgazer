@@ -25,61 +25,62 @@ export default function ColorCustomization(props) {
         <div className="settings-content">
 
             <div className="color-picker-container">
+                {/* TODO: I'm not sure how the color picker will behave on hawkeye */}
                 <ChromePicker
                     color={pickerColor}
                     onChange={colorPickerChangeHandler} />
                 
-                <div className="reset-container">
+                <a className="reset-container">
                     { props.resetColors === true &&
                         <div className="reset-color-button"
                             onClick={() => props.colorChangeHandler("reset")}>
                                 reset default
                         </div> 
                     }
-                </div>
+                </a>
             </div>
 
             <div className="buttons-container">
                 <div className="buttons-row one">
+                    
+                    <a className="shape-icon-wrapper">
+                        <svg  className="shape-icon-settings" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 169.82 147.06"
+                            onClick={() => buttonSelectionHandler(buttons[0])}>
 
-                    <svg  className="shape-icon-settings" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 169.82 147.06"
-                        onClick={() => buttonSelectionHandler(buttons[0])}
-                        onTouchEnd={() => buttonSelectionHandler(buttons[0])}>
+                            <polygon className="triangle "id="triangle" points="84.91 3 2.6 145.56 167.22 145.56 84.91 3" stroke="#231f20" strokeMiterlimit="10" strokeWidth="3"/>
+                        </svg>
+                    </a>
 
-                        <polygon className="triangle "id="triangle" points="84.91 3 2.6 145.56 167.22 145.56 84.91 3" stroke="#231f20" strokeMiterlimit="10" strokeWidth="3"/>
-                    </svg>
+                    <a className="shape-icon-wrapper">
+                        <svg className="shape-icon-settings" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 147 147"
+                            onClick={() => buttonSelectionHandler(buttons[1])}>
+                
+                            <rect className="square" id="square" x="1.5" y="1.5" width="144" height="144" stroke="#231f20" strokeMiterlimit="10" strokeWidth="3"/>
+                        </svg>
+                    </a>
 
+                    <a className="shape-icon-wrapper">
+                        <svg className="shape-icon-settings" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 147 147"
+                            onClick={() => buttonSelectionHandler(buttons[2])}>
 
-                    <svg className="shape-icon-settings" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 147 147"
-                        onClick={() => buttonSelectionHandler(buttons[1])}
-                        onTouchEnd={() => buttonSelectionHandler(buttons[1])}>
-            
-                        <rect className="square" id="square" x="1.5" y="1.5" width="144" height="144" stroke="#231f20" strokeMiterlimit="10" strokeWidth="3"/>
-                    </svg>
-
-                        
-                    <svg className="shape-icon-settings" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 147 147"
-                        onClick={() => buttonSelectionHandler(buttons[2])}
-                        onTouchEnd={() => buttonSelectionHandler(buttons[2])}>
-
-                        <circle className="circle" id="circle" cx="73.5" cy="73.5" r="72" stroke="#231f20" strokeMiterlimit="10" strokeWidth="3"/>
-                    </svg>
+                            <circle className="circle" id="circle" cx="73.5" cy="73.5" r="72" stroke="#231f20" strokeMiterlimit="10" strokeWidth="3"/>
+                        </svg>
+                    </a>
 
                 </div>
 
                 <div className="buttons-row two">
-                    <div className="shape-button"
-                        onClick={() => buttonSelectionHandler(buttons[3])}
-                        onTouchEnd={() => buttonSelectionHandler(buttons[3])}>
+                    <a className="shape-button"
+                        onClick={() => buttonSelectionHandler(buttons[3])}>
                             Shape
-                    </div>
+                    </a>
 
-                    <div className="animation-button"
-                        onClick={() => buttonSelectionHandler(buttons[4])}
-                        onTouchEnd={() => buttonSelectionHandler(buttons[4])}>
+                    <a className="animation-button"
+                        onClick={() => buttonSelectionHandler(buttons[4])}>
                             Animation
-                    </div>
+                    </a>
                 </div>
+
             </div>
         </div> 
    ); 
