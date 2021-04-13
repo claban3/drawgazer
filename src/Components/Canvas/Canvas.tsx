@@ -1,3 +1,5 @@
+import "./Canvas.css";
+import 'p5';
 import '../../Types/Figures';
 import './Canvas.css';
 import 'p5';
@@ -83,7 +85,7 @@ function sketch(p) {
 
     let reset = false; // toggles reseting the canvas
     let save = false; // toggles saving a screenshot of the canvas
-    let record : boolean = false; // toggles recording a gif of the canvas
+    let record: boolean = false; // toggles recording a gif of the canvas
 
     let setClearCanvasInParent = () => { };
     let setSaveCanvasInParent = () => { };
@@ -158,17 +160,17 @@ function sketch(p) {
             sketchData.colorSettings = props.canvasSettings.colorSettings;
             Animation.propsHandler(sketchData, p);
         }
-        
+
         reset = props.canvasSettings.reset;
         save = props.canvasSettings.save;
-        
+
         setClearCanvasInParent = props.canvasSettings.resetInParent;
         setSaveCanvasInParent = props.canvasSettings.saveInParent;
         setRecordCanvasInParent = props.canvasSettings.recordInParent;
 
         shareSessionState = props.canvasSettings.shareSessionState;
         settingState = props.canvasSettings.settingState;
-        
+
         // Animation.redrawTransition(sketchData, p);
 
         if (record != props.canvasSettings.record) {
@@ -184,10 +186,13 @@ function sketch(p) {
         }
 
         Animation.redraw(sketchData, p);
-        
+
         if (props.canvasSettings.hawkeyeMouseEvent.mousePressed) {
-            let mouseEvent = props.canvasSettings.hawkeyeMouseEvent;
-            Animation.hawkeyeMousePressed(sketchData, p, mouseEvent, renderer);
+            if (settingState === 0) {
+                let mouseEvent = props.canvasSettings.hawkeyeMouseEvent;
+                Animation.hawkeyeMousePressed(sketchData, p, mouseEvent, renderer);
+                props.canvasSettings.hawkeyeMouseEvent.mousePressed = false;
+            }
         }
     }
 
@@ -204,18 +209,18 @@ function sketch(p) {
         updateGif();
 
         p.mouseClicked = function (event) {
-            if (settingState===0 && shareSessionState===0){
-                return Animation.mousePressed(sketchData, p);
+            if (settingState === 0) {
+                // return Animation.mousePressed(sketchData, p);
             }
         }
-        
-        p.mouseReleased = function() {
-            if (settingState===0 && shareSessionState===0){
+
+        p.mouseReleased = function () {
+            if (settingState === 0 && shareSessionState === 0) {
                 Animation.mouseReleased(sketchData, p);
             }
         }
 
-        if (settingState === 0 && shareSessionState===0){
+        if (settingState === 0 && shareSessionState === 0) {
 
             sketchData.figs.forEach(fig => {
                 let width = sketchData.canvasWidth;
@@ -231,7 +236,7 @@ function sketch(p) {
                 }
                 if (fig.pos.y < 0) {
                     fig.pos.y = 20;
-                   // fig.velocity.y *= -1;
+                    // fig.velocity.y *= -1;
                 }
                 if (fig.pos.y > height) {
                     fig.pos.y = height - 20;
@@ -246,7 +251,7 @@ function sketch(p) {
 }
 
 export default function Canvas(props) {
-    const defaultMouseEvent : HawkeyeMouseEvent = {
+    const defaultMouseEvent: HawkeyeMouseEvent = {
         mousePressed: false,
         mouseX: 0,
         mouseY: 0
@@ -283,8 +288,9 @@ export default function Canvas(props) {
     let grid = []
     hawkeyeAccessGrid();
     function hawkeyeAccessGrid() {
-        for (let i = 0; i < 200; i++) {
-            let idStr : string = "cell".concat(i.toString());
+        let numCells = 50 * 50; // height and width are 2%
+        for (let i = 0; i < numCells; i++) {
+            let idStr: string = "cell".concat(i.toString());
             grid.push(
                 <a className="hawkeyeCell" id={idStr}
                     onClick={() => gridClickedHandler(idStr)}>
@@ -302,6 +308,7 @@ export default function Canvas(props) {
                 className="p5Wrapper"
                 sketch={sketch}
                 canvasSettings={props.canvasSettings} />
+
             <div className="hawkeyeGrid">
                 {grid}
             </div>
