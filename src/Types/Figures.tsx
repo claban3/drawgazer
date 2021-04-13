@@ -118,6 +118,7 @@ export type ColorSettings = {
     background: string
 };
 
+
   export type CanvasSettings = {
     selectedFigure: SelectedShape,
     selectedAnimation: SelectedAnimation, 
@@ -128,7 +129,8 @@ export type ColorSettings = {
     resetInParent: voidFunc,
     saveInParent: voidFunc,
     recordInParent: voidFunc,
-    settingState: number
+    settingState: number,
+    shareSessionState: number
 };
 
 export type HawkeyeMouseEvent = {

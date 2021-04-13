@@ -76,6 +76,7 @@ export default function Draw(props){
       save: saveCanvas,
       record: recordCanvasState === RecordingStates.Recording,
       resetInParent: setClearCanvasHandler,
+      shareSessionState: props.shareSessionState,
       saveInParent: setSaveCanvasHandler,
       recordInParent: setRecordCanvasHandler, 
       settingState: props.settingState
@@ -97,7 +98,9 @@ export default function Draw(props){
                                 selectionHandler={shapeSelectionHandler}/>
 
             <Canvas canvasSettings={canvasSettings}/>
-            <Options settingStateChangeHandler={props.settingStateChangeHandler}            
+            
+            <Options settingStateChangeHandler={props.settingStateChangeHandler}
+                     shareSessionStateChangeHandler={props.shareSessionStateChangeHandler}
                      clearCanvas={setClearCanvasHandler}
                      saveCanvas={setSaveCanvasHandler}
                      recordCanvas={setRecordCanvasHandler}

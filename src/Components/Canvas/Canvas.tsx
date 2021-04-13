@@ -68,7 +68,7 @@ function sketch(p) {
         return savedFigs;
     }
 
-    let savedFigs = loadSavedFigures();
+    loadSavedFigures();
 
     let workerBlob = new Blob([workerStr], {
         type: 'application/javascript'
@@ -90,6 +90,8 @@ function sketch(p) {
 
     let renderer;
     let settingState;
+    let shareSessionState;
+    let start = false;
 
     function setupGif(setRecordCanvasInParent) {
         gif = new GIF({
@@ -137,6 +139,7 @@ function sketch(p) {
 
         setupGif(setRecordCanvasInParent);
         settingState = 0;
+        shareSessionState = 0;
     }
 
     p.windowResized = function () {
@@ -157,9 +160,12 @@ function sketch(p) {
         
         reset = props.canvasSettings.reset;
         save = props.canvasSettings.save;
+        
         setClearCanvasInParent = props.canvasSettings.resetInParent;
         setSaveCanvasInParent = props.canvasSettings.saveInParent;
         setRecordCanvasInParent = props.canvasSettings.recordInParent;
+
+        shareSessionState = props.canvasSettings.shareSessionState;
         settingState = props.canvasSettings.settingState;
         
         // Animation.redrawTransition(sketchData, p);
@@ -181,6 +187,9 @@ function sketch(p) {
         // if (props.canvasSettings.hawkeyeMouseEvent.mousePressed) {
 
         // }
+        // Uncomment the line below once animation toolbar is integrated, else
+        // SelectedAnimation will get updated to None
+        //selectedAnimation = props.canvasSettings.selectedAnimation;
     }
 
     p.draw = function () {
@@ -196,18 +205,18 @@ function sketch(p) {
         updateGif();
 
         p.mouseClicked = function (event) {
-            if (settingState === 0) {
+            if (settingState===0 && shareSessionState===0){
                 return Animation.mousePressed(sketchData, p);
             }
         }
-
-        p.mouseReleased = function () {
-            if (settingState === 0) {
+        
+        p.mouseReleased = function() {
+            if (settingState===0 && shareSessionState===0){
                 Animation.mouseReleased(sketchData, p);
             }
         }
 
-        if (settingState === 0){
+        if (settingState === 0 && shareSessionState===0){
 
             sketchData.figs.forEach(fig => {
                 let width = sketchData.canvasWidth;
