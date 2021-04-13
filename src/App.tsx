@@ -1,9 +1,11 @@
 import './App.css';
 import Draw from './Views/Draw/Draw';
 import Settings from './Views/Settings/Settings';
+import ShareSession from './Views/ShareSession/ShareSession';
 import { useEffect, useState } from 'react';
 import { ColorSettings, SelectedAnimation } from './Types/Figures';
 import { generateContrastColors } from '@adobe/leonardo-contrast-colors';
+import { UIStateTypes } from './Types/UIStateTypes';
 
 const defaultColors = {
     "--triangleColor": "#00429D",
@@ -25,7 +27,9 @@ const defaultAnimations = [
 
 function App() {
     const [draw, setDraw] = useState(true);
-    const [settingState, setSettingState] = useState(0);
+    const [settingState, setSettingState] = useState(UIStateTypes.Closed);
+    const [shareSessionState, setShareSessionState] = useState(UIStateTypes.Closed);
+    const [token, setToken] = useState('');
 
     const [newSession, setNewSession] = useState(true);
     const [colors, setColors] = useState(defaultColors); 
@@ -65,13 +69,13 @@ function App() {
         document.documentElement.style.setProperty("--squareColor", colors["--squareColor"]);
         document.documentElement.style.setProperty("--circleColor", colors["--circleColor"]);
 
-        document.documentElement.style.setProperty("--shapeButtonColor", colors["--shapeButtonColor"])
-        document.documentElement.style.setProperty("--shapeButtonHover", colors["--shapeButtonHover"])
-        document.documentElement.style.setProperty("--shapeButtonSelected", colors["--shapeButtonSelected"])
+        document.documentElement.style.setProperty("--shapeButtonColor", colors["--shapeButtonColor"]);
+        document.documentElement.style.setProperty("--shapeButtonHover", colors["--shapeButtonHover"]);
+        document.documentElement.style.setProperty("--shapeButtonSelected", colors["--shapeButtonSelected"]);
 
-        document.documentElement.style.setProperty("--animationButtonColor", colors["--animationButtonColor"])
-        document.documentElement.style.setProperty("--animationButtonHover", colors["--animationButtonHover"])
-        document.documentElement.style.setProperty("--animationButtonSelected", colors["--animationButtonSelected"])
+        document.documentElement.style.setProperty("--animationButtonColor", colors["--animationButtonColor"]);
+        document.documentElement.style.setProperty("--animationButtonHover", colors["--animationButtonHover"]);
+        document.documentElement.style.setProperty("--animationButtonSelected", colors["--animationButtonSelected"]);
     }
 
     function colorChangeHandler(id : string, color : any) { 
@@ -100,6 +104,8 @@ function App() {
         }
     }
 
+    function submissionHandler() { }
+
     function animationAddHandler(anim: SelectedAnimation) {
         for (let i = 0; i < 3; i ++) {
             if (animations[i] === SelectedAnimation.None) {
@@ -121,11 +127,19 @@ function App() {
     }
 
     function settingStateChangeHandler() {
-        // 0: Closed
-        // 1: Opening
-        // 2: Open
-        // 3: Closing
+        // Closed = 0
+        // Opening = 1
+        // Open = 2
+        // Closing = 3
         setSettingState( (settingState + 1 ) % 4 );
+    }
+
+    function shareSessionStateChangeHandler() {
+        // Closed = 0
+        // Opening = 1
+        // Open = 2
+        // Closing = 3
+        setShareSessionState( (shareSessionState + 1 ) % 4 );
     }
 
     let canvasColorSettings: ColorSettings = {
@@ -137,7 +151,7 @@ function App() {
 
     return (
         <>
-        { (settingState>0) && <Settings settingStateChangeHandler={settingStateChangeHandler} 
+        { (settingState!=UIStateTypes.Closed) && <Settings settingStateChangeHandler={settingStateChangeHandler} 
                                         settingState={settingState}
                                         colorChangeHandler={colorChangeHandler}
                                         resetColors={resetColors}
@@ -145,7 +159,18 @@ function App() {
                                         animationRemoveHandler={animationRemoveHandler}
                                         animationAddHandler={animationAddHandler}/> }
 
-        { draw && <Draw colorSettings={canvasColorSettings} settingStateChangeHandler={settingStateChangeHandler} settingState={settingState} animations={animations} /> }
+        { (shareSessionState!=UIStateTypes.Closed) && <ShareSession shareSessionStateChangeHandler={shareSessionStateChangeHandler} 
+                                                 shareSessionState={shareSessionState}
+                                                 token= {token}
+                                                 setToken = {setToken}
+                                                 submissionHandler={submissionHandler}/> }
+
+        { draw && <Draw colorSettings={canvasColorSettings}
+                        animations={animations}
+                        settingStateChangeHandler={settingStateChangeHandler}
+                        settingState={settingState}
+                        shareSessionStateChangeHandler={shareSessionStateChangeHandler}
+                        shareSessionState={shareSessionState}/> }
         </>
     );
 }
