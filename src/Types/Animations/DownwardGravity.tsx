@@ -1,6 +1,6 @@
 import { CustomFigureStyles, SketchData } from '../Figures';
 import p5 from 'p5';
-import { pushNewFigure } from './Animation';
+import { pushNewFigure, pushNewFigureWithVelocity } from './Animation';
 
 export class DownwardGravity extends Animation {
   static draw(sketchData: SketchData, p: p5) {
@@ -10,13 +10,16 @@ export class DownwardGravity extends Animation {
     };
 
     let color = p.color(sketchData.colorSettings.background);
-    color.setAlpha(50);
+    color.setAlpha(70);
     p.background(color);
 
-    if (p.mouseX != p.pmouseX &&
-      p.mouseY != p.pmouseY &&
-      Math.round(Math.random() * 2) === 1) {
-      pushNewFigure(sketchData.selectedFigure, sketchData.figs, p);
+    if (p.mouseX != p.pmouseX && 
+        p.mouseY != p.pmouseY && 
+        Math.round(Math.random() * 3) === 1) {
+        let pmousePos = p.createVector(p.pmouseX, p.pmouseY);
+        let mousePos = p.createVector(p.mouseX, p.mouseY);
+        let newFigVel = mousePos.sub(pmousePos).normalize().mult(15);
+        pushNewFigureWithVelocity(sketchData.selectedFigure, sketchData.figs, newFigVel, p);
     }
 
     sketchData.figs.forEach(fig => {

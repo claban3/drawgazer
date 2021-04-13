@@ -28,6 +28,11 @@ function sketch(p) {
         bufferHeight: 40,
         canvasHeight: window.innerHeight * 0.75 - 40 /* bufferWidth */,
         canvasWidth: window.innerWidth * 0.85 - 40 /* bufferHeight */,
+        // hawkeyeMouseEvent: {
+        //     mousePressed: false,
+        //     mouseX: 0,
+        //     mouseY: 0
+        // }
     };
 
     function loadSavedFigures() {
@@ -152,7 +157,7 @@ function sketch(p) {
             sketchData.colorSettings = props.canvasSettings.colorSettings;
             Animation.propsHandler(sketchData, p);
         }
-
+        
         reset = props.canvasSettings.reset;
         save = props.canvasSettings.save;
         
@@ -162,6 +167,8 @@ function sketch(p) {
 
         shareSessionState = props.canvasSettings.shareSessionState;
         settingState = props.canvasSettings.settingState;
+        
+        // Animation.redrawTransition(sketchData, p);
 
         if (record != props.canvasSettings.record) {
             // this case means that the recording was turned off
@@ -176,6 +183,10 @@ function sketch(p) {
         }
 
         Animation.redraw(sketchData, p);
+
+        // if (props.canvasSettings.hawkeyeMouseEvent.mousePressed) {
+
+        // }
         // Uncomment the line below once animation toolbar is integrated, else
         // SelectedAnimation will get updated to None
         //selectedAnimation = props.canvasSettings.selectedAnimation;
@@ -236,6 +247,59 @@ function sketch(p) {
 }
 
 export default function Canvas(props) {
+    console.log(props.canvasSettings);
+    // const defaultMouseEvent = hawkeyeMouseEvent: {
+    //     mousePressed: false,
+    //     mouseX: 0,
+    //     mouseY: 0
+    // };
+
+    // const [hawkeyeMouseEvent, setHawkeyeMouseEvent] = useState(defaultMouseEvent);
+    // const [xpos, setXpos] = useState(0);
+    // const [ypos, setYpos] = useState(0);
+
+    // function gridClickedHandler(id) {
+    //     let id = e.target.id;
+    //     let element = document.getElementById(id);
+    //     let xpos = element.offsetTop + element.offsetHeight / 2;
+    //     let ypos = element.offsetLeft + element.offsetWidth / 2;
+    //     setXpos(xpos);
+    //     setYpos(ypos);
+
+        // let mouseEvent: HawkeyeMouseEvent = {
+        //     mousePressed: true,
+        //     mouseX: xpos,
+        //     mouseY: ypos
+        // };
+
+        // setHawkeyeMouseEvent(mouseEvent);
+    // }
+
+    // function mouseEnterHandler(id) {
+    //     // let id = e.target.id;
+    //     let element = document.getElementById(id);
+    //     let xpos = element.offsetTop + element.offsetHeight / 2;
+    //     let ypos = element.offsetLeft + element.offsetWidth / 2;
+    //     setXpos(xpos);
+    //     setYpos(ypos);
+    // }
+
+    // let grid = []
+    // hawkeyeAccessGrid();
+    // function hawkeyeAccessGrid() {
+    //     for (let i = 0; i < 200; i++) {
+    //         let idStr : string = "cell".concat(i.toString());
+    //         grid.push(
+    //             <a className="filth" id={idStr}
+    //                 onClick={() => gridClickedHandler(idStr)}
+    //                 onMouseEnter={() => mouseEnterHandler(idStr)}>
+    //             </a>
+    //         )
+    //     }
+    // }
+
+    // props.canvasSettings.hawkeyeMouseEvent = hawkeyeMouseEvent;
+
     return (
         <div className="canvas-container" id="canvas">
             <P5Wrapper

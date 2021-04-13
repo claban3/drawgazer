@@ -13,3 +13,24 @@
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
     border-radius: 10px;
 }
+
+.gross {
+    position: absolute;
+    height: 75%;
+    width: 85%;
+    z-index: 5;
+
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.filth {
+    display: block;
+    height: 5%;
+    width: 5%;
+    /* background-color:aqua; */
+    border: solid 1px;
+}

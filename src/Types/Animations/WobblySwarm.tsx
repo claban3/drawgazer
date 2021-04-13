@@ -1,8 +1,28 @@
 import { SketchData } from '../Figures';
 import { AnimatedFigure } from '../ProcessingFigures';
-import { pushNewFigure } from './Animation';
+import { pushNewFigure, collidesCanvasWall, outsideCanvasWall } from './Animation';
 
 export class WobblySwarm extends Animation {
+    
+    static bounceOffBorder(fig: AnimatedFigure, width, height) {
+        let reflect = -1.2;
+        if (fig.collideCanvasLeft(width, height)) {
+            fig.velocity.x *= reflect;
+        }
+        
+        if (fig.collideCanvasRight(width, height)) {
+            fig.velocity.x *= reflect;
+        }
+        
+        if (fig.collideCanvasTop(width, height)) {
+            fig.velocity.y *= reflect;
+        }
+        
+        if (fig.collideCanvasBottom(width, height)) {
+            fig.velocity.y *= reflect;
+        }
+    }
+
     static draw(sketchData: SketchData, p) {
         p.background(sketchData.colorSettings.background);
         let figs = sketchData.figs;
@@ -36,37 +56,37 @@ export class WobblySwarm extends Animation {
             figs[i].velocity.x = figs[i].velocity.x * 0.99 + accelerationX * figs[i].mass;
             figs[i].velocity.y = figs[i].velocity.y * 0.99 + accelerationY * figs[i].mass;
             
-            if (figs[i].collideCanvasLeft(sketchData.canvasWidth, sketchData.canvasHeight)) {
-                figs[i].velocity.x *= -1.4;
-            }
-            
-            if (figs[i].collideCanvasRight(sketchData.canvasWidth, sketchData.canvasHeight)) {
-                figs[i].velocity.x *= -1.4;
-            }
-            
-            if (figs[i].collideCanvasTop(sketchData.canvasWidth, sketchData.canvasHeight)) {
-                figs[i].velocity.y *= -1.4;
-            }
-            
-            if (figs[i].collideCanvasBottom(sketchData.canvasWidth, sketchData.canvasHeight)) {
-                figs[i].velocity.y *= -1.4;
-            }
+            WobblySwarm.bounceOffBorder(figs[i], sketchData.canvasWidth, sketchData.canvasHeight);
+        
         }
 
-        figs.forEach(fig => {
-            if (fig.dead){
-                fig.dead = false;
+        // remove figures that are outside the canvas
+        for (let i = 0; i < sketchData.figs.length; ++i) {
+            let fig = sketchData.figs[i];
+            if (outsideCanvasWall(fig, sketchData.canvasWidth, sketchData.canvasHeight)) {
+                sketchData.figs.splice(i, 1);
             }
-
+        }
+        
+        figs.forEach(fig => {
             fig.pos.add(fig.velocity);
             fig.display();
         });
+
+        
     }
 
     static mousePressed(sketchData: SketchData, p) {
         if (AnimatedFigure.mouseOnCanvas(p, sketchData.canvasWidth, sketchData.canvasHeight)) {
             for (let i = 0; i < 2; i++) {
-                pushNewFigure(sketchData.selectedFigure, sketchData.figs, p);
+                let newFig = pushNewFigure(sketchData.selectedFigure, sketchData.figs, p);
+                if (newFig) {
+                    while (collidesCanvasWall(newFig, sketchData.canvasWidth, sketchData.canvasHeight)) {
+                        let origin = p.createVector(sketchData.canvasWidth / 2, sketchData.canvasHeight / 2);
+                        let correctVec = origin.sub(newFig.pos).normalize();
+                        newFig.pos.add(correctVec);
+                    }
+                }
             }
         }
 

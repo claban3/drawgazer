@@ -34,9 +34,7 @@ export default function ShapesToolbar(props)
                 <svg className="shape-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 147 147">
                     <circle className="circle" id="circle" cx="73.5" cy="73.5" r="72" stroke="#231f20" strokeMiterlimit="10" strokeWidth="3"/>
                 </svg>
-
             </a>
-
         </div>
     );
 }

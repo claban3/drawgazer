@@ -9,6 +9,7 @@ import bubbles from '../Images/bubbles.png';
 import scurry from '../Images/scurry.png';
 import draggedOut from '../Images/draggedout.png';
 import draggedPainting from '../Images/draggedPainting.png';
+import drumLoop from '../Images/Drumloop.png';
 import freeDraw from '../Images/free-draw.png';
 import fillScreenWithShapes from '../Images/fillScreenWithShapes.png'
 
@@ -24,6 +25,7 @@ export enum SelectedAnimation {
     WobblySwarm,
     DownwardGravity,
     DraggedOut,
+    DrumLoop,
     BubblePop,
     RadialForce,
     DraggedPainting,
@@ -53,6 +55,12 @@ export function animationProperties(anim: SelectedAnimation) {
                 "name": "Dragged Out",
                 "classname": "draggedOut",
                 "image": draggedOut,
+            }
+        case SelectedAnimation.DrumLoop:
+            return {
+                "name": "Drum Loop",
+                "classname": "drumloop",
+                "image": drumLoop,
             }
         case SelectedAnimation.BubblePop:
             return {
@@ -125,6 +133,12 @@ export type ColorSettings = {
     shareSessionState: number
 };
 
+export type HawkeyeMouseEvent = {
+    mousePressed: Boolean,
+    mouseX: number,
+    mouseY: number
+};
+
 export type SketchData = {
     onPressed: Boolean,
     figs: AnimatedFigure[],
@@ -136,6 +150,7 @@ export type SketchData = {
     bufferHeight: number,
     canvasHeight: number,
     canvasWidth: number
+    // hawkeyeMouseEvent: HawkeyeMouseEvent
 };
 
 export type CustomFigureStyles = {
