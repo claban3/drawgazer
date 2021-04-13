@@ -1,0 +1,126 @@
+.shareSession-outer-container {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    background:rgba(0, 0, 0, 0.8);
+    z-index: 2;
+}
+
+.shareSession-container {
+    position: absolute;
+    height: 30%;
+    width: 30%;
+    background-color: #ffffff;
+
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    font-family: Poppins;
+    letter-spacing: 0.1em;
+    
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    padding: 5px;
+
+    z-index: 3;
+}
+
+.shareSession-container.opening {
+    animation: popIn .2s linear;
+}
+
+.shareSession-container.closing{
+    animation: popOut .2s linear;
+}
+
+.shareSession-exit { 
+    position: absolute;
+    height: 30px; 
+    width: 30px;
+
+    top: 4px;
+    right: 4px;
+    
+    cursor: pointer;
+}
+
+.friend-ID-input-container {
+    position: absolute;
+    height: 50%;
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    z-index: 2;
+    font-family: Poppins;
+    letter-spacing: 0.1em;
+    flex-wrap: wrap;
+}
+
+.friend-ID-input::placeholder {
+    color: rgba(155, 155, 155, 0.5);
+    font-size: 0.8vw;
+    font-family: Poppins;
+}
+
+.friend-ID-submit {
+    border: 0;
+    margin-left: -15px;
+    border: 2px;
+}
+
+.friend-ID-local {
+    margin-left: auto;
+    margin-top: auto;
+    font-size: 1vw;
+}
+
+.spn {
+    color: #ff6868;
+    font-size: 120%;
+}
+
+.friend-ID-input-box {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 85%;
+    height: 32%;
+    border: 2px solid;
+    border-color: #9B9B9B;
+    border-radius: 5px; 
+    padding: 2px;
+}
+
+.friend-ID-input {
+    height: 80%;
+    width: 65%;
+    border: none;
+    flex-grow: 2;
+    outline: none;
+    cursor: text;
+}
+
+.friend-ID-icon-wrapper {
+    height: 80%;
+}
+
+.friend-ID-icon {
+    height: 100%;
+    margin-left: 4px;
+    margin-right: 4px;
+    cursor: pointer;
+}
+
+.prompt {
+    font-size: 1.1vw;
+}

@@ -1,22 +1,25 @@
 import { CustomFigureStyles, SketchData } from '../Figures';
 import p5 from 'p5';
-import { pushNewFigure } from './Animation';
+import { pushNewFigure, pushNewFigureWithVelocity } from './Animation';
 
 export class DownwardGravity extends Animation {
   static draw(sketchData: SketchData, p: p5) {
-    let customStyles : CustomFigureStyles = {
+    let customStyles: CustomFigureStyles = {
       opacity: 200,
       stroke: false
     };
-    
+
     let color = p.color(sketchData.colorSettings.background);
-    color.setAlpha(50);
+    color.setAlpha(70);
     p.background(color);
 
     if (p.mouseX != p.pmouseX && 
         p.mouseY != p.pmouseY && 
-        Math.round(Math.random() * 2) === 1) {
-      pushNewFigure(sketchData.selectedFigure, sketchData.figs, p.mouseX, p.mouseY, p);
+        Math.round(Math.random() * 3) === 1) {
+        let pmousePos = p.createVector(p.pmouseX, p.pmouseY);
+        let mousePos = p.createVector(p.mouseX, p.mouseY);
+        let newFigVel = mousePos.sub(pmousePos).normalize().mult(15);
+        pushNewFigureWithVelocity(sketchData.selectedFigure, sketchData.figs, newFigVel, p);
     }
 
     sketchData.figs.forEach(fig => {
@@ -29,9 +32,9 @@ export class DownwardGravity extends Animation {
         // fig.thud.play();
       }
 
-      if((fig.collideCanvasLeft(sketchData.canvasWidth, sketchData.canvasHeight) ||
-          fig.collideCanvasRight(sketchData.canvasWidth, sketchData.canvasHeight)) &&
-          !fig.dead) {
+      if ((fig.collideCanvasLeft(sketchData.canvasWidth, sketchData.canvasHeight) ||
+        fig.collideCanvasRight(sketchData.canvasWidth, sketchData.canvasHeight)) &&
+        !fig.dead) {
         fig.velocity.x *= -1;
         fig.spin *= -1;
       }
@@ -41,13 +44,13 @@ export class DownwardGravity extends Animation {
 
     for (let i = 0; i < sketchData.figs.length; i++) {
       if (sketchData.figs[i].dim < 4) {
-          sketchData.figs.splice(i, 1);
+        sketchData.figs.splice(i, 1);
       }
     }
   }
 
   static mousePressed(sketchData: SketchData, p) {
-      
+
   }
 
   static mouseReleased(sketchData: SketchData, p) {
