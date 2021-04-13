@@ -176,9 +176,7 @@ export class Animation {
         let mouseX = mouseEvent.mouseX;
         let mouseY = mouseEvent.mouseY;
         
-        if (AnimatedFigure.mouseOnCanvasHawkeye(mouseX, mouseY, p, renderer, sketchData.canvasWidth, sketchData.canvasHeight)) {
-            pushNewFigure(sketchData.selectedFigure, sketchData.figs, mouseX, mouseY, p);
-        }
+        pushNewFigure(sketchData.selectedFigure, sketchData.figs, mouseX, mouseY, p);
 
         // switch(sketchData.selectedAnimation) {
         //     case SelectedAnimation.WobblySwarm:

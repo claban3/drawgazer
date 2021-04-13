@@ -258,22 +258,17 @@ export default function Canvas(props) {
     };
 
     const [hawkeyeMouseEvent, setHawkeyeMouseEvent] = useState(defaultMouseEvent);
-    const [xpos, setXpos] = useState(0);
-    const [ypos, setYpos] = useState(0);
 
     function gridClickedHandler(id) {
         let element = document.getElementById(id);
         let xpos = element.offsetLeft - 10;
         let ypos = element.offsetTop;
-        setXpos(xpos);
-        setYpos(ypos);
 
         let mouseEvent: HawkeyeMouseEvent = {
             mousePressed: true,
             mouseX: xpos,
             mouseY: ypos
         };
-
         setHawkeyeMouseEvent(mouseEvent);
     }
 
@@ -292,7 +287,7 @@ export default function Canvas(props) {
         for (let i = 0; i < numCells; i++) {
             let idStr: string = "cell".concat(i.toString());
             grid.push(
-                <a className="hawkeyeCell" id={idStr}
+                <a className="hawkeyeCell" id={idStr} key={idStr}
                     onClick={() => gridClickedHandler(idStr)}>
                     {/* onMouseEnter={() => mouseEnterHandler(idStr)}> */}
                 </a>
@@ -308,10 +303,11 @@ export default function Canvas(props) {
                 className="p5Wrapper"
                 sketch={sketch}
                 canvasSettings={props.canvasSettings} />
-
-            <div className="hawkeyeGrid">
-                {grid}
-            </div>
+            { props.canvasSettings.settingState === 0 && 
+                <div className="hawkeyeGrid">
+                    { grid }
+                </div>
+            }
         </div>
     );
 }

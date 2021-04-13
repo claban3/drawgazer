@@ -99,22 +99,6 @@ export class AnimatedFigure {
     );
   }
 
-  static mouseOnCanvasHawkeye(mouseX, mouseY, p: P5, renderer, canvasWidth, canvasHeight) {
-    let left = renderer.position().x;
-    let right = renderer.position().x + canvasWidth;
-    let bottom = renderer.position().y + canvasHeight;
-    let top = renderer.position().y;
-
-    console.log(left);
-    console.log(right);
-    console.log(mouseX);
-    
-    return (
-      mouseX >= left && mouseX <= right && 
-      mouseY >= top && mouseY <= bottom
-    );
-  }
-
   display() {}
 
   displayCustomStyles(customStyles: CustomFigureStyles) {}
