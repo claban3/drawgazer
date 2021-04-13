@@ -8,22 +8,6 @@ export default function ShapesToolbar(props)
     let rectangleHighlight = (props.shapeSelection === SelectedShape.Rectangle) ? "shape-selected" : "";
     let circleHighlight = (props.shapeSelection === SelectedShape.Circle) ? "shape-selected" : "";
 
-    function onClickHandler() {
-        alert("On Click Handler");
-    }
-
-    function touchEndHandler() {
-        alert("Touch End Handler");
-    }
-
-    function touchStartHandler() {
-        alert("Touch Start Handler");
-    }
-
-    function onSelectHandler() {
-        alert("on Select Handler");
-    }
-
     return (
         <div className="shape-toolbar-container">
             <a className={`shape-selection ${triangleHighlight}`}
