@@ -308,12 +308,13 @@ export default function Canvas(props) {
     let grid = []
     hawkeyeAccessGrid();
     function hawkeyeAccessGrid() {
-        let numCells = 10 * 20; // height and width are 5%
+        let numCells = 5 * 10; // height and width are 5%
         for (let i = 0; i < numCells; i++) {
             let idStr: string = "cell".concat(i.toString());
             grid.push(
                 <a className="hawkeyeCell" id={idStr} key={idStr}
                     onClick={() => gridClickedHandler(idStr)}
+                    onFocus={() => mouseEnterHandler(idStr)}
                     onMouseOver={() => mouseEnterHandler(idStr)}>
                 </a>
             )
@@ -329,6 +330,7 @@ export default function Canvas(props) {
                 sketch={sketch}
                 canvasSettings={props.canvasSettings} />
             { props.canvasSettings.settingState === 0 && 
+              props.canvasSettings.shareSessionState === 0 && 
                 <div className="hawkeyeGrid">
                     { grid }
                 </div>
