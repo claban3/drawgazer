@@ -192,6 +192,18 @@ export class Animation {
         return false;
     }
 
+    static hawkeyeMouseOver(sketchData: SketchData, p: p5, mouseEvent: HawkeyeMouseEvent, renderer) {
+        switch(sketchData.selectedAnimation) {
+            case SelectedAnimation.DownwardGravity:
+                DownwardGravity.hawkeyeMouseOver(sketchData, mouseEvent, p);
+                break;
+            case SelectedAnimation.None:
+                break; 
+        }
+
+        return false;
+    }
+
     static mouseReleased(sketchData: SketchData, p) {
         return false;
     }

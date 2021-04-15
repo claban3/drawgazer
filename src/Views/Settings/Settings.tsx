@@ -56,11 +56,10 @@ export default function Settings(props) {
                                         animationAddHandler={props.animationAddHandler}/>
             }
 
-            <a>
+            <a onClick={() => props.settingStateChangeHandler()}>
                 <img className="settings-exit"
                     src={exit}
-                    alt="exit settings"
-                    onClick={() => props.settingStateChangeHandler()}/>
+                    alt="exit settings"/>
             </a>
         </div>
     );  
