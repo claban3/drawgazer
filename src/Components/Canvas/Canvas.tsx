@@ -192,8 +192,19 @@ function sketch(p) {
                 let mouseEvent = props.canvasSettings.hawkeyeMouseEvent;
                 Animation.hawkeyeMousePressed(sketchData, p, mouseEvent, renderer);
                 props.canvasSettings.hawkeyeMouseEvent.mousePressed = false;
+                props.canvasSettings.hawkeyeMouseEvent.mouseFocused = false;
             }
         }
+
+        if (props.canvasSettings.hawkeyeMouseEvent.mouseFocused) {
+            p.push();
+            p.fill(100);
+            p.ellipse(100, 100, 10);
+            p.pop();
+            props.canvasSettings.hawkeyeMouseEvent.mouseFocused = false;
+        }
+
+        // Animation.hawkeyeMouseFocus(sketchData, p, mouseEvent, renderer);
     }
 
     p.draw = function () {
@@ -253,6 +264,7 @@ function sketch(p) {
 export default function Canvas(props) {
     const defaultMouseEvent: HawkeyeMouseEvent = {
         mousePressed: false,
+        mouseFocused: false,
         mouseX: 0,
         mouseY: 0
     };
@@ -265,21 +277,25 @@ export default function Canvas(props) {
 
         let ypos = element.offsetTop + (element.offsetHeight / 2);
 
-        let mouseEvent: HawkeyeMouseEvent = {
-            mousePressed: true,
-            mouseX: xpos,
-            mouseY: ypos
-        };
-        setHawkeyeMouseEvent(mouseEvent);
+        hawkeyeMouseEvent.mousePressed = true;
+        hawkeyeMouseEvent.mouseX = xpos;
+        hawkeyeMouseEvent.mouseY = ypos;
+
+        setHawkeyeMouseEvent(hawkeyeMouseEvent);
     }
 
-    // function mouseEnterHandler(id) {
-    //     let element = document.getElementById(id);
-    //     let xpos = element.offsetTop + element.offsetHeight / 2;
-    //     let ypos = element.offsetLeft + element.offsetWidth / 2;
-    //     setXpos(xpos);
-    //     setYpos(ypos);
-    // }
+    function mouseEnterHandler(id) {
+        let element = document.getElementById(id);
+        let xpos = element.offsetTop + (element.offsetHeight / 2);
+        let ypos = element.offsetLeft + (element.offsetWidth / 2);
+
+        hawkeyeMouseEvent.mousePressed = false;
+        hawkeyeMouseEvent.mouseFocused = true;
+        hawkeyeMouseEvent.mouseX = xpos;
+        hawkeyeMouseEvent.mouseY = ypos;
+
+        setHawkeyeMouseEvent(hawkeyeMouseEvent);
+    }
 
     let grid = []
     hawkeyeAccessGrid();
@@ -289,8 +305,8 @@ export default function Canvas(props) {
             let idStr: string = "cell".concat(i.toString());
             grid.push(
                 <a className="hawkeyeCell" id={idStr} key={idStr}
-                    onClick={() => gridClickedHandler(idStr)}>
-                    {/* onMouseEnter={() => mouseEnterHandler(idStr)}> */}
+                    onClick={() => gridClickedHandler(idStr)}
+                    onFocus={() => mouseEnterHandler(idStr)}>
                 </a>
             )
         }

@@ -128,6 +128,7 @@ export type ColorSettings = {
 
 export type HawkeyeMouseEvent = {
     mousePressed: Boolean,
+    mouseFocused: Boolean,
     mouseX: number,
     mouseY: number
 };
