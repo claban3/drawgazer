@@ -261,8 +261,9 @@ export default function Canvas(props) {
 
     function gridClickedHandler(id) {
         let element = document.getElementById(id);
-        let xpos = element.offsetLeft - 10;
-        let ypos = element.offsetTop;
+        let xpos = element.offsetLeft + (element.offsetWidth / 2);
+
+        let ypos = element.offsetTop + (element.offsetHeight / 2);
 
         let mouseEvent: HawkeyeMouseEvent = {
             mousePressed: true,
