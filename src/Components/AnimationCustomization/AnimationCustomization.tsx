@@ -97,18 +97,30 @@ export default function AnimationCustomization(props) {
             <div className="selected-animations-container">
 
                 <a className="selected-animation" onClick={() => props.animationRemoveHandler(0)}>
-                    <img className="animation-icon" src={img0} alt=""/>
-                    <span>{button0}</span>
+                    { img0 &&
+                        <>
+                            <img className="animation-icon" src={img0} alt=""/>
+                            <span>{button0}</span>
+                        </>
+                    }
                 </a>
 
                 <a className="selected-animation" onClick={() => props.animationRemoveHandler(1)}>
-                    <img className="animation-icon" src={img1} alt=""/>
-                    <span>{button1}</span>
+                    { img1 &&
+                        <>
+                            <img className="animation-icon" src={img1} alt=""/>
+                            <span>{button1}</span>
+                        </>
+                    }
                 </a>
 
                 <a className="selected-animation" onClick={() => props.animationRemoveHandler(2)}>
-                    <img className="animation-icon" src={img2} alt=""/>
-                    <span>{button2}</span>
+                    { img2 &&
+                        <>
+                            <img className="animation-icon" src={img2} alt=""/>
+                            <span>{button2}</span>
+                        </>
+                    }
                 </a>
 
             </div>

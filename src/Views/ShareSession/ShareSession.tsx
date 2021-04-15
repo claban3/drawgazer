@@ -32,7 +32,8 @@ export default function ShareSession(props) {
             <div className={"shareSession-container " + (shareSessionStates[props.shareSessionState])}
                  onClick={(event) => {event.stopPropagation();}}>
 
-                <a onClick={() => props.shareSessionStateChangeHandler()}>
+                <a className="shareSession-exit-wrapper" 
+                   onClick={() => props.shareSessionStateChangeHandler()}>
                     <img className="shareSession-exit"
                         src={exit}
                         alt="Exit Share Session"
