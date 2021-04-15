@@ -191,21 +191,14 @@ function sketch(p) {
             if (settingState === 0) {
                 let mouseEvent = props.canvasSettings.hawkeyeMouseEvent;
                 Animation.hawkeyeMousePressed(sketchData, p, mouseEvent, renderer);
-                props.canvasSettings.hawkeyeMouseEvent.mousePressed = false;
-                props.canvasSettings.hawkeyeMouseEvent.mouseFocused = false;
             }
-        }
-
-        if (props.canvasSettings.hawkeyeMouseEvent.mouseFocused) {
-            // p.push();
-            // p.fill(100);
-            // p.ellipse(100, 100, 10);
-            // p.pop();
+        } else if (props.canvasSettings.hawkeyeMouseEvent.mouseFocused) {
             let mouseEvent = props.canvasSettings.hawkeyeMouseEvent;
             Animation.hawkeyeMouseOver(sketchData, p, mouseEvent, renderer);
-            props.canvasSettings.hawkeyeMouseEvent.mousePressed = false;
-            props.canvasSettings.hawkeyeMouseEvent.mouseFocused = false;
         }
+
+        props.canvasSettings.hawkeyeMouseEvent.mousePressed = false;
+        props.canvasSettings.hawkeyeMouseEvent.mouseFocused = false;
 
     }
 
@@ -276,7 +269,6 @@ export default function Canvas(props) {
     function gridClickedHandler(id) {
         let element = document.getElementById(id);
         let xpos = element.offsetLeft + (element.offsetWidth / 2);
-
         let ypos = element.offsetTop + (element.offsetHeight / 2);
 
         let mouseEvent = {
@@ -305,7 +297,6 @@ export default function Canvas(props) {
             mouseX: xpos,
             mouseY: ypos
         };
-        console.log("tw");
         // hawkeyeMouseEvent.mousePressed = false;
         // hawkeyeMouseEvent.mouseFocused = true;
         // hawkeyeMouseEvent.mouseX = xpos;
