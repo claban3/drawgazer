@@ -42,7 +42,7 @@
     animation: popOut .2s linear;
 }
 
-.shareSession-exit { 
+.shareSession-exit-wrapper { 
     position: absolute;
     height: 30px; 
     width: 30px;
@@ -51,6 +51,11 @@
     right: 4px;
     
     cursor: pointer;
+}
+
+.shareSession-exit {
+    height: 100%;
+    width: 100%;
 }
 
 .friend-ID-input-container {

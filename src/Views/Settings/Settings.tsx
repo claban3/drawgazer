@@ -56,7 +56,8 @@ export default function Settings(props) {
                                         animationAddHandler={props.animationAddHandler}/>
             }
 
-            <a onClick={() => props.settingStateChangeHandler()}>
+            <a className="settings-exit-wrapper" 
+               onClick={() => props.settingStateChangeHandler()}>
                 <img className="settings-exit"
                     src={exit}
                     alt="exit settings"/>
