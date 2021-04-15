@@ -1,5 +1,5 @@
 import p5 from 'p5';
-import { SelectedAnimation, SelectedShape, SketchData } from '../Figures';
+import { SelectedAnimation, SelectedShape, SketchData, HawkeyeMouseEvent } from '../Figures';
 import { AnimatedFigure, CircleFigure, SquareFigure, TriangleFigure } from '../ProcessingFigures';
 import { DownwardGravity } from './DownwardGravity';
 import { WallBounce } from './WallBounce';
@@ -12,11 +12,9 @@ import { generateColorSpectrum } from './ColorSampling';
 import { FillScreenWithFigures } from './FillScreenWithFigures';
 import { DrumLoop } from './DrumLoop';
 
-export function pushNewFigure(selectedFigure, figs, p: p5) {
+export function pushNewFigure(selectedFigure, figs, mouseX, mouseY, p) {
     if (selectedFigure != SelectedShape.None) {
-        let newFig = newFigure(selectedFigure, p.mouseX, p.mouseY, p); 
-        figs.push(newFig);
-        return newFig;
+        figs.push(newFigure(selectedFigure, mouseX, mouseY, p));
     }
 }
 
@@ -154,7 +152,7 @@ export class Animation {
 
     static mousePressed(sketchData: SketchData, p: p5) {
         if (AnimatedFigure.mouseOnCanvas(p, sketchData.canvasWidth, sketchData.canvasHeight)) {
-            pushNewFigure(sketchData.selectedFigure, sketchData.figs, p);
+            pushNewFigure(sketchData.selectedFigure, sketchData.figs, p.mouseX, p.mouseY, p);
         }
 
         switch (sketchData.selectedAnimation) {
@@ -169,6 +167,26 @@ export class Animation {
                 break;
             case SelectedAnimation.None:
                 break;
+        }
+
+        return false;
+    }
+
+    static hawkeyeMousePressed(sketchData: SketchData, p: p5, mouseEvent: HawkeyeMouseEvent, renderer) {
+        let mouseX = mouseEvent.mouseX;
+        let mouseY = mouseEvent.mouseY;
+        
+        pushNewFigure(sketchData.selectedFigure, sketchData.figs, mouseX, mouseY, p);
+
+        switch(sketchData.selectedAnimation) {
+            case SelectedAnimation.WobblySwarm:
+                WobblySwarm.hawkeyeMousePressed(sketchData, mouseEvent, p);
+                break;
+            case SelectedAnimation.BubblePop:
+                BubblePop.hawkeyeMousePressed(sketchData, mouseEvent, p);
+                break;
+            case SelectedAnimation.None:
+                break; 
         }
 
         return false;

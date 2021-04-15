@@ -64,9 +64,9 @@ export default function AnimationCustomization(props) {
         SelectedAnimation.DownwardGravity,
         SelectedAnimation.DraggedOut,
         SelectedAnimation.BubblePop,
-        SelectedAnimation.RadialForce,
         SelectedAnimation.DraggedPainting,
         SelectedAnimation.FillScreenWithFigures,
+        SelectedAnimation.DrumLoop
         // SelectedAnimation.WallBounce,
         // SelectedAnimation.Stack,
     ]

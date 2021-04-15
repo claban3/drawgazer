@@ -79,14 +79,20 @@ export class WobblySwarm extends Animation {
     static mousePressed(sketchData: SketchData, p) {
         if (AnimatedFigure.mouseOnCanvas(p, sketchData.canvasWidth, sketchData.canvasHeight)) {
             for (let i = 0; i < 2; i++) {
-                let newFig = pushNewFigure(sketchData.selectedFigure, sketchData.figs, p);
-                if (newFig) {
-                    while (collidesCanvasWall(newFig, sketchData.canvasWidth, sketchData.canvasHeight)) {
-                        let origin = p.createVector(sketchData.canvasWidth / 2, sketchData.canvasHeight / 2);
-                        let correctVec = origin.sub(newFig.pos).normalize();
-                        newFig.pos.add(correctVec);
-                    }
-                }
+                pushNewFigure(sketchData.selectedFigure, sketchData.figs, p.mouseX, p.mouseY, p);
+            }
+        }
+
+        return false;
+    }
+
+    static hawkeyeMousePressed(sketchData: SketchData, hawkeyeMouseEvent, p) {
+        let mouseX = hawkeyeMouseEvent.mouseX;
+        let mouseY = hawkeyeMouseEvent.mouseY;
+        
+        if (AnimatedFigure.mouseOnCanvas(p, sketchData.canvasWidth, sketchData.canvasHeight)) {
+            for (let i = 0; i < 2; i++) {
+                pushNewFigure(sketchData.selectedFigure, sketchData.figs, mouseX, mouseY, p);
             }
         }
 

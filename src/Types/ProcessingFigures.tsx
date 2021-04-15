@@ -10,7 +10,7 @@ import snareSFX from '../Sounds/Drumset/Snare.wav';
 import highhatSFX from '../Sounds/Drumset/Highhat.wav';
 import scurrySFX from '../Sounds/scurry.mp3';
 import * as Collides from 'p5collide';
-import { CustomFigureStyles } from './Figures';
+import { CustomFigureStyles, SketchData } from './Figures';
 import './Animations/ColorSampling';
 
 const MAX_SPEED = 40;

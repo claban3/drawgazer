@@ -1,13 +1,16 @@
+import "./Canvas.css";
+import 'p5';
 import '../../Types/Figures';
 import './Canvas.css';
 import 'p5';
 import 'react-p5-wrapper';
 import * as fileSaver from 'file-saver';
 import { Animation, newFigure } from '../../Types/Animations/Animation';
-import { SelectedShape, SelectedAnimation, SketchData, ColorSettings } from '../../Types/Figures';
+import { SelectedShape, SelectedAnimation, SketchData, ColorSettings, HawkeyeMouseEvent } from '../../Types/Figures';
 import GIF from 'gif.js.optimized';
 import P5Wrapper from 'react-p5-wrapper';
 import workerStr from './gifWorker';
+import { useState } from 'react';
 
 let defaultColorSettings: ColorSettings = {
     background: '#FFFFFF',
@@ -82,7 +85,7 @@ function sketch(p) {
 
     let reset = false; // toggles reseting the canvas
     let save = false; // toggles saving a screenshot of the canvas
-    let record : boolean = false; // toggles recording a gif of the canvas
+    let record: boolean = false; // toggles recording a gif of the canvas
 
     let setClearCanvasInParent = () => { };
     let setSaveCanvasInParent = () => { };
@@ -157,17 +160,17 @@ function sketch(p) {
             sketchData.colorSettings = props.canvasSettings.colorSettings;
             Animation.propsHandler(sketchData, p);
         }
-        
+
         reset = props.canvasSettings.reset;
         save = props.canvasSettings.save;
-        
+
         setClearCanvasInParent = props.canvasSettings.resetInParent;
         setSaveCanvasInParent = props.canvasSettings.saveInParent;
         setRecordCanvasInParent = props.canvasSettings.recordInParent;
 
         shareSessionState = props.canvasSettings.shareSessionState;
         settingState = props.canvasSettings.settingState;
-        
+
         // Animation.redrawTransition(sketchData, p);
 
         if (record != props.canvasSettings.record) {
@@ -184,12 +187,13 @@ function sketch(p) {
 
         Animation.redraw(sketchData, p);
 
-        // if (props.canvasSettings.hawkeyeMouseEvent.mousePressed) {
-
-        // }
-        // Uncomment the line below once animation toolbar is integrated, else
-        // SelectedAnimation will get updated to None
-        //selectedAnimation = props.canvasSettings.selectedAnimation;
+        if (props.canvasSettings.hawkeyeMouseEvent.mousePressed) {
+            if (settingState === 0) {
+                let mouseEvent = props.canvasSettings.hawkeyeMouseEvent;
+                Animation.hawkeyeMousePressed(sketchData, p, mouseEvent, renderer);
+                props.canvasSettings.hawkeyeMouseEvent.mousePressed = false;
+            }
+        }
     }
 
     p.draw = function () {
@@ -205,18 +209,18 @@ function sketch(p) {
         updateGif();
 
         p.mouseClicked = function (event) {
-            if (settingState===0 && shareSessionState===0){
-                return Animation.mousePressed(sketchData, p);
+            if (settingState === 0) {
+                // return Animation.mousePressed(sketchData, p);
             }
         }
-        
-        p.mouseReleased = function() {
-            if (settingState===0 && shareSessionState===0){
+
+        p.mouseReleased = function () {
+            if (settingState === 0 && shareSessionState === 0) {
                 Animation.mouseReleased(sketchData, p);
             }
         }
 
-        if (settingState === 0 && shareSessionState===0){
+        if (settingState === 0 && shareSessionState === 0) {
 
             sketchData.figs.forEach(fig => {
                 let width = sketchData.canvasWidth;
@@ -232,7 +236,7 @@ function sketch(p) {
                 }
                 if (fig.pos.y < 0) {
                     fig.pos.y = 20;
-                   // fig.velocity.y *= -1;
+                    // fig.velocity.y *= -1;
                 }
                 if (fig.pos.y > height) {
                     fig.pos.y = height - 20;
@@ -247,36 +251,29 @@ function sketch(p) {
 }
 
 export default function Canvas(props) {
-    console.log(props.canvasSettings);
-    // const defaultMouseEvent = hawkeyeMouseEvent: {
-    //     mousePressed: false,
-    //     mouseX: 0,
-    //     mouseY: 0
-    // };
+    const defaultMouseEvent: HawkeyeMouseEvent = {
+        mousePressed: false,
+        mouseX: 0,
+        mouseY: 0
+    };
 
-    // const [hawkeyeMouseEvent, setHawkeyeMouseEvent] = useState(defaultMouseEvent);
-    // const [xpos, setXpos] = useState(0);
-    // const [ypos, setYpos] = useState(0);
+    const [hawkeyeMouseEvent, setHawkeyeMouseEvent] = useState(defaultMouseEvent);
 
-    // function gridClickedHandler(id) {
-    //     let id = e.target.id;
-    //     let element = document.getElementById(id);
-    //     let xpos = element.offsetTop + element.offsetHeight / 2;
-    //     let ypos = element.offsetLeft + element.offsetWidth / 2;
-    //     setXpos(xpos);
-    //     setYpos(ypos);
+    function gridClickedHandler(id) {
+        let element = document.getElementById(id);
+        let xpos = element.offsetLeft + (element.offsetWidth / 2);
 
-        // let mouseEvent: HawkeyeMouseEvent = {
-        //     mousePressed: true,
-        //     mouseX: xpos,
-        //     mouseY: ypos
-        // };
+        let ypos = element.offsetTop + (element.offsetHeight / 2);
 
-        // setHawkeyeMouseEvent(mouseEvent);
-    // }
+        let mouseEvent: HawkeyeMouseEvent = {
+            mousePressed: true,
+            mouseX: xpos,
+            mouseY: ypos
+        };
+        setHawkeyeMouseEvent(mouseEvent);
+    }
 
     // function mouseEnterHandler(id) {
-    //     // let id = e.target.id;
     //     let element = document.getElementById(id);
     //     let xpos = element.offsetTop + element.offsetHeight / 2;
     //     let ypos = element.offsetLeft + element.offsetWidth / 2;
@@ -284,21 +281,22 @@ export default function Canvas(props) {
     //     setYpos(ypos);
     // }
 
-    // let grid = []
-    // hawkeyeAccessGrid();
-    // function hawkeyeAccessGrid() {
-    //     for (let i = 0; i < 200; i++) {
-    //         let idStr : string = "cell".concat(i.toString());
-    //         grid.push(
-    //             <a className="filth" id={idStr}
-    //                 onClick={() => gridClickedHandler(idStr)}
-    //                 onMouseEnter={() => mouseEnterHandler(idStr)}>
-    //             </a>
-    //         )
-    //     }
-    // }
+    let grid = []
+    hawkeyeAccessGrid();
+    function hawkeyeAccessGrid() {
+        let numCells = 50 * 50; // height and width are 2%
+        for (let i = 0; i < numCells; i++) {
+            let idStr: string = "cell".concat(i.toString());
+            grid.push(
+                <a className="hawkeyeCell" id={idStr} key={idStr}
+                    onClick={() => gridClickedHandler(idStr)}>
+                    {/* onMouseEnter={() => mouseEnterHandler(idStr)}> */}
+                </a>
+            )
+        }
+    }
 
-    // props.canvasSettings.hawkeyeMouseEvent = hawkeyeMouseEvent;
+    props.canvasSettings.hawkeyeMouseEvent = hawkeyeMouseEvent;
 
     return (
         <div className="canvas-container" id="canvas">
@@ -306,6 +304,11 @@ export default function Canvas(props) {
                 className="p5Wrapper"
                 sketch={sketch}
                 canvasSettings={props.canvasSettings} />
+            { props.canvasSettings.settingState === 0 && 
+                <div className="hawkeyeGrid">
+                    { grid }
+                </div>
+            }
         </div>
     );
 }

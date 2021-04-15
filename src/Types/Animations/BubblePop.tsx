@@ -203,6 +203,16 @@ export class BubblePop extends Animation {
         return false;
     }
 
+    static hawkeyeMousePressed(sketchData: SketchData, mouseEvent, p) {
+        if (AnimatedFigure.mouseOnCanvas(p, sketchData.canvasWidth, sketchData.canvasHeight))
+        {
+            if(sketchData.figs.length >= this.NUM_FIGURES) {
+                this.burst_cache(sketchData.figs[0], sketchData, p);
+            }
+        }
+        return false;
+    }
+
     static mouseReleased(sketchData: SketchData, p) {
         return false;
     }

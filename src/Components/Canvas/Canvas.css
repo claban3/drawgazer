@@ -14,23 +14,22 @@
     border-radius: 10px;
 }
 
-.gross {
+.hawkeyeGrid {
     position: absolute;
-    height: 75%;
-    width: 85%;
-    z-index: 5;
-
+    height: calc(75% - 40px);
+    width: calc(85% - 40px);
+    
     display: flex;
     flex-wrap: wrap;
-    flex-direction: row;
     justify-content: center;
+    align-content: flex-start;
     align-items: center;
+    z-index: 2;
 }
 
-.filth {
+.hawkeyeCell {
     display: block;
-    height: 5%;
-    width: 5%;
-    /* background-color:aqua; */
-    border: solid 1px;
+    height: 2%;
+    width: 2%;
+    /* background-color:  rgba(37, 70, 255, 0.2); Remove when finished */
 }
