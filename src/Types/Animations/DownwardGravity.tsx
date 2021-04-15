@@ -1,6 +1,7 @@
 import { CustomFigureStyles, SketchData } from '../Figures';
 import p5 from 'p5';
 import { pushNewFigure, pushNewFigureWithVelocity } from './Animation';
+import { AnimatedFigure } from '../ProcessingFigures';
 
 export class DownwardGravity extends Animation {
   static draw(sketchData: SketchData, p: p5) {
@@ -55,5 +56,17 @@ export class DownwardGravity extends Animation {
 
   static mouseReleased(sketchData: SketchData, p) {
 
+  }
+
+  static hawkeyeMouseOver(sketchData: SketchData, hawkeyeMouseEvent, p) {
+    let mouseX = hawkeyeMouseEvent.mouseX;
+    let mouseY = hawkeyeMouseEvent.mouseY;
+    
+    if (AnimatedFigure.mouseOnCanvas(p, sketchData.canvasWidth, sketchData.canvasHeight)) {
+      if (Math.floor(Math.random() * 4) === 0) {
+        pushNewFigure(sketchData.selectedFigure, sketchData.figs, mouseX, mouseY, p);
+      }
+    }
+    return false;
   }
 }
