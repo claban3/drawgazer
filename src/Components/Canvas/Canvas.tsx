@@ -284,7 +284,7 @@ export default function Canvas(props) {
     let grid = []
     hawkeyeAccessGrid();
     function hawkeyeAccessGrid() {
-        let numCells = 50 * 50; // height and width are 2%
+        let numCells = 20 * 20; // height and width are 5%
         for (let i = 0; i < numCells; i++) {
             let idStr: string = "cell".concat(i.toString());
             grid.push(
