@@ -178,16 +178,16 @@ export class Animation {
         
         pushNewFigure(sketchData.selectedFigure, sketchData.figs, mouseX, mouseY, p);
 
-        // switch(sketchData.selectedAnimation) {
-        //     case SelectedAnimation.WobblySwarm:
-        //         WobblySwarm.mousePressed(sketchData, p);
-        //         break;
-        //     case SelectedAnimation.BubblePop:
-        //         BubblePop.mousePressed(sketchData, p);
-        //         break;
-        //     case SelectedAnimation.None:
-        //         break; 
-        // }
+        switch(sketchData.selectedAnimation) {
+            case SelectedAnimation.WobblySwarm:
+                WobblySwarm.hawkeyeMousePressed(sketchData, mouseEvent, p);
+                break;
+            case SelectedAnimation.BubblePop:
+                BubblePop.hawkeyeMousePressed(sketchData, mouseEvent, p);
+                break;
+            case SelectedAnimation.None:
+                break; 
+        }
 
         return false;
     }

@@ -27,7 +27,6 @@ export enum SelectedAnimation {
     DraggedOut,
     DrumLoop,
     BubblePop,
-    RadialForce,
     DraggedPainting,
     FillScreenWithFigures,
     WallBounce,
@@ -67,12 +66,6 @@ export function animationProperties(anim: SelectedAnimation) {
                 "name": "Bubble Pop",
                 "classname": "bubblePop",
                 "image": bubbles,
-            }
-        case SelectedAnimation.RadialForce:
-            return {
-                "name": "Radial Force",
-                "classname": "radialForce",
-                "image": radial,
             }
         case SelectedAnimation.DraggedPainting:
             return {

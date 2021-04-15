@@ -86,6 +86,19 @@ export class WobblySwarm extends Animation {
         return false;
     }
 
+    static hawkeyeMousePressed(sketchData: SketchData, hawkeyeMouseEvent, p) {
+        let mouseX = hawkeyeMouseEvent.mouseX;
+        let mouseY = hawkeyeMouseEvent.mouseY;
+        
+        if (AnimatedFigure.mouseOnCanvas(p, sketchData.canvasWidth, sketchData.canvasHeight)) {
+            for (let i = 0; i < 2; i++) {
+                pushNewFigure(sketchData.selectedFigure, sketchData.figs, mouseX, mouseY, p);
+            }
+        }
+
+        return false;
+    }
+
     static mouseReleased(sketchData: SketchData, p) {
 
     }
