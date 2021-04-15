@@ -314,7 +314,8 @@ export default function Canvas(props) {
             grid.push(
                 <a className="hawkeyeCell" id={idStr} key={idStr}
                     onClick={() => gridClickedHandler(idStr)}
-                    onFocus={() => mouseEnterHandler(idStr)}>
+                    onFocus={() => mouseEnterHandler(idStr)}
+                    onMouseOver={() => mouseEnterHandler(idStr)}>
                 </a>
             )
         }
