@@ -4,11 +4,12 @@ import Settings from './Views/Settings/Settings';
 import ShareSession from './Views/ShareSession/ShareSession';
 import ShareSessionRequest from './Components/ShareSessionRequest/ShareSessionRequest';
 import { useEffect, useState } from 'react';
-import { ColorSettings, SelectedAnimation } from './Types/Figures';
+import { ColorSettings, SelectedAnimation, SyncData } from './Types/Figures';
 import { generateContrastColors } from '@adobe/leonardo-contrast-colors';
 import useSound from 'use-sound';
 import chime from "./Sounds/chime.mp3";
 import socket from "./socket.js"
+import { FirstPageSharp } from '@material-ui/icons';
 
 const defaultColors = {
     "--triangleColor": "#00429D",
@@ -40,6 +41,12 @@ function App() {
     const [colors, setColors] = useState(defaultColors); 
     const [resetColors, setResetColors] = useState(false);
     const [uniqueId, setUniqueId] = useState(null);
+    const [figs, setFigs] = useState("[]");
+    const [mouseCell, setMouseCell] = useState(0);
+    const [animationSelection, setAnimationSelection] = useState(SelectedAnimation.None);
+    const [syncStatus, setSyncStatus] = useState(0);
+    const [syncedWith, setSyncedWith] = useState(null);
+    //const [figs, setFigs] = useState(0);
 
     // const [shareSessionResponseValue, setShareSessionResponseValue] = useState(0);
     // 0 = none, 1 = accept, 2 = decline
@@ -59,6 +66,7 @@ function App() {
         socket.on("connect", () => {console.log("Connected with sever");});
         socket.on("uuid", (uuid) => {setUniqueId(uuid); console.log("new uuid: " + uuid);});
         socket.on("shareCanvasRequest", (data, callback) => shareCanvasRequestHandler(data, callback));
+        socket.on("updateCanvas", (data, callback) => updateCanvasHandler(data, callback));
     },[]);
     
     async function shareCanvasRequestHandler(data, responseCallback) {
@@ -70,7 +78,15 @@ function App() {
         
         await waitSessionResponse();
         responseCallback(acceptOrDecline);
+        setSyncStatus(acceptOrDecline);
         acceptOrDecline = 0; // 0 is reset to unselected
+    }
+
+    function updateCanvasHandler(data, responseCallback) {
+        console.log("Received update from " + data.srcId);
+
+        
+
     }
 
     function shareCanvasSubmissionHandler(friendId) {
@@ -80,8 +96,24 @@ function App() {
         }
 
         console.log("Requesting sync with " + friendId);
+        setSyncedWith(friendId);
         socket.emit("initiateShareCanvas", requestData, (responseData) => {
             // shareCanvasResponseHandler(responseData);
+        });
+    }
+
+    function canvasSyncHandler() {
+        let syncData: SyncData = {
+            mouseCell: mouseCell,
+            figsJSON: figs,
+            selectedAnimation: animationSelection,
+            srcId : uniqueId,
+            destId : syncedWith
+        }
+
+        console.log("Attempting Update with " + syncedWith);
+        socket.emit("syncUpdate", syncData, (responseData) => {
+            // do on response
         });
     }
     
@@ -165,6 +197,12 @@ function App() {
         ));
     }
 
+    function updateFigs(figs: string) {
+
+        setFigs(figs);
+        //console.log(figs);
+    }
+
     function settingStateChangeHandler() {
         // 0: Closed
         // 1: Opening
@@ -216,14 +254,18 @@ function App() {
         { (shareSessionRequestState>0) && <ShareSessionRequest 
             shareSessionsRequestStateChangeHandler={shareSessionsRequestStateChangeHandler} 
             shareSessionRequestState={shareSessionRequestState}
-            shareSessionCallback={shareSessionCallback}/> }
+            shareSessionCallback={shareSessionCallback}
+            requestId={uniqueId}/> }
 
         { draw && <Draw colorSettings={canvasColorSettings}
                         settingStateChangeHandler={settingStateChangeHandler}
                         settingState={settingState}
                         animations={animations}
                         shareSessionStateChangeHandler={shareSessionStateChangeHandler}
-                        shareSessionState={shareSessionState}/> }
+                        shareSessionState={shareSessionState}
+                        updateFigs={updateFigs}
+                        canvasSyncHandler={canvasSyncHandler}
+                        figs={figs}/> }
         </>
     );
 }
