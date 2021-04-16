@@ -71,6 +71,52 @@ function sketch(p) {
         return savedFigs;
     }
 
+    function loadFigsFromProps(figsJSON) {
+
+        if (figsJSON === "[]") {
+            console.log("EMPTY");
+        }
+
+        else if (String(figsJSON) != "[]") {
+            console.log("NON_EMPTY");
+
+            let propsFigs = JSON.parse(figsJSON);
+            console.log(propsFigs);
+        
+            if (propsFigs) {
+                for (let i = 0; i < propsFigs.length; i++) {
+                    let fig = propsFigs[i];
+
+                    // update colors in animation function
+                    Animation.propsHandler(sketchData, p);
+
+                    if (!fig) {
+                        console.log("Canvas received bad JSON from props data");
+                        return;
+                    }
+
+                    switch (fig.type) {
+                        case "circle":
+                            sketchData.figs.push(newFigure(SelectedShape.Circle, fig.x, fig.y, p, fig.color));
+                            break;
+                        case "square":
+                            sketchData.figs.push(newFigure(SelectedShape.Rectangle, fig.x, fig.y, p, fig.color));
+                            break;
+                        case "triangle":
+                            sketchData.figs.push(newFigure(SelectedShape.Triangle, fig.x, fig.y, p, fig.color));
+                            break;
+                        default:
+                            console.log("Canvas received bad JSON from local storage")
+                    }
+                }
+            }
+
+            return propsFigs;
+        }
+        
+        return;
+    }
+
     loadSavedFigures();
 
     let workerBlob = new Blob([workerStr], {
@@ -90,6 +136,8 @@ function sketch(p) {
     let setClearCanvasInParent = () => { };
     let setSaveCanvasInParent = () => { };
     let setRecordCanvasInParent = (reset) => { };
+    let syncCanvasHandler = () => { };
+    let updateFigs = () => { };
 
     let renderer;
     let settingState;
@@ -152,7 +200,7 @@ function sketch(p) {
     }
 
     p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
-        sketchData.selectedFigure = props.canvasSettings.selectedFigure;
+        sketchData.selectedFigure = props.canvasSettings.selectedFigure;    
         sketchData.selectedAnimation = props.canvasSettings.selectedAnimation;
 
         if (props.canvasSettings.colorSettings &&
@@ -161,10 +209,18 @@ function sketch(p) {
             Animation.propsHandler(sketchData, p);
         }
 
+
+        //loadFigsFromProps(props.figs)
+        //props.updateFigs(JSON.stringify(sketchData.figs))
+
+        syncCanvasHandler = props.syncCanvasHandler;
+        updateFigs = props.updateFigs;
+
         reset = props.canvasSettings.reset;
         save = props.canvasSettings.save;
 
         setClearCanvasInParent = props.canvasSettings.resetInParent;
+        shareSessionState = props.canvasSettings.shareSessionState;
         setSaveCanvasInParent = props.canvasSettings.saveInParent;
         setRecordCanvasInParent = props.canvasSettings.recordInParent;
 
@@ -199,7 +255,6 @@ function sketch(p) {
 
         props.canvasSettings.hawkeyeMouseEvent.mousePressed = false;
         props.canvasSettings.hawkeyeMouseEvent.mouseFocused = false;
-
     }
 
     p.draw = function () {
@@ -252,6 +307,7 @@ function sketch(p) {
 
             Animation.draw(sketchData, p);
             localStorage.setItem("savedFigs", JSON.stringify(sketchData.figs));
+
         }
     }
 }
@@ -328,7 +384,10 @@ export default function Canvas(props) {
             <P5Wrapper
                 className="p5Wrapper"
                 sketch={sketch}
-                canvasSettings={props.canvasSettings} />
+                canvasSettings={props.canvasSettings} 
+                updateFigs={props.updateFigs}
+                figs={props.figs}
+                canvasSyncHandler={props.canvasSyncHandler}/>
             { props.canvasSettings.settingState === 0 && 
               props.canvasSettings.shareSessionState === 0 && 
                 <div className="hawkeyeGrid">

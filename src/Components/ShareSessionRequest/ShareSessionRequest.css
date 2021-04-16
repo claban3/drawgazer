@@ -1,0 +1,80 @@
+.share-session-request-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+    height: 10vw;
+    width: 22vw;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    font-family: Poppins;
+    font-weight: 600;
+    font-size: 1.05vw;
+    letter-spacing: 0.1em;
+    
+    background-color: rgba(230, 230, 230, 0.95);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    
+    z-index: 4;
+}
+
+.share-session-request-container.opening {
+    animation: slideIn .2s linear;
+}
+
+.share-session-request-container.closing{
+    animation: slideOut .2s linear;
+}
+
+.share-session-request-msg {
+    width: 100%;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.requestId {
+    color: #ff6868;
+}
+
+.response-container {
+    height: 40%;
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+
+}
+
+.response {
+    height: 100%;
+    width: 50%;
+    
+    display:flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+} 
+
+.response.accept {
+    border-right: 0.5px solid rgb(200, 200, 200);
+    border-top: 1px solid rgb(200, 200, 200);
+
+    border-radius: 0px 0px 0px 10px;
+}
+
+.response.decline {
+    border-left: 0.5px solid rgb(200, 200, 200);
+    border-top: 1px solid rgb(200, 200, 200);
+
+    border-radius: 0px 0px 10px 0px;
+}   
+
+.response:hover {
+    background-color: #afafaf;
+}
