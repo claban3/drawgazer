@@ -250,6 +250,12 @@ function App() {
         circle: colors["--circleColor"],
     };
 
+        //{ (shareSessionState!=UIStateTypes.Closed) && <ShareSession shareSessionStateChangeHandler={shareSessionStateChangeHandler} 
+                                                 //shareSessionState={shareSessionState}
+                                                 //token= {token}
+                                                 //setToken = {setToken}
+                                                 //submissionHandler={submissionHandler}/> }
+
     return (
         <>
         { (settingState!=UIStateTypes.Closed) && <Settings settingStateChangeHandler={settingStateChangeHandler} 
@@ -259,13 +265,6 @@ function App() {
                                         animations={animations}
                                         animationRemoveHandler={animationRemoveHandler}
                                         animationAddHandler={animationAddHandler}/> }
-
-        //{ (shareSessionState!=UIStateTypes.Closed) && <ShareSession shareSessionStateChangeHandler={shareSessionStateChangeHandler} 
-                                                 //shareSessionState={shareSessionState}
-                                                 //token= {token}
-                                                 //setToken = {setToken}
-                                                 //submissionHandler={submissionHandler}/> }
-
 
         { (shareSessionState>0) && <ShareSession shareSessionStateChangeHandler={shareSessionStateChangeHandler} 
                                                  shareSessionState={shareSessionState}
