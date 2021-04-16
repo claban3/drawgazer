@@ -1,16 +1,37 @@
 .options-container {
+    float: top;
+
     height: 25%;
     width: 15%;
     
     display: flex;
-    flex-wrap: wrap-reverse;
+    flex-wrap: wrap;
     flex-direction: row;
     align-content: flex-start;
 }
 
-.icon {
-    width: 31%;
+.wrapper {
+    width: 30%;
+    height: 30%;
     margin: 1px;
+}
+
+.help-wrapper {
+    height: 31%;
+    width: 100%
+}
+
+.help-icon {
+    width: 74%;
+    max-height: 100%;
+    margin-left: 10%;
+    margin-right: 10%;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.icon {
+    width: 80%;
     cursor: pointer;
 }
 

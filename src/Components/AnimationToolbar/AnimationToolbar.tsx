@@ -9,33 +9,41 @@ export default function AnimationToolbar(props)
     
      return (
           <div className="animation-toolbar-container">
-               <div className={`animation-selection ${highlight0}`}
-               onClick = { () => props.selectionHandler(props.animations[0]) }>
-                    {props.animations[0] !== SelectedAnimation.None &&
-                   
-                    <img className="animation-icon"
-                    src={animationProperties(props.animations[0])["image"]} 
-                    alt={props.animations[0]}/>
-                    }
-               </div>
+               <a className={`animation-selection ${highlight0}`}
+                  onClick = { () => props.selectionHandler(props.animations[0]) }>
 
-               <div className={`animation-selection ${highlight1}`}
-               onClick = { () => props.selectionHandler(props.animations[1]) }>
-                    {props.animations[1] !== SelectedAnimation.None &&
-                    <img className="animation-icon"
-                    src={animationProperties(props.animations[1])["image"]} 
-                    alt={props.animations[1]}/>
+                    {   
+                        props.animations[0] !== SelectedAnimation.None &&
+                        <img className="animation-icon"
+                        src={animationProperties(props.animations[0])["image"]} 
+                        alt={props.animations[0]}/>
                     }
-               </div>
 
-               <div className={`animation-selection ${highlight2}`}
-               onClick = { () => props.selectionHandler(props.animations[2]) }>
-                    {props.animations[2] !== SelectedAnimation.None &&
-                    <img className="animation-icon"
-                    src={animationProperties(props.animations[2])["image"]} 
-                    alt={props.animations[2]}/>
+               </a>
+
+               <a className={`animation-selection ${highlight1}`}
+                  onClick = { () => props.selectionHandler(props.animations[1]) }>
+
+                    {   
+                        props.animations[1] !== SelectedAnimation.None &&
+                        <img className="animation-icon"
+                        src={animationProperties(props.animations[1])["image"]} 
+                        alt={props.animations[1]}/>
                     }
-               </div>
+
+               </a>
+
+               <a className={`animation-selection ${highlight2}`}
+                  onClick = { () => props.selectionHandler(props.animations[2]) }>
+
+                    {   
+                        props.animations[2] !== SelectedAnimation.None &&
+                        <img className="animation-icon"
+                        src={animationProperties(props.animations[2])["image"]} 
+                        alt={props.animations[2]}/>
+                    }
+
+               </a>
           </div>
      );
 }

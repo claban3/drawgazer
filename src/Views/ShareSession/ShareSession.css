@@ -42,7 +42,7 @@
     animation: popOut .2s linear;
 }
 
-.shareSession-exit { 
+.shareSession-exit-wrapper { 
     position: absolute;
     height: 30px; 
     width: 30px;
@@ -50,7 +50,12 @@
     top: 4px;
     right: 4px;
     
+    cursor: pointer;
+}
 
+.shareSession-exit {
+    height: 100%;
+    width: 100%;
 }
 
 .friend-ID-input-container {
@@ -65,7 +70,6 @@
     letter-spacing: 0.1em;
     flex-wrap: wrap;
 }
-
 
 .friend-ID-input::placeholder {
     color: rgba(155, 155, 155, 0.5);
@@ -108,11 +112,16 @@
     border: none;
     flex-grow: 2;
     outline: none;
-    cursor: pointer;
+    cursor: text;
+}
+
+.friend-ID-icon-wrapper {
+    height: 80%;
 }
 
 .friend-ID-icon {
-    height: 80%;
+    height: 100%;
+
     margin-left: 4px;
     margin-right: 4px;
     cursor: pointer;

@@ -12,11 +12,11 @@
 }
 
 .settings-container.opening {
-    animation: slideUp .2s linear;
+    animation: slideUp 200ms ease-in;
 }
 
 .settings-container.closing{
-    animation: slideDown .2s linear;
+    animation: slideDown 200ms ease-out;
 }
 
 .settings-side-bar {
@@ -56,11 +56,18 @@
     display: flex;
 }
 
-.settings-exit {
+.settings-exit-wrapper {
     position: absolute;
     top: 6px;
     right: 16px;
 
     height: 30px;
     width: 30px;
+
+    cursor: pointer;
+}
+
+.settings-exit {
+    height: 100%;
+    width: 100%;
 }

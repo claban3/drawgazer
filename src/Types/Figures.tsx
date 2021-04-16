@@ -9,6 +9,7 @@ import bubbles from '../Images/bubbles.png';
 import scurry from '../Images/scurry.png';
 import draggedOut from '../Images/draggedout.png';
 import draggedPainting from '../Images/draggedPainting.png';
+import drumLoop from '../Images/Drumloop.png';
 import freeDraw from '../Images/free-draw.png';
 import fillScreenWithShapes from '../Images/fillScreenWithShapes.png'
 
@@ -24,8 +25,8 @@ export enum SelectedAnimation {
     WobblySwarm,
     DownwardGravity,
     DraggedOut,
+    DrumLoop,
     BubblePop,
-    RadialForce,
     DraggedPainting,
     FillScreenWithFigures,
     WallBounce,
@@ -54,17 +55,17 @@ export function animationProperties(anim: SelectedAnimation) {
                 "classname": "draggedOut",
                 "image": draggedOut,
             }
+        case SelectedAnimation.DrumLoop:
+            return {
+                "name": "Drum Loop",
+                "classname": "drumloop",
+                "image": drumLoop,
+            }
         case SelectedAnimation.BubblePop:
             return {
                 "name": "Bubble Pop",
                 "classname": "bubblePop",
                 "image": bubbles,
-            }
-        case SelectedAnimation.RadialForce:
-            return {
-                "name": "Radial Force",
-                "classname": "radialForce",
-                "image": radial,
             }
         case SelectedAnimation.DraggedPainting:
             return {
@@ -110,6 +111,7 @@ export type ColorSettings = {
     background: string
 };
 
+
   export type CanvasSettings = {
     selectedFigure: SelectedShape,
     selectedAnimation: SelectedAnimation, 
@@ -121,7 +123,14 @@ export type ColorSettings = {
     saveInParent: voidFunc,
     recordInParent: voidFunc,
     settingState: number,
-    shareSessionState: number,
+    shareSessionState: number
+};
+
+export type HawkeyeMouseEvent = {
+    mousePressed: Boolean,
+    mouseFocused: Boolean,
+    mouseX: number,
+    mouseY: number
 };
 
 export type SketchData = {
@@ -135,12 +144,13 @@ export type SketchData = {
     bufferHeight: number,
     canvasHeight: number,
     canvasWidth: number
+    // hawkeyeMouseEvent: HawkeyeMouseEvent
 };
 
 export type CustomFigureStyles = {
     stroke: boolean,
     opacity: number
-}
+};
 
 // Send on initial canvas sync, add shape event, change animation event
 export type SyncData = {

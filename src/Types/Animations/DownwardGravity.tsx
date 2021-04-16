@@ -1,6 +1,7 @@
 import { CustomFigureStyles, SketchData } from '../Figures';
 import p5 from 'p5';
-import { pushNewFigure } from './Animation';
+import { pushNewFigure, pushNewFigureWithVelocity } from './Animation';
+import { AnimatedFigure } from '../ProcessingFigures';
 
 export class DownwardGravity extends Animation {
   static draw(sketchData: SketchData, p: p5) {
@@ -10,13 +11,16 @@ export class DownwardGravity extends Animation {
     };
 
     let color = p.color(sketchData.colorSettings.background);
-    color.setAlpha(50);
+    color.setAlpha(70);
     p.background(color);
 
-    if (p.mouseX != p.pmouseX &&
-      p.mouseY != p.pmouseY &&
-      Math.round(Math.random() * 2) === 1) {
-      pushNewFigure(sketchData.selectedFigure, sketchData.figs, p);
+    if (p.mouseX != p.pmouseX && 
+        p.mouseY != p.pmouseY && 
+        Math.round(Math.random() * 3) === 1) {
+        let pmousePos = p.createVector(p.pmouseX, p.pmouseY);
+        let mousePos = p.createVector(p.mouseX, p.mouseY);
+        let newFigVel = mousePos.sub(pmousePos).normalize().mult(15);
+        pushNewFigureWithVelocity(sketchData.selectedFigure, sketchData.figs, newFigVel, p);
     }
 
     sketchData.figs.forEach(fig => {
@@ -52,5 +56,17 @@ export class DownwardGravity extends Animation {
 
   static mouseReleased(sketchData: SketchData, p) {
 
+  }
+
+  static hawkeyeMouseOver(sketchData: SketchData, hawkeyeMouseEvent, p) {
+    let mouseX = hawkeyeMouseEvent.mouseX;
+    let mouseY = hawkeyeMouseEvent.mouseY;
+    
+    if (AnimatedFigure.mouseOnCanvas(p, sketchData.canvasWidth, sketchData.canvasHeight)) {
+      if (Math.floor(Math.random() * 4) === 0) {
+        pushNewFigure(sketchData.selectedFigure, sketchData.figs, mouseX, mouseY, p);
+      }
+    }
+    return false;
   }
 }

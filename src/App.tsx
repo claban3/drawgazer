@@ -6,6 +6,7 @@ import ShareSessionRequest from './Components/ShareSessionRequest/ShareSessionRe
 import { useEffect, useState } from 'react';
 import { ColorSettings, SelectedAnimation, SyncData } from './Types/Figures';
 import { generateContrastColors } from '@adobe/leonardo-contrast-colors';
+import { UIStateTypes } from './Types/UIStateTypes';
 import useSound from 'use-sound';
 import chime from "./Sounds/chime.mp3";
 import socket from "./socket.js"
@@ -32,6 +33,9 @@ const defaultAnimations = [
 
 function App() {
     const [draw, setDraw] = useState(true);
+    //const [settingState, setSettingState] = useState(UIStateTypes.Closed);
+    //const [shareSessionState, setShareSessionState] = useState(UIStateTypes.Closed);
+    const [token, setToken] = useState('');
     const [settingState, setSettingState] = useState(0);
     const [shareSessionState, setShareSessionState] = useState(0);
     const [shareSessionRequestState, setShareSessionRequestState] = useState(0);
@@ -127,6 +131,11 @@ function App() {
             if(savedColors) {
                 setColors(savedColors);
             }
+
+            let savedAnimations = JSON.parse(localStorage.getItem("savedAnimations")); 
+            if(savedAnimations) {
+                setAnimations(savedAnimations);
+            }
         }
         setCSSProperties();
     }, [newSession]);
@@ -136,6 +145,10 @@ function App() {
         setResetColors( !(JSON.stringify(colors) === JSON.stringify(defaultColors)) );
         setCSSProperties();
     }, [colors]);
+
+    useEffect(() => {
+        localStorage.setItem("savedAnimations", JSON.stringify(animations));
+    }, [animations])
 
     function setCSSProperties() {
         document.documentElement.style.setProperty("--triangleColor", colors["--triangleColor"]);
@@ -177,6 +190,8 @@ function App() {
         }
     }
 
+    function submissionHandler() { }
+
     function animationAddHandler(anim: SelectedAnimation) {
         for (let i = 0; i < 3; i ++) {
             if (animations[i] === SelectedAnimation.None) {
@@ -204,10 +219,10 @@ function App() {
     }
 
     function settingStateChangeHandler() {
-        // 0: Closed
-        // 1: Opening
-        // 2: Open
-        // 3: Closing
+        // Closed = 0
+        // Opening = 1
+        // Open = 2
+        // Closing = 3
         setSettingState( (settingState + 1 ) % 4 );
     }
 
@@ -237,13 +252,20 @@ function App() {
 
     return (
         <>
-        { (settingState>0) && <Settings settingStateChangeHandler={settingStateChangeHandler} 
+        { (settingState!=UIStateTypes.Closed) && <Settings settingStateChangeHandler={settingStateChangeHandler} 
                                         settingState={settingState}
                                         colorChangeHandler={colorChangeHandler}
                                         resetColors={resetColors}
                                         animations={animations}
                                         animationRemoveHandler={animationRemoveHandler}
                                         animationAddHandler={animationAddHandler}/> }
+
+        //{ (shareSessionState!=UIStateTypes.Closed) && <ShareSession shareSessionStateChangeHandler={shareSessionStateChangeHandler} 
+                                                 //shareSessionState={shareSessionState}
+                                                 //token= {token}
+                                                 //setToken = {setToken}
+                                                 //submissionHandler={submissionHandler}/> }
+
 
         { (shareSessionState>0) && <ShareSession shareSessionStateChangeHandler={shareSessionStateChangeHandler} 
                                                  shareSessionState={shareSessionState}

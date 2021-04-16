@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { ChromePicker } from 'react-color';
 import ColorCustomization from "../../Components/ColorCustomization/ColorCustomization";
 import './Settings.css';
 import '../../App.css';
@@ -10,42 +9,40 @@ import AnimationCustomization from "../../Components/AnimationCustomization/Anim
 export default function Settings(props) {
     const settingStates = ["closed", "opening", "open", "closing"];
     const tabs = ["color-scheme", "animations", "sound"];
-    const buttons = ["--triangleColor", "--squareColor", "--circleColor", "--shapeButtonColor", "--animationButtonColor"]
-
     const [tabSelection, setTabSelection] = useState("color-scheme")
-    const [buttonSelection, setButtonSelection] = useState(null);
-    const [pickerColor, setPickerColor] = useState("#FFFFFF");
-
-    const [originalColors, setOriginalColors] = useState(props.colors);
 
     let colorSchemeUnderline = (tabSelection === tabs[0]) ? "tab-selection" : "";
     let animationsUnderline = (tabSelection === tabs[1]) ? "tab-selection" : "";
-    let soundUnderline = (tabSelection === tabs[2]) ? "tab-selection" : "";
 
     function tabSelectionHandler(newTabSelection) {
         setTabSelection(newTabSelection)
     }
 
+    function onAnimationEnd(event) {
+        if(event.target.className.includes("opening")) 
+            setTimeout(props.settingStateChangeHandler, 20);    
+        else 
+            props.settingStateChangeHandler();
+    }
+
     return (
         <div className={"settings-container " + (settingStates[props.settingState]) }
-             onAnimationEnd={() => props.settingStateChangeHandler()} >
+             onAnimationEnd={onAnimationEnd} >
 
             <div className="settings-side-bar">
-                <div className={"options " + colorSchemeUnderline} 
-                     id="color-scheme"
-                     onClick={() => tabSelectionHandler(tabs[0])}
-                     onTouchEnd={() => tabSelectionHandler(tabs[0])}>
+                <a  className={"options " + colorSchemeUnderline} 
+                    id="color-scheme"
+                    onClick={() => tabSelectionHandler(tabs[0])}>
 
                     Color Scheme
-                </div>
+                </a>
 
-                <div className={"options " + animationsUnderline} 
-                     id="animations"
-                     onClick={() => tabSelectionHandler(tabs[1])}
-                     onTouchEnd={() => tabSelectionHandler(tabs[1])}>
+                <a  className={"options " + animationsUnderline} 
+                    id="animations"
+                    onClick={() => tabSelectionHandler(tabs[1])}>
 
                     Animations
-                </div>
+                </a>
             </div>
 
             { tabSelection === tabs[0] && 
@@ -54,14 +51,17 @@ export default function Settings(props) {
             }
 
             { tabSelection === tabs[1] &&
-                <AnimationCustomization animations={props.animations} animationRemoveHandler={props.animationRemoveHandler} animationAddHandler={props.animationAddHandler}/>
+                <AnimationCustomization animations={props.animations} 
+                                        animationRemoveHandler={props.animationRemoveHandler} 
+                                        animationAddHandler={props.animationAddHandler}/>
             }
 
-            <img className="settings-exit"
-                 src={exit}
-                 alt="exit settings"
-                 onClick={() => props.settingStateChangeHandler()}
-                 onTouchEnd={() => props.settingStateChangeHandler()}/>
+            <a className="settings-exit-wrapper" 
+               onClick={() => props.settingStateChangeHandler()}>
+                <img className="settings-exit"
+                    src={exit}
+                    alt="exit settings"/>
+            </a>
         </div>
     );  
 }

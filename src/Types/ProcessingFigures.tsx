@@ -4,13 +4,16 @@ import P5 from 'p5';
 //import '*.mp3';
 import bounceSFX from '../Sounds/bounce.mp3';
 import popSFX from '../Sounds/pop.mp3';
-import thudSFX from '../Sounds/thud.mp3';
+import thudSFX from '../Sounds/thud.mp3'; 
+import kickSFX from '../Sounds/Drumset/Kick.wav';
+import snareSFX from '../Sounds/Drumset/Snare.wav';
+import highhatSFX from '../Sounds/Drumset/Highhat.wav';
 import scurrySFX from '../Sounds/scurry.mp3';
 import * as Collides from 'p5collide';
-import { CustomFigureStyles } from './Figures';
+import { CustomFigureStyles, SketchData } from './Figures';
 import './Animations/ColorSampling';
 
-const MAX_SPEED = 15;
+const MAX_SPEED = 40;
 const WALL_PADDING = 5;
 export class AnimatedFigure {
   p5: P5
@@ -27,10 +30,12 @@ export class AnimatedFigure {
   bounce: HTMLAudioElement = new Audio(bounceSFX)
   pop: HTMLAudioElement = new Audio(popSFX)
   thud: HTMLAudioElement = new Audio(thudSFX)
+  drumBeat: HTMLAudioElement
   scurry: HTMLAudioElement = new Audio(scurrySFX)
   rotAngle: number
   color: string
   opacity: number
+  startPos: P5.Vector
   // Return -1 or 1 randomly
   randSign() {
     return Math.random() < 0.5 ? -1 : 1;
@@ -50,6 +55,7 @@ export class AnimatedFigure {
       this.rotAngle = 0.0;
       this.color = c;
       this.opacity = 200;
+      this.startPos = this.pos.copy();
   }
 
   static collidesWith(fig1: AnimatedFigure, fig2: AnimatedFigure) {
@@ -60,6 +66,10 @@ export class AnimatedFigure {
 
   getShapeDescriptor() {
     return {};
+  }
+  
+  collideWithLine(x1, y1, x2, y2) {
+    return false;
   }
 
   collideWithMouse() {
@@ -100,6 +110,7 @@ export class CircleFigure extends AnimatedFigure {
   constructor(x, y, d, c, p5: P5) {
     super(x, y, c, p5);
     this.dim = d;
+    this.drumBeat = new Audio(kickSFX);
   }
 
   toJSON() {
@@ -117,6 +128,10 @@ export class CircleFigure extends AnimatedFigure {
       type: "CIRCLE",
       data: [this.pos.x, this.pos.y, this.dim],
     };
+  }
+
+  collideWithLine(x1, y1, x2, y2) {
+    return Collides.collideLineCircle(x1, y1, x2, y2, this.pos.x, this.pos.y, this.dim);
   }
   
   collideWithMouse() {
@@ -174,8 +189,9 @@ export class CircleFigure extends AnimatedFigure {
 export class SquareFigure extends AnimatedFigure {
   dim: number
   constructor(x, y, d, c, p5) {
-    super(x, y, c, p5);
+    super(x - d / 2, y - d / 2, c, p5);
     this.dim = d;
+    this.drumBeat = new Audio(snareSFX);
   }
 
   toJSON() {
@@ -199,6 +215,10 @@ export class SquareFigure extends AnimatedFigure {
     return Collides.collidePointRect(this.p5.mouseX, this.p5.mouseY, this.pos.x, this.pos.y, this.dim, this.dim);
   }
   
+  collideWithLine(x1, y1, x2, y2) {
+    return Collides.collideLineRect(x1, y1, x2, y2, this.pos.x, this.pos.y, this.dim, this.dim);
+  }
+
   collideCanvasBottom(canvasWidth, canvasHeight) {
     return Collides.collideLineRect(0, canvasHeight - WALL_PADDING, canvasWidth, canvasHeight - WALL_PADDING, this.pos.x, this.pos.y, this.dim, this.dim);
   }
@@ -253,6 +273,7 @@ export class TriangleFigure extends AnimatedFigure {
   constructor(x, y, d, c, p5) {
     super(x, y, c, p5);
     this.dim = d;
+    this.drumBeat = new Audio(highhatSFX);
   }
 
   toJSON() {
@@ -293,6 +314,10 @@ export class TriangleFigure extends AnimatedFigure {
     return [this.p5.createVector(x1,y1), this.p5.createVector(x2,y2), this.p5.createVector(x3,y3)];
   }
 
+  collideWithLine(x1, y1, x2, y2) {
+    return Collides.collideLinePoly(x1, y1, x2, y2, this.corners());
+  }
+  
   collideWithMouse() {
     return Collides.collidePointPoly(this.p5.mouseX, this.p5.mouseY, this.corners());
   }
@@ -315,9 +340,9 @@ export class TriangleFigure extends AnimatedFigure {
 
   display() {
     this.p5.push();
-    if (this.velocity.mag() > MAX_SPEED) {
-      this.velocity.normalize().mult(MAX_SPEED);
-    }
+    // if (this.velocity.mag() > MAX_SPEED) {
+    //   this.velocity.normalize().mult(MAX_SPEED);
+    // }
     
     this.p5.stroke(255);
     

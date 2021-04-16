@@ -9,7 +9,15 @@ export default function ShareSession(props) {
     const shareSessionStates = ["closed", "opening", "open", "closing"];
     const [text, setText] = useState(props.token);
 
-    function submitHandler() {
+    function submitHandler(event) {
+        event.preventDefault();
+        if(text.length === 8) {
+            alert("Submitted: " + text);
+            // props.submissionHandler(input);
+        }
+        else {
+            alert("Please enter an 8 character friend ID");
+        }
         console.log("submission handler text: " + text);
         props.submissionHandler(text);
     }
@@ -21,16 +29,19 @@ export default function ShareSession(props) {
     return (
         <div className="shareSession-outer-container"
              onAnimationEnd={() => props.shareSessionStateChangeHandler()}
-             /*onClick={() => props.shareSessionStateChangeHandler()}*/
-             /*onTouchEnd={() => props.shareSessionStateChangeHandler()}*/>
-                
-            <div className={"shareSession-container " + (shareSessionStates[props.shareSessionState])}>
 
-                <img className="shareSession-exit"
-                     src={exit}
-                     alt="Exit Share Session"
-                     onClick={() => props.shareSessionStateChangeHandler()}
-                     onTouchEnd={() => props.shareSessionStateChangeHandler()}/>
+             onClick={() => props.shareSessionStateChangeHandler()}>
+                
+            <div className={"shareSession-container " + (shareSessionStates[props.shareSessionState])}
+                 onClick={(event) => {event.stopPropagation();}}>
+
+                <a className="shareSession-exit-wrapper" 
+                   onClick={() => props.shareSessionStateChangeHandler()}>
+                    <img className="shareSession-exit"
+                        src={exit}
+                        alt="Exit Share Session"
+                        />
+                </a>
 
                 <div className="friend-ID-input-container">
 
@@ -38,29 +49,34 @@ export default function ShareSession(props) {
                         <b>Enter Friend ID to share canvas:</b>
                     </div>
 
-                    <div className="friend-ID-input-box">
+                    <form className="friend-ID-input-box" onSubmit={submitHandler}>
 
-                        <input  className="friend-ID-input" 
-                                type="text" 
-                                id="friend-ID-input"
-                                name="friend-ID-input" 
-                                placeholder="Friend ID" 
-                                onSubmit={submitHandler}
-                                onChange={onChangeHandler}>
-                        </input>
+                        {/* TODO: Unsure if input tags are selectable in hawkeye */}
+                        <input
+                            className="friend-ID-input"
+                            type="text"
+                            placeholder="Friend ID"
+                            value={text}
+                            spellCheck="false"
+                            onChange={onChangeHandler}
+                        />
 
-                        <img className="friend-ID-icon"
-                             src={share_session} 
-                             alt="Share Session"
-                             onClick={submitHandler}/>
-                    </div>
+                        <a className="friend-ID-icon-wrapper" onClick={submitHandler}>
+                            <img className="friend-ID-icon"
+                                 src={share_session}
+                                 alt="Share Session"/>
+                        </a>
+
+                    </form>
 
                 </div>
 
                 <p className="friend-ID-local" 
                    id="friend-ID-local">
                         <b>Your Friend ID: 
+
                         <span className="spn"> {props.uniqueId} </span>
+                          
                         </b>
                 </p>
                 
