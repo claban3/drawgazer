@@ -1,3 +1,8 @@
+import "/__/firebase/8.4.1/firebase-app.js";
+import "/__/firebase/8.4.1/firebase-analytics.js";
+import "/__/firebase/init.js";
+
+
 const express = require("express");
 const http = require("http");
 var cors = require('cors')
@@ -15,6 +20,13 @@ const {
 } = require('uuid');
 
 const clients = {};
+
+
+
+{/* <script src="/__/firebase/8.4.1/firebase-app.js"></script>
+<script src="/__/firebase/8.4.1/firebase-analytics.js"></script>
+<script src="/__/firebase/init.js"></script>  */}
+
 
 function initiateShareCanvas(requestData, responseCallback) {
     var srcId = requestData.srcId;
@@ -88,3 +100,4 @@ io.on("connection", (socket) => {
 
 
 server.listen(port, () => console.log("Listening on port: " + port));
+
