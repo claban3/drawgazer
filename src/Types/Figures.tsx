@@ -150,4 +150,13 @@ export type SketchData = {
 export type CustomFigureStyles = {
     stroke: boolean,
     opacity: number
-}
+};
+
+// Send on initial canvas sync, add shape event, change animation event
+export type SyncData = {
+    mouseCell: number,
+    figsJSON: string,
+    selectedAnimation: SelectedAnimation,
+    srcId: string,
+    destId: string
+};

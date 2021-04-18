@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import './ShareSession.css';
 import '../../App.css';
 
@@ -18,6 +18,8 @@ export default function ShareSession(props) {
         else {
             alert("Please enter an 8 character friend ID");
         }
+        console.log("submission handler text: " + text);
+        props.submissionHandler(text);
     }
     
     function onChangeHandler(event) {
@@ -27,6 +29,7 @@ export default function ShareSession(props) {
     return (
         <div className="shareSession-outer-container"
              onAnimationEnd={() => props.shareSessionStateChangeHandler()}
+
              onClick={() => props.shareSessionStateChangeHandler()}>
                 
             <div className={"shareSession-container " + (shareSessionStates[props.shareSessionState])}
@@ -71,7 +74,9 @@ export default function ShareSession(props) {
                 <p className="friend-ID-local" 
                    id="friend-ID-local">
                         <b>Your Friend ID: 
-                        <span className="spn"> {"444444"} </span>
+
+                        <span className="spn"> {props.uniqueId} </span>
+                          
                         </b>
                 </p>
                 
