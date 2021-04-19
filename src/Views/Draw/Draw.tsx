@@ -6,7 +6,7 @@ import AnimationToolbar from '../../Components/AnimationToolbar/AnimationToolbar
 import Options from '../../Components/Options/Options';
 import { CanvasSettings, SelectedAnimation, SelectedShape } from "../../Types/Figures";
 import { RecordingStates, nextRecordingState } from '../../Types/UITypes';
-import { SyncInfo } from "../../Types/SyncEvents";
+import { SyncEvent, SyncEvents, SyncInfo } from "../../Types/SyncEvents";
 
 
 function getWindowDimensions() {
@@ -40,6 +40,17 @@ export default function Draw(props){
             }
     }, [props.animations]);
 
+    useEffect(() => {
+        if(clearCanvas && syncInfo.synced) {
+            let clearFiguresEvent : SyncEvent = {
+                srcId: syncInfo.uniqueId,
+                destId: syncInfo.syncedWith,
+                eventType: SyncEvents.SetFigures,
+                figs: []
+            }
+            syncInfo.sendSyncEvent(clearFiguresEvent);
+        }
+    }, [clearCanvas])
 
     function shapeSelectionHandler(selection : SelectedShape) {
         if (shapeSelection === selection) setShapeSelection(SelectedShape.None);
