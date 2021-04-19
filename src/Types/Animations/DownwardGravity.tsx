@@ -6,8 +6,8 @@ import { AnimatedFigure } from '../ProcessingFigures';
 export class DownwardGravity extends Animation {
   static draw(sketchData: SketchData, p: p5) {
     let customStyles: CustomFigureStyles = {
-      opacity: 200,
-      stroke: false
+      opacity: 220,
+      stroke: true
     };
 
     let color = p.color(sketchData.colorSettings.background);

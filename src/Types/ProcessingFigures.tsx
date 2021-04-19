@@ -13,7 +13,7 @@ import * as Collides from 'p5collide';
 import { CustomFigureStyles, SketchData } from './Figures';
 import './Animations/ColorSampling';
 
-const MAX_SPEED = 40;
+const MAX_SPEED = 10;
 const WALL_PADDING = 5;
 export class AnimatedFigure {
   p5: P5
