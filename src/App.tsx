@@ -23,7 +23,7 @@ const defaultColors = {
 }
 
 var acceptOrDecline = 0; // 0 is none, 1 is accept, 2 is decline
-const defaultAnimations = [
+const defaultAnimations : SelectedAnimation[] = [
     SelectedAnimation.DownwardGravity,
     SelectedAnimation.WobblySwarm,
     SelectedAnimation.BubblePop,
@@ -44,7 +44,6 @@ function App() {
     const [animations, setAnimations] = useState(defaultAnimations);
     
     const [uniqueId, setUniqueId] = useState(null);
-    const [syncStatus, setSyncStatus] = useState(0);
     const [syncEvents, setSyncEvents] = useState([]);
     const [syncedWith, setSyncedWith] = useState(null);
 
@@ -76,7 +75,6 @@ function App() {
         
         await waitSessionResponse();
         responseCallback(acceptOrDecline);
-        setSyncStatus(acceptOrDecline);
         if(acceptOrDecline === 1) setSyncedWith(data.srcId);
         acceptOrDecline = 0; // 0 is reset to unselected
     }
@@ -211,25 +209,61 @@ function App() {
     }
 
     function animationSelectionHandler(selection : SelectedAnimation, override?: boolean) {
-        if (animationSelection === selection) setAnimationSelection(SelectedAnimation.None);
+        if (animationSelection === selection) { 
+            setAnimationSelection(SelectedAnimation.None);
+            selection = SelectedAnimation.None
+        }
         else if (selection !== SelectedAnimation.None || override) setAnimationSelection(selection);
+
+        if(syncedWith !== null) {
+            let setAnimationsSyncEvent : SyncEvent = {
+                srcId: uniqueId,
+                destId: syncedWith,
+                eventType: SyncEvents.SetAnimations,
+                animations: animations,
+                selectedAnimation: selection,
+            }
+            sendSyncEvent(setAnimationsSyncEvent);
+        }
     }
 
     function animationAddHandler(anim: SelectedAnimation) {
         for (let i = 0; i < 3; i ++) {
             if (animations[i] === SelectedAnimation.None) {
-                setAnimations(prevState=> (
-                    {...prevState, [i]: anim}
-                ));
+                let temp : SelectedAnimation[] = [...animations]
+                temp[i] = anim;
+                setAnimations(temp);
+
+                if(syncedWith !== null) {
+                    let setAnimationsSyncEvent : SyncEvent = {
+                        srcId: uniqueId,
+                        destId: syncedWith,
+                        eventType: SyncEvents.SetAnimations,
+                        animations: temp,
+                        selectedAnimation: animationSelection,
+                    }
+                    sendSyncEvent(setAnimationsSyncEvent);
+                }
                 return; // Only set first unused animation slot
             }
         }
     }
 
     function animationRemoveHandler(idx: number) {
-        setAnimations(prevState=> (
-            {...prevState, [idx]: SelectedAnimation.None}
-        ));
+        let temp : SelectedAnimation[] = [...animations];
+        temp[idx] = SelectedAnimation.None;
+        setAnimations(temp);
+
+        if(syncedWith !== null) {
+            let setAnimationsSyncEvent : SyncEvent = {
+                srcId: uniqueId,
+                destId: syncedWith,
+                eventType: SyncEvents.SetAnimations,
+                animations: temp,
+                selectedAnimation: animationSelection,
+            }
+            sendSyncEvent(setAnimationsSyncEvent);
+        }
     }
 
     function settingStateChangeHandler() {
