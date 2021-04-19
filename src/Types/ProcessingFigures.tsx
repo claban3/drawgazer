@@ -209,7 +209,7 @@ export class CircleFigure extends AnimatedFigure {
 export class SquareFigure extends AnimatedFigure {
   dim: number
   constructor(x, y, d, c, p5) {
-    super(x - d / 2, y - d / 2, c, p5);
+    super(x, y, c, p5);
     this.dim = d;
     this.drumBeat = new Audio(snareSFX);
   }
@@ -267,6 +267,7 @@ export class SquareFigure extends AnimatedFigure {
     color.setAlpha((this.opacity));
 
     this.p5.fill(color);
+    this.p5.rectMode(this.p5.CENTER);
     this.p5.square(this.pos.x, this.pos.y, this.dim);
     this.p5.pop();
   }

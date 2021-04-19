@@ -77,6 +77,7 @@ function App() {
         await waitSessionResponse();
         responseCallback(acceptOrDecline);
         setSyncStatus(acceptOrDecline);
+        if(acceptOrDecline === 1) setSyncedWith(data.srcId);
         acceptOrDecline = 0; // 0 is reset to unselected
     }
 
@@ -137,6 +138,10 @@ function App() {
                 alert("Request timed out");
             }
         });
+    }
+
+    function sendSyncEvent(syncEvent : SyncEvent) {
+        socket.emit("syncEvent", syncEvent);
     }
 
     useEffect(() => {
@@ -291,9 +296,11 @@ function App() {
                         animationSelection={animationSelection}
                         animationSelectionHandler={animationSelectionHandler}
 
+                        uniqueId={uniqueId}
                         syncedWith={syncedWith}
                         syncEvents={syncEvents}
-                        popSyncEvent={popSyncEvent}/> }
+                        popSyncEvent={popSyncEvent}
+                        sendSyncEvent={sendSyncEvent}/> }
         </>
     );
 }

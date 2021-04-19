@@ -11,16 +11,17 @@ export interface SyncEvent  {
     srcId: string;
     destId: string;
     eventType: SyncEvents; 
-    figs?: string[],
+    figs?: string[];
     animations?: SelectedAnimation[];
     selectedAnimation?: SelectedAnimation;
 
 }
 
 export interface SyncInfo {
-    synced: boolean,
-    uniqueId: string,
-    syncedWith: string,
-    syncEvents: SyncEvent[],
+    synced: boolean;
+    uniqueId: string;
+    syncedWith: string;
+    syncEvents: SyncEvent[];
     popSyncEvent: () => void;
+    sendSyncEvent: (syncEvent : SyncEvent) => void;
 }

@@ -83,6 +83,7 @@ export default function Draw(props){
         syncedWith: props.syncedWith,
         syncEvents: props.syncEvents,
         popSyncEvent: props.popSyncEvent,
+        sendSyncEvent: props.sendSyncEvent,
     };
     
     // TODO: pull this out to the parent: App.tsx

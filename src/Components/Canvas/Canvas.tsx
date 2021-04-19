@@ -9,7 +9,7 @@ import * as fileSaver from 'file-saver';
 import { Animation, newFigure } from '../../Types/Animations/Animation';
 import { SelectedShape, SelectedAnimation, SketchData, ColorSettings, HawkeyeMouseEvent } from '../../Types/Figures';
 import { useState } from 'react';
-import { SyncEvents } from "../../Types/SyncEvents";
+import { SyncEvent, SyncEvents } from "../../Types/SyncEvents";
 
 let defaultColorSettings: ColorSettings = {
     background: '#FFFFFF',
@@ -87,13 +87,10 @@ function sketch(p) {
     let setClearCanvasInParent = () => { };
     let setSaveCanvasInParent = () => { };
     let setRecordCanvasInParent = (reset) => { };
-    let syncCanvasHandler = () => { };
-    let updateFigs = () => { };
 
     let renderer;
     let settingState;
     let shareSessionState;
-    let start = false;
 
     function setupGif(setRecordCanvasInParent) {
         gif = new GIF({
@@ -135,7 +132,7 @@ function sketch(p) {
 
     function syncEventHandler(syncEvent) {
         switch (syncEvent.eventType) {
-            case(SyncEvents.SetFigures):
+            case (SyncEvents.SetFigures):
                 sketchData.figs = [];
                 for(let i = 0; i < syncEvent.figs.length; ++i) {
                     let fig = JSONToFigure(syncEvent.figs[i]);
@@ -143,9 +140,12 @@ function sketch(p) {
                 }
                 break;
 
-            case(SyncEvents.AddFigure):
+            case (SyncEvents.AddFigure):
+                for(let i = 0; i < syncEvent.figs.length; ++i) {
+                    let fig = JSONToFigure(syncEvent.figs[i]);
+                    if(fig) sketchData.figs.push(fig);
+                }
                 break;
-
             default: 
                 console.log("Receieved invalid sync event");
                 break;
@@ -213,7 +213,24 @@ function sketch(p) {
         if (props.canvasSettings.hawkeyeMouseEvent.mousePressed) {
             if (settingState === 0) {
                 let mouseEvent = props.canvasSettings.hawkeyeMouseEvent;
+
+                let start = sketchData.figs.length;
                 Animation.hawkeyeMousePressed(sketchData, p, mouseEvent, renderer);
+                let end = sketchData.figs.length;
+
+                if(props.syncInfo.synced) {
+                    let newFigs = []
+                    for(start; start < end; ++start) {
+                        newFigs.push(sketchData.figs[start])
+                    }
+                    let addFigureSyncEvent : SyncEvent = {
+                        srcId: props.syncInfo.uniqueId,
+                        destId: props.syncInfo.syncedWith,
+                        eventType: SyncEvents.AddFigure,
+                        figs: newFigs,
+                    }
+                    props.syncInfo.sendSyncEvent(addFigureSyncEvent);
+                }
             }
         } else if (props.canvasSettings.hawkeyeMouseEvent.mouseFocused) {
             let mouseEvent = props.canvasSettings.hawkeyeMouseEvent;
