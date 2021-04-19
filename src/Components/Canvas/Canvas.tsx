@@ -1,16 +1,15 @@
 import "./Canvas.css";
+import 'react-p5-wrapper';
 import 'p5';
 import '../../Types/Figures';
-import './Canvas.css';
-import 'p5';
-import 'react-p5-wrapper';
-import * as fileSaver from 'file-saver';
-import { Animation, newFigure } from '../../Types/Animations/Animation';
-import { SelectedShape, SelectedAnimation, SketchData, ColorSettings, HawkeyeMouseEvent } from '../../Types/Figures';
 import GIF from 'gif.js.optimized';
 import P5Wrapper from 'react-p5-wrapper';
 import workerStr from './gifWorker';
+import * as fileSaver from 'file-saver';
+import { Animation, newFigure } from '../../Types/Animations/Animation';
+import { SelectedShape, SelectedAnimation, SketchData, ColorSettings, HawkeyeMouseEvent } from '../../Types/Figures';
 import { useState } from 'react';
+import { SyncEvents } from "../../Types/SyncEvents";
 
 let defaultColorSettings: ColorSettings = {
     background: '#FFFFFF',
@@ -31,93 +30,45 @@ function sketch(p) {
         bufferHeight: 40,
         canvasHeight: window.innerHeight * 0.75 - 40 /* bufferWidth */,
         canvasWidth: window.innerWidth * 0.85 - 40 /* bufferHeight */,
-        // hawkeyeMouseEvent: {
-        //     mousePressed: false,
-        //     mouseX: 0,
-        //     mouseY: 0
-        // }
     };
+
+    function JSONToFigure(fig) {
+        switch (fig.type) {
+            case "circle":
+                return newFigure(SelectedShape.Circle, fig.x, fig.y, p, fig.d, fig.color);
+            case "square":
+                return newFigure(SelectedShape.Rectangle, fig.x, fig.y, p, fig.d, fig.color);
+            case "triangle":
+                return newFigure(SelectedShape.Triangle, fig.x, fig.y, p, fig.d, fig.color);
+            default:
+                console.log("Bad JSON");
+                return null;
+        }
+    }
 
     function loadSavedFigures() {
         let savedFigs = JSON.parse(localStorage.getItem("savedFigs"));
         if (savedFigs) {
             for (let i = 0; i < savedFigs.length; i++) {
-                let fig = savedFigs[i];
-
-                // update colors in animation function
-                Animation.propsHandler(sketchData, p);
-
-                if (!fig) {
+                let JSONfig = savedFigs[i];
+                
+                if (!JSONfig) {
                     console.log("Canvas received bad JSON from local storage");
                     return;
                 }
 
-                switch (fig.type) {
-                    case "circle":
-                        sketchData.figs.push(newFigure(SelectedShape.Circle, fig.x, fig.y, p, fig.d, fig.color));
-                        break;
-                    case "square":
-                        sketchData.figs.push(newFigure(SelectedShape.Rectangle, fig.x, fig.y, p, fig.d, fig.color));
-                        break;
-                    case "triangle":
-                        sketchData.figs.push(newFigure(SelectedShape.Triangle, fig.x, fig.y, p, fig.d, fig.color));
-                        break;
-                    default:
-                        console.log("Canvas received bad JSON from local storage")
-                }
+                // update colors in animation function
+                Animation.propsHandler(sketchData, p);
+
+                let fig = JSONToFigure(JSONfig);
+                if(fig) sketchData.figs.push(fig);
             }
         }
-
         return savedFigs;
     }
 
-    function loadFigsFromProps(figsJSON) {
-
-        if (figsJSON === "[]") {
-            console.log("EMPTY");
-        }
-
-        else if (String(figsJSON) != "[]") {
-            console.log("NON_EMPTY");
-
-            let propsFigs = JSON.parse(figsJSON);
-            console.log(propsFigs);
-        
-            if (propsFigs) {
-                for (let i = 0; i < propsFigs.length; i++) {
-                    let fig = propsFigs[i];
-
-                    // update colors in animation function
-                    Animation.propsHandler(sketchData, p);
-
-                    if (!fig) {
-                        console.log("Canvas received bad JSON from props data");
-                        return;
-                    }
-
-                    switch (fig.type) {
-                        case "circle":
-                            sketchData.figs.push(newFigure(SelectedShape.Circle, fig.x, fig.y, p, fig.color));
-                            break;
-                        case "square":
-                            sketchData.figs.push(newFigure(SelectedShape.Rectangle, fig.x, fig.y, p, fig.color));
-                            break;
-                        case "triangle":
-                            sketchData.figs.push(newFigure(SelectedShape.Triangle, fig.x, fig.y, p, fig.color));
-                            break;
-                        default:
-                            console.log("Canvas received bad JSON from local storage")
-                    }
-                }
-            }
-
-            return propsFigs;
-        }
-        
-        return;
-    }
-
     loadSavedFigures();
+    
 
     let workerBlob = new Blob([workerStr], {
         type: 'application/javascript'
@@ -182,6 +133,25 @@ function sketch(p) {
         }
     }
 
+    function syncEventHandler(syncEvent) {
+        switch (syncEvent.eventType) {
+            case(SyncEvents.SetFigures):
+                sketchData.figs = [];
+                for(let i = 0; i < syncEvent.figs.length; ++i) {
+                    let fig = JSONToFigure(syncEvent.figs[i]);
+                    if(fig) sketchData.figs.push(fig);
+                }
+                break;
+
+            case(SyncEvents.AddFigure):
+                break;
+
+            default: 
+                console.log("Receieved invalid sync event");
+                break;
+        }
+    }
+
     p.setup = function () {
         renderer = p.createCanvas(sketchData.canvasWidth, sketchData.canvasHeight);
         renderer.parent("canvas");
@@ -200,6 +170,11 @@ function sketch(p) {
     }
 
     p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
+        if(props.syncInfo.synced && props.syncInfo.syncEvents.length > 0) {
+            syncEventHandler(props.syncInfo.syncEvents[0]);
+            props.syncInfo.popSyncEvent();
+        }
+
         sketchData.selectedFigure = props.canvasSettings.selectedFigure;    
         sketchData.selectedAnimation = props.canvasSettings.selectedAnimation;
 
@@ -208,13 +183,6 @@ function sketch(p) {
             sketchData.colorSettings = props.canvasSettings.colorSettings;
             Animation.propsHandler(sketchData, p);
         }
-
-
-        //loadFigsFromProps(props.figs)
-        //props.updateFigs(JSON.stringify(sketchData.figs))
-
-        syncCanvasHandler = props.syncCanvasHandler;
-        updateFigs = props.updateFigs;
 
         reset = props.canvasSettings.reset;
         save = props.canvasSettings.save;
@@ -227,7 +195,6 @@ function sketch(p) {
         shareSessionState = props.canvasSettings.shareSessionState;
         settingState = props.canvasSettings.settingState;
 
-        // Animation.redrawTransition(sketchData, p);
 
         if (record != props.canvasSettings.record) {
             // this case means that the recording was turned off
@@ -289,19 +256,15 @@ function sketch(p) {
 
                 if (fig.pos.x < 0) {
                     fig.pos.x = 20;
-                    //fig.velocity.x *= -1;
                 }
                 if (fig.pos.x > width) {
                     fig.pos.x = width - 20;
-                    //fig.velocity.x *= -1;
                 }
                 if (fig.pos.y < 0) {
                     fig.pos.y = 20;
-                    // fig.velocity.y *= -1;
                 }
                 if (fig.pos.y > height) {
                     fig.pos.y = height - 20;
-                    //fig.velocity.y *= -1;
                 }
             });
 
@@ -334,11 +297,6 @@ export default function Canvas(props) {
             mouseY: ypos
         };
 
-        // hawkeyeMouseEvent.mousePressed = true;
-        // hawkeyeMouseEvent.mouseFocused = false;
-        // hawkeyeMouseEvent.mouseX = xpos;
-        // hawkeyeMouseEvent.mouseY = ypos;
-
         setHawkeyeMouseEvent(mouseEvent);
     }
 
@@ -353,10 +311,6 @@ export default function Canvas(props) {
             mouseX: xpos,
             mouseY: ypos
         };
-        // hawkeyeMouseEvent.mousePressed = false;
-        // hawkeyeMouseEvent.mouseFocused = true;
-        // hawkeyeMouseEvent.mouseX = xpos;
-        // hawkeyeMouseEvent.mouseY = ypos;
 
         setHawkeyeMouseEvent(mouseEvent);
     }
@@ -385,11 +339,11 @@ export default function Canvas(props) {
                 className="p5Wrapper"
                 sketch={sketch}
                 canvasSettings={props.canvasSettings} 
-                updateFigs={props.updateFigs}
-                figs={props.figs}
-                canvasSyncHandler={props.canvasSyncHandler}/>
-            { props.canvasSettings.settingState === 0 && 
-              props.canvasSettings.shareSessionState === 0 && 
+                syncInfo={props.syncInfo}/>
+
+            { 
+                props.canvasSettings.settingState === 0 && 
+                props.canvasSettings.shareSessionState === 0 && 
                 <div className="hawkeyeGrid">
                     { grid }
                 </div>

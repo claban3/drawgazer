@@ -4,13 +4,11 @@ import Settings from './Views/Settings/Settings';
 import ShareSession from './Views/ShareSession/ShareSession';
 import ShareSessionRequest from './Components/ShareSessionRequest/ShareSessionRequest';
 import { useEffect, useState } from 'react';
-import { ColorSettings, SelectedAnimation, SyncData } from './Types/Figures';
-import { generateContrastColors } from '@adobe/leonardo-contrast-colors';
+import { ColorSettings, SelectedAnimation } from './Types/Figures';
+import { SyncEvent, SyncEvents } from './Types/SyncEvents';
 import { UIStateTypes } from './Types/UIStateTypes';
-import useSound from 'use-sound';
-import chime from "./Sounds/chime.mp3";
+import { generateContrastColors } from '@adobe/leonardo-contrast-colors';
 import socket from "./socket.js"
-import { FirstPageSharp } from '@material-ui/icons';
 
 const defaultColors = {
     "--triangleColor": "#00429D",
@@ -33,27 +31,23 @@ const defaultAnimations = [
 
 function App() {
     const [draw, setDraw] = useState(true);
-    //const [settingState, setSettingState] = useState(UIStateTypes.Closed);
-    //const [shareSessionState, setShareSessionState] = useState(UIStateTypes.Closed);
-    const [token, setToken] = useState('');
+
     const [settingState, setSettingState] = useState(0);
     const [shareSessionState, setShareSessionState] = useState(0);
     const [shareSessionRequestState, setShareSessionRequestState] = useState(0);
-    const [playChime] = useSound(chime);
-
+    
     const [newSession, setNewSession] = useState(true);
     const [colors, setColors] = useState(defaultColors); 
     const [resetColors, setResetColors] = useState(false);
-    const [uniqueId, setUniqueId] = useState(null);
-    const [figs, setFigs] = useState("[]");
-    const [mouseCell, setMouseCell] = useState(0);
-    const [animationSelection, setAnimationSelection] = useState(SelectedAnimation.None);
-    const [syncStatus, setSyncStatus] = useState(0);
-    const [syncedWith, setSyncedWith] = useState(null);
-    //const [figs, setFigs] = useState(0);
 
-    // const [shareSessionResponseValue, setShareSessionResponseValue] = useState(0);
-    // 0 = none, 1 = accept, 2 = decline
+    const [animationSelection, setAnimationSelection] = useState(SelectedAnimation.None);
+    const [animations, setAnimations] = useState(defaultAnimations);
+    
+    const [uniqueId, setUniqueId] = useState(null);
+    const [syncStatus, setSyncStatus] = useState(0);
+    const [syncEvents, setSyncEvents] = useState([]);
+    const [syncedWith, setSyncedWith] = useState(null);
+
     const timeout = async ms => new Promise(res => setTimeout(res, ms));
     
     async function shareSessionCallback(response) {
@@ -70,7 +64,7 @@ function App() {
         socket.on("connect", () => {console.log("Connected with sever");});
         socket.on("uuid", (uuid) => {setUniqueId(uuid); console.log("new uuid: " + uuid);});
         socket.on("shareCanvasRequest", (data, callback) => shareCanvasRequestHandler(data, callback));
-        socket.on("updateCanvas", (data, callback) => updateCanvasHandler(data, callback));
+        socket.on("syncEvent", (data) => syncEventHandler(data));
     },[]);
     
     async function shareCanvasRequestHandler(data, responseCallback) {
@@ -86,11 +80,22 @@ function App() {
         acceptOrDecline = 0; // 0 is reset to unselected
     }
 
-    function updateCanvasHandler(data, responseCallback) {
-        console.log("Received update from " + data.srcId);
+    function syncEventHandler(syncEvent) {
+        if(syncEvent.eventType === SyncEvents.SetAnimations) {
+            console.log("animation sync event")
+            setAnimations(syncEvent.animations);
+            setAnimationSelection(syncEvent.selectedAnimation)
+        }
+        else {
+            console.log("figure sync event");
+            setSyncEvents(prev => [...prev, syncEvent]);
+        }
+    }
 
-        
-
+    function popSyncEvent() {
+        let temp = [...syncEvents];
+        temp.shift();
+        setSyncEvents(temp);
     }
 
     function shareCanvasSubmissionHandler(friendId) {
@@ -99,30 +104,40 @@ function App() {
             destId : friendId
         }
 
-        console.log("Requesting sync with " + friendId);
-        setSyncedWith(friendId);
         socket.emit("initiateShareCanvas", requestData, (responseData) => {
-            // shareCanvasResponseHandler(responseData);
+            if(responseData === 1) {
+                setSyncedWith(friendId);
+
+                // Probably not the best way to retrieve figs, but its easier than passing figs down as props
+                let figs = JSON.parse(localStorage.getItem("savedFigs")); 
+
+                let setFiguresSyncEvent : SyncEvent = {
+                    srcId: uniqueId,
+                    destId: friendId,
+                    eventType: SyncEvents.SetFigures,
+                    figs: figs
+                }
+
+                socket.emit("syncEvent", setFiguresSyncEvent);
+                
+                let setAnimationsSyncEvent : SyncEvent = {
+                    srcId: uniqueId,
+                    destId: friendId,
+                    eventType: SyncEvents.SetAnimations,
+                    animations: animations,
+                    selectedAnimation: animationSelection,
+                }
+
+                socket.emit("syncEvent", setAnimationsSyncEvent);
+            } 
+            else if(responseData === 2) {
+                alert("Request declined");
+            }
+            else {
+                alert("Request timed out");
+            }
         });
     }
-
-    function canvasSyncHandler() {
-        let syncData: SyncData = {
-            mouseCell: mouseCell,
-            figsJSON: figs,
-            selectedAnimation: animationSelection,
-            srcId : uniqueId,
-            destId : syncedWith
-        }
-
-        console.log("Attempting Update with " + syncedWith);
-        socket.emit("syncUpdate", syncData, (responseData) => {
-            // do on response
-        });
-    }
-    
-
-    const [animations, setAnimations] = useState(defaultAnimations);
 
     useEffect(() => {
         if(newSession) {
@@ -190,32 +205,26 @@ function App() {
         }
     }
 
-    function submissionHandler() { }
+    function animationSelectionHandler(selection : SelectedAnimation, override?: boolean) {
+        if (animationSelection === selection) setAnimationSelection(SelectedAnimation.None);
+        else if (selection !== SelectedAnimation.None || override) setAnimationSelection(selection);
+    }
 
     function animationAddHandler(anim: SelectedAnimation) {
         for (let i = 0; i < 3; i ++) {
             if (animations[i] === SelectedAnimation.None) {
-                console.log("Adding animation"+i+" ("+SelectedAnimation[anim]+")");
                 setAnimations(prevState=> (
                     {...prevState, [i]: anim}
                 ));
                 return; // Only set first unused animation slot
             }
         }
-        console.log("animationAddHandler called with anim " + anim + " but no animation was set - all animations full?");
     }
 
     function animationRemoveHandler(idx: number) {
-        console.log("Removing animation"+idx+" ("+animations[idx]+")");
         setAnimations(prevState=> (
             {...prevState, [idx]: SelectedAnimation.None}
         ));
-    }
-
-    function updateFigs(figs: string) {
-
-        setFigs(figs);
-        //console.log(figs);
     }
 
     function settingStateChangeHandler() {
@@ -239,7 +248,6 @@ function App() {
         // 1: Opening
         // 2: Open
         // 3: Closing
-        if(shareSessionRequestState === 0) playChime(); // TODO: plays at wrong time
         setShareSessionRequestState( (shareSessionRequestState + 1 ) % 4);
     }
 
@@ -250,11 +258,6 @@ function App() {
         circle: colors["--circleColor"],
     };
 
-        //{ (shareSessionState!=UIStateTypes.Closed) && <ShareSession shareSessionStateChangeHandler={shareSessionStateChangeHandler} 
-                                                 //shareSessionState={shareSessionState}
-                                                 //token= {token}
-                                                 //setToken = {setToken}
-                                                 //submissionHandler={submissionHandler}/> }
 
     return (
         <>
@@ -279,14 +282,18 @@ function App() {
             requestId={uniqueId}/> }
 
         { draw && <Draw colorSettings={canvasColorSettings}
-                        settingStateChangeHandler={settingStateChangeHandler}
                         settingState={settingState}
-                        animations={animations}
-                        shareSessionStateChangeHandler={shareSessionStateChangeHandler}
+                        settingStateChangeHandler={settingStateChangeHandler}
                         shareSessionState={shareSessionState}
-                        updateFigs={updateFigs}
-                        canvasSyncHandler={canvasSyncHandler}
-                        figs={figs}/> }
+                        shareSessionStateChangeHandler={shareSessionStateChangeHandler}
+
+                        animations={animations}
+                        animationSelection={animationSelection}
+                        animationSelectionHandler={animationSelectionHandler}
+
+                        syncedWith={syncedWith}
+                        syncEvents={syncEvents}
+                        popSyncEvent={popSyncEvent}/> }
         </>
     );
 }

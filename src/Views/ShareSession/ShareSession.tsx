@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import './ShareSession.css';
 import '../../App.css';
 
@@ -12,14 +12,11 @@ export default function ShareSession(props) {
     function submitHandler(event) {
         event.preventDefault();
         if(text.length === 8) {
-            alert("Submitted: " + text);
-            // props.submissionHandler(input);
+            props.submissionHandler(text);
         }
         else {
             alert("Please enter an 8 character friend ID");
         }
-        console.log("submission handler text: " + text);
-        props.submissionHandler(text);
     }
     
     function onChangeHandler(event) {
