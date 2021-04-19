@@ -100,6 +100,8 @@ export default function Draw(props){
             <Canvas canvasSettings={canvasSettings}
                     updateFigs={props.updateFigs}
                     figs={props.figs}
+                    syncUpdate={props.syncUpdate}
+                    setSyncUpdate={props.setSyncUpdate}
                     canvasSyncHandler={props.canvasSyncHandler}/>
             
             <Options settingStateChangeHandler={props.settingStateChangeHandler}

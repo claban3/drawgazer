@@ -71,42 +71,72 @@ function sketch(p) {
         return savedFigs;
     }
 
-    function loadFigsFromProps(figsJSON) {
+    function loadFigsFromProps(figsJSON, p) {
+
+        console.log("ENTERED_LOADFIGSFROMPROPS");
 
         if (figsJSON === "[]") {
             console.log("EMPTY");
+            return;
         }
 
         else if (String(figsJSON) != "[]") {
             console.log("NON_EMPTY");
 
             let propsFigs = JSON.parse(figsJSON);
-            console.log(propsFigs);
+            //console.log(propsFigs);
+            //let current_figs = JSON.stringify(sketchData.figs);
+
+            console.log("propsFigs_length:");
+            console.log(propsFigs.length);
+            console.log("propsFigsJSON_length:");
+            console.log(figsJSON.length);
         
             if (propsFigs) {
                 for (let i = 0; i < propsFigs.length; i++) {
                     let fig = propsFigs[i];
+                    let figObj = null;
+                    //let figJSON = JSON.stringify(fig);
+                    console.log(fig);
 
                     // update colors in animation function
-                    Animation.propsHandler(sketchData, p);
+                    //Animation.propsHandler(sketchData, p);
 
                     if (!fig) {
-                        console.log("Canvas received bad JSON from props data");
+                        //console.log("Canvas received bad JSON from props data");
                         return;
                     }
 
                     switch (fig.type) {
                         case "circle":
-                            sketchData.figs.push(newFigure(SelectedShape.Circle, fig.x, fig.y, p, fig.color));
+                            figObj = newFigure(SelectedShape.Circle, fig.x, fig.y, p, fig.color);
                             break;
                         case "square":
-                            sketchData.figs.push(newFigure(SelectedShape.Rectangle, fig.x, fig.y, p, fig.color));
+                            figObj = newFigure(SelectedShape.Rectangle, fig.x, fig.y, p, fig.color);
                             break;
                         case "triangle":
-                            sketchData.figs.push(newFigure(SelectedShape.Triangle, fig.x, fig.y, p, fig.color));
+                            figObj = newFigure(SelectedShape.Triangle, fig.x, fig.y, p, fig.color);
                             break;
                         default:
                             console.log("Canvas received bad JSON from local storage")
+                    }
+
+                    let exists = false;
+
+                    for (let i = 0; i < sketchData.figs.length; i++) {
+
+                        if (figObj.pos.x == sketchData.figs[i].pos.x &&
+                            figObj.pos.y == sketchData.figs[i].pos.y) {
+                            exists = true;
+                            console.log("set_exists");
+                        }
+                    }
+
+                    if (exists) {
+                        console.log("exists");
+                        continue;
+                    } else {
+                        sketchData.figs.push(figObj);
                     }
                 }
             }
@@ -136,8 +166,11 @@ function sketch(p) {
     let setClearCanvasInParent = () => { };
     let setSaveCanvasInParent = () => { };
     let setRecordCanvasInParent = (reset) => { };
-    let syncCanvasHandler = () => { };
-    let updateFigs = () => { };
+    let canvasSyncHandler = (figsJson) => { };
+    let updateFigs = (figsJSON) => { };
+    let setSyncUpdate = (bool) => { };
+    let update = false;
+    let syncUpdate = false;
 
     let renderer;
     let settingState;
@@ -209,15 +242,21 @@ function sketch(p) {
             Animation.propsHandler(sketchData, p);
         }
 
-
-        //loadFigsFromProps(props.figs)
-        //props.updateFigs(JSON.stringify(sketchData.figs))
-
-        syncCanvasHandler = props.syncCanvasHandler;
+        canvasSyncHandler = props.canvasSyncHandler;
         updateFigs = props.updateFigs;
+        setSyncUpdate = props.setSyncUpdate;
 
         reset = props.canvasSettings.reset;
         save = props.canvasSettings.save;
+        syncUpdate = props.syncUpdate;
+
+        //loadFigsFromProps(props.figs)
+        if (update || syncUpdate) {
+            loadFigsFromProps(props.figs, p);
+            props.updateFigs(JSON.stringify(sketchData.figs));
+            update = false;
+            setSyncUpdate(false);
+        }
 
         setClearCanvasInParent = props.canvasSettings.resetInParent;
         shareSessionState = props.canvasSettings.shareSessionState;
@@ -270,8 +309,14 @@ function sketch(p) {
         updateGif();
 
         p.mouseClicked = function (event) {
-            if (settingState === 0) {
+            if (settingState === 0 && shareSessionState === 0) {
                 // return Animation.mousePressed(sketchData, p);
+                //console.log("updatefigs");
+                //updateFigs(JSON.stringify(sketchData.figs));
+                update = true;
+                console.log("canvassynchandler");
+                console.log(JSON.stringify(sketchData.figs));
+                canvasSyncHandler(JSON.stringify(sketchData.figs));
             }
         }
 
@@ -304,6 +349,8 @@ function sketch(p) {
                     //fig.velocity.y *= -1;
                 }
             });
+
+            //console.log(sketchData);
 
             Animation.draw(sketchData, p);
             localStorage.setItem("savedFigs", JSON.stringify(sketchData.figs));
@@ -387,6 +434,8 @@ export default function Canvas(props) {
                 canvasSettings={props.canvasSettings} 
                 updateFigs={props.updateFigs}
                 figs={props.figs}
+                syncUpdate={props.syncUpdate}
+                setSyncUpdate={props.setSyncUpdate}
                 canvasSyncHandler={props.canvasSyncHandler}/>
             { props.canvasSettings.settingState === 0 && 
               props.canvasSettings.shareSessionState === 0 && 

@@ -144,6 +144,8 @@ export class Animation {
                 color.setAlpha(50);
                 p.background(color);
                 sketchData.figs.forEach(fig => {
+                    //console.log("ABOUT_TO_DISPLAY");
+                    //console.log(fig);
                     fig.display();
                 });
                 break;

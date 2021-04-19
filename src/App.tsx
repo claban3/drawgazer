@@ -11,6 +11,7 @@ import useSound from 'use-sound';
 import chime from "./Sounds/chime.mp3";
 import socket from "./socket.js"
 import { FirstPageSharp } from '@material-ui/icons';
+import { Animation, newFigure } from './Types/Animations/Animation';
 
 const defaultColors = {
     "--triangleColor": "#00429D",
@@ -50,6 +51,7 @@ function App() {
     const [animationSelection, setAnimationSelection] = useState(SelectedAnimation.None);
     const [syncStatus, setSyncStatus] = useState(0);
     const [syncedWith, setSyncedWith] = useState(null);
+    const [syncUpdate, setSyncUpdate] = useState(false);
     //const [figs, setFigs] = useState(0);
 
     // const [shareSessionResponseValue, setShareSessionResponseValue] = useState(0);
@@ -58,6 +60,7 @@ function App() {
     
     async function shareSessionCallback(response) {
         response ? acceptOrDecline = 1 : acceptOrDecline = 2;
+        console.log("SENT_RESPONSE")
     }
 
     async function waitSessionResponse() {
@@ -83,14 +86,20 @@ function App() {
         await waitSessionResponse();
         responseCallback(acceptOrDecline);
         setSyncStatus(acceptOrDecline);
+        if (acceptOrDecline == 1) {
+            setSyncedWith(data.srcId);
+        }
         acceptOrDecline = 0; // 0 is reset to unselected
     }
 
     function updateCanvasHandler(data, responseCallback) {
         console.log("Received update from " + data.srcId);
+        setSyncStatus(1);
+        setSyncedWith(data.srcId);
 
-        
-
+        console.log(data.figsJSON);
+        setFigs(data.figsJSON);
+        setSyncUpdate(true);
     }
 
     function shareCanvasSubmissionHandler(friendId) {
@@ -106,10 +115,18 @@ function App() {
         });
     }
 
-    function canvasSyncHandler() {
+    function canvasSyncHandler(figs_) {
+        
+        console.log("entered_sync_handler");
+
+        if (syncStatus == 0) {
+            console.log("not_synced_yet")
+            return;
+        }
+
         let syncData: SyncData = {
             mouseCell: mouseCell,
-            figsJSON: figs,
+            figsJSON: figs_,
             selectedAnimation: animationSelection,
             srcId : uniqueId,
             destId : syncedWith
@@ -214,6 +231,7 @@ function App() {
 
     function updateFigs(figs: string) {
 
+        setFigs('[]');
         setFigs(figs);
         //console.log(figs);
     }
@@ -264,7 +282,7 @@ function App() {
                                         resetColors={resetColors}
                                         animations={animations}
                                         animationRemoveHandler={animationRemoveHandler}
-                                        animationAddHandler={animationAddHandler}/> }
+                                        animationAddHandler={animationAddHandler}/> }   
 
         { (shareSessionState>0) && <ShareSession shareSessionStateChangeHandler={shareSessionStateChangeHandler} 
                                                  shareSessionState={shareSessionState}
@@ -286,6 +304,8 @@ function App() {
                         shareSessionState={shareSessionState}
                         updateFigs={updateFigs}
                         canvasSyncHandler={canvasSyncHandler}
+                        syncUpdate={syncUpdate}
+                        setSyncUpdate={setSyncUpdate}
                         figs={figs}/> }
         </>
     );
