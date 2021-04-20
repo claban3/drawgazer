@@ -29,6 +29,7 @@ export enum SelectedAnimation {
     BubblePop,
     DraggedPainting,
     FillScreenWithFigures,
+    Billiards,
     WallBounce,
     Stack,
     Scurry,
@@ -84,7 +85,13 @@ export function animationProperties(anim: SelectedAnimation) {
                 "name": "Scurry",
                 "classname": "scurry",
                 "image": scurry,
-            }        
+            }      
+        case SelectedAnimation.Billiards:
+            return {
+                "name": "Billiards",
+                "classname": "billiards",
+                "image": freeDraw,
+            }  
         case SelectedAnimation.None:
             return {
                 "name": "None",

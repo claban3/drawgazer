@@ -66,7 +66,8 @@ export default function AnimationCustomization(props) {
         SelectedAnimation.BubblePop,
         SelectedAnimation.DraggedPainting,
         SelectedAnimation.FillScreenWithFigures,
-        SelectedAnimation.DrumLoop
+        SelectedAnimation.DrumLoop,
+        SelectedAnimation.Billiards,
         // SelectedAnimation.WallBounce,
         // SelectedAnimation.Stack,
     ]

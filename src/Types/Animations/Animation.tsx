@@ -11,6 +11,7 @@ import { DraggedOut } from './DraggedOut';
 import { generateColorSpectrum } from './ColorSampling';
 import { FillScreenWithFigures } from './FillScreenWithFigures';
 import { DrumLoop } from './DrumLoop';
+import { Billiards } from './Billiards';
 
 export function pushNewFigure(selectedFigure, figs, mouseX, mouseY, p) {
     if (selectedFigure != SelectedShape.None) {
@@ -139,6 +140,9 @@ export class Animation {
                 case SelectedAnimation.Scurry:
                     Scurry.draw(sketchData, p);
                     break;
+            case SelectedAnimation.Billiards:
+                Billiards.draw(sketchData, p);
+                break;
             case SelectedAnimation.None:
                 let color = p.color(sketchData.colorSettings.background);
                 color.setAlpha(50);
@@ -151,7 +155,9 @@ export class Animation {
     }
 
     static mousePressed(sketchData: SketchData, p: p5) {
+        console.log("1");
         if (AnimatedFigure.mouseOnCanvas(p, sketchData.canvasWidth, sketchData.canvasHeight)) {
+            console.log("2");
             pushNewFigure(sketchData.selectedFigure, sketchData.figs, p.mouseX, p.mouseY, p);
         }
 

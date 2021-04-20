@@ -9,6 +9,7 @@ import kickSFX from '../Sounds/Drumset/Kick.wav';
 import snareSFX from '../Sounds/Drumset/Snare.wav';
 import highhatSFX from '../Sounds/Drumset/Highhat.wav';
 import scurrySFX from '../Sounds/scurry.mp3';
+import clackSFX from '../Sounds/clack.mp3';
 import * as Collides from 'p5collide';
 import { CustomFigureStyles, SketchData } from './Figures';
 import './Animations/ColorSampling';
@@ -32,10 +33,13 @@ export class AnimatedFigure {
   thud: HTMLAudioElement = new Audio(thudSFX)
   drumBeat: HTMLAudioElement
   scurry: HTMLAudioElement = new Audio(scurrySFX)
+  clack: HTMLAudioElement = new Audio(clackSFX)
   rotAngle: number
   color: string
   opacity: number
   startPos: P5.Vector
+  collisionCounterX: number
+  collisionCounterY: number
   // Return -1 or 1 randomly
   randSign() {
     return Math.random() < 0.5 ? -1 : 1;
@@ -56,6 +60,8 @@ export class AnimatedFigure {
       this.color = c;
       this.opacity = 200;
       this.startPos = this.pos.copy();
+      this.collisionCounterX = 0;
+      this.collisionCounterY = 0;
   }
 
   static collidesWith(fig1: AnimatedFigure, fig2: AnimatedFigure) {
