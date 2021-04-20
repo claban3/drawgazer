@@ -103,6 +103,25 @@ export class AnimatedFigure {
 
   displayCustomStyles(customStyles: CustomFigureStyles) {}
 
+  posToCell(xpos, ypos) {
+    let numCellColumns = 10;
+    let numCellRows = 5;
+
+    let cellWidth = this.p5.width / numCellColumns;
+    let cellHeight = this.p5.height / numCellRows;
+
+    return (Math.floor(ypos / cellHeight) * numCellColumns) + Math.floor(xpos / cellWidth) 
+  }
+
+  cellToPos(cellNum) {
+    let id: string = "cell".concat(cellNum.toString());
+    let element = document.getElementById(id);
+    let xpos = element.offsetTop + (element.offsetHeight / 2);
+    let ypos = element.offsetLeft + (element.offsetWidth / 2);
+
+    return {x: xpos, y: ypos}
+  }
+
 }
 
 export class CircleFigure extends AnimatedFigure {
@@ -118,6 +137,7 @@ export class CircleFigure extends AnimatedFigure {
         type: 'circle',
         x: this.pos.x,
         y: this.pos.y,
+        cellNum: this.posToCell(this.pos.x, this.pos.y),
         d: this.dim,
         color: this.color
       }
@@ -189,7 +209,7 @@ export class CircleFigure extends AnimatedFigure {
 export class SquareFigure extends AnimatedFigure {
   dim: number
   constructor(x, y, d, c, p5) {
-    super(x - d / 2, y - d / 2, c, p5);
+    super(x, y, c, p5);
     this.dim = d;
     this.drumBeat = new Audio(snareSFX);
   }
@@ -199,6 +219,7 @@ export class SquareFigure extends AnimatedFigure {
         type: 'square',
         x: this.pos.x,
         y: this.pos.y,
+        cellNum: this.posToCell(this.pos.x, this.pos.y),
         d: this.dim,
         color: this.color
       }
@@ -246,6 +267,7 @@ export class SquareFigure extends AnimatedFigure {
     color.setAlpha((this.opacity));
 
     this.p5.fill(color);
+    this.p5.rectMode(this.p5.CENTER);
     this.p5.square(this.pos.x, this.pos.y, this.dim);
     this.p5.pop();
   }
@@ -281,6 +303,7 @@ export class TriangleFigure extends AnimatedFigure {
         type: 'triangle',
         x: this.pos.x,
         y: this.pos.y,
+        cellNum: this.posToCell(this.pos.x, this.pos.y),
         d: this.dim,
         color: this.color
       }

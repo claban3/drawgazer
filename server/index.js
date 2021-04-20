@@ -25,35 +25,26 @@ function initiateShareCanvas(requestData, responseCallback) {
     if((srcId in clients) && (destId in clients) && (srcId !== destId)) {
 
         clients[destId].emit("shareCanvasRequest", requestData, (responseData) => {
-            console.log("responseCallBack");
-            console.log(responseData);
-            // responseCallback(responseData);
+            console.log("responseCallBack: ", responseData);
+            responseCallback(responseData);
         })
     } 
     else {
         console.log("could not find srcId or destId");
-        // responseCallback("Could not find user with the requested FriendID " + destId);
     }
 }
 
-function syncUpdate(requestData, responseCallback) {
-    var srcId = requestData.srcId;
-    var destId = requestData.destId;
-    console.log("Client " + srcId + " attempting to update " + destId);
-
+function syncEventHandler(syncEvent) {
+    var srcId = syncEvent.srcId;
+    var destId = syncEvent.destId;
+    console.log("sync event: ", syncEvent.eventType);
     // Check both clients exist and that neither are currently in a session
     if((srcId in clients) && (destId in clients) && (srcId !== destId)) {
-
-      clients[destId].emit("updateCanvas", requestData, (responseData) => {
-          console.log("responseCallBack");
-          console.log(responseData);
-          // responseCallback(responseData);
-      })
-  } 
-  else {
-      console.log("could not find srcId or destId");
-      // responseCallback("Could not find user with the requested FriendID " + destId);
-  }
+      clients[destId].emit("syncEvent", syncEvent);
+    } 
+    else {
+        console.log("could not find srcId or destId");
+    }
 }
 
 io.on("connection", (socket) => {
@@ -67,10 +58,9 @@ io.on("connection", (socket) => {
   
   socket.emit("uuid", uuid);
 
-  socket.on("initiateShareCanvas", (data, callback) => initiateShareCanvas(data));
-//   socket.on("shareCanvasResponse" (data,))
+  socket.on("initiateShareCanvas", (data, callback) => initiateShareCanvas(data, callback));
 
-  socket.on("syncUpdate", (data, callback) => syncUpdate(data));
+  socket.on("syncEvent", (data) => syncEventHandler(data));
 
   socket.on("disconnect", () => {
     // remove their unique id from dict
@@ -88,3 +78,4 @@ io.on("connection", (socket) => {
 
 
 server.listen(port, () => console.log("Listening on port: " + port));
+
