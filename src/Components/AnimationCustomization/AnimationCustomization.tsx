@@ -25,7 +25,7 @@ export default function AnimationCustomization(props) {
         }
     }, [props.animations]);
 
-    function createAnimationRow(anims) {
+    function createAnimationRow(anims, emptySpace=false) {
         while (anims.length < 3) {
             anims.push(SelectedAnimation.None);
         }
@@ -36,7 +36,9 @@ export default function AnimationCustomization(props) {
                         let sa = SelectedAnimation[a as keyof typeof SelectedAnimation];
                         if (a !== SelectedAnimation.None && sa !== SelectedAnimation.None) {
                             let selected = Object.values(props.animations).includes(sa);
-                            let button = selected ? "-" : "+";
+                            let button = "";
+                            if (selected) button = "-";
+                            else if (emptySpace) button = "+";
                             return <>
                                 <a  className={"unused-animation " + (selected ? "animation-selected" : "")} 
                                     key={animationProperties(sa)["classname"]+" "+i} 
@@ -70,16 +72,20 @@ export default function AnimationCustomization(props) {
         // SelectedAnimation.WallBounce,
         // SelectedAnimation.Stack,
     ]
+    let emptySpace = props.animations[0] === SelectedAnimation.None ||
+                     props.animations[1] === SelectedAnimation.None ||
+                     props.animations[2] === SelectedAnimation.None;
+    
     for (let a in allAnimations) {
         let sa: SelectedAnimation = SelectedAnimation[a as keyof typeof SelectedAnimation]; //the stupidest type conversion i have ever seen
         animationDivs.push(sa);
         if (animationDivs.length === 3) {
-            animationRows.push(createAnimationRow(animationDivs));
+            animationRows.push(createAnimationRow(animationDivs, emptySpace));
             animationDivs = [];
         }
     }
     if (animationDivs.length !== 0) {
-        animationRows.push(createAnimationRow(animationDivs));
+        animationRows.push(createAnimationRow(animationDivs, emptySpace));
     }
 
     let button0 = props.animations[0] === SelectedAnimation.None ? "" : "-";
